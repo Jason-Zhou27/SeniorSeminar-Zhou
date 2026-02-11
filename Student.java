@@ -60,14 +60,14 @@ public class Student {
 	public String toString(){
 		sToString = "";
 		sToString = "id number: " + idNum;
-		sToString + "\nname: " + name;
-		sToString + "\nemail: " + email;
-		sToString + "\nform time: " + formTime;
-		sToString + "\n1st choice: " + course1;
-		sToString + "\n2nd choice: " + course2;
-		sToString + "\n3rd choice: " + course3;
-		sToString + "\n4th choice: " + course4;
-		sToString + "\n5th choice: " + course5;
+		sToString = sToString + "\nname: " + name;
+		sToString = sToString + "\nemail: " + email;
+		sToString = sToString + "\nform time: " + formTime;
+		sToString = sToString + "\n1st choice: " + course1;
+		sToString = sToString + "\n2nd choice: " + course2;
+		sToString = sToString + "\n3rd choice: " + course3;
+		sToString = sToString + "\n4th choice: " + course4;
+		sToString = sToString + "\n5th choice: " + course5;
 		return sToString;
 	}	
 

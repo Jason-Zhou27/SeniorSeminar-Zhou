@@ -7,12 +7,21 @@ public class Teacher {
 	private Course course1;
 	private Course course2;
 	//constructors
+	/*
 	public Teacher(int id, String n, Course c1, Course c2) {
 		idNum = id;
 		name = n;
 		course1 = c1;
 		course2 = c2;
-	}	
+	}
+	*/
+	public Teacher(int id, String n) {
+		idNum = id;
+		name = n;
+	}
+	public Teacher(String n) {
+		name = n;
+	}		
 	//methods
 	
 	//getters
@@ -30,12 +39,12 @@ public class Teacher {
 	}
 	//toString
 	public String toString(){
-		sToString = "";
-		sToString = "id number: " + idNum;
-		sToString + "\nname: " + name;
-		sToString + "\n1st course: " + course1;
-		sToString + "\n2nd course: " + course2;
-		return sToString;
+		String tToString = "";
+		tToString = "id number: " + idNum;
+		tToString = tToString + "\nname: " + name;
+		tToString = tToString + "\n1st course: " + course1;
+		tToString = tToString + "\n2nd course: " + course2;
+		return tToString;
 	}
 
 
