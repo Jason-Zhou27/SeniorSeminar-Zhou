@@ -17,7 +17,19 @@ public class Time {
 		second = s;
 	}	
 	//methods
-	public 
+	public String toString(){
+		String tToString = "\n";
+		tToString = tToString + "month: " + month + "\n";
+		tToString = tToString + "day: " + day + "\n";
+		tToString = tToString + "year: " + year + "\n";
+		tToString = tToString + "hour: " + hour + "\n";
+		tToString = tToString + "minute: " + minute + "\n";
+		tToString = tToString + "second: " + second + "\n";
+		return tToString;
+		
+		
+	}	
+
 
 
 

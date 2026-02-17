@@ -10,14 +10,31 @@ public class Course {
 		courseName = n;
 		courseID = id;
 	}
-	//DNE constructor
+	public Course(Teacher t, int id){
+		courseTeacher = t;
+		courseID=id;
+	}
+	//DNE constructor	
 	public Course(String n){
 		courseName = n;
-	}	
+	}
 	//methods
 	public int getID(){
-		return ID;
-	}	
+		return courseID;
+	}
+	public String getName(){
+		return courseName;
+	}
+	public String toString(){
+		
+		String cToString = "\nTHIS DOES NOT WORK";
+		//cToString = cToString + "teacher: " + courseTeacher.getName() + "\n";
+		cToString = cToString + "name: " + courseName + "\n";
+		cToString = cToString + "id: " + courseID + "\n";
+		return cToString;
+		
+		
+	}		
 
 
 }

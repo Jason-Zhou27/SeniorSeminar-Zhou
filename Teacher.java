@@ -38,14 +38,16 @@ public class Teacher {
 		return course2;
 	}
 	//toString
+	/*
 	public String toString(){
-		String tToString = "";
-		tToString = "id number: " + idNum;
+		String tToString = "THIS WORKS";
+		tToString = "\nid number: " + idNum;
 		tToString = tToString + "\nname: " + name;
 		tToString = tToString + "\n1st course: " + course1;
 		tToString = tToString + "\n2nd course: " + course2;
 		return tToString;
 	}
+	*/
 
 
 

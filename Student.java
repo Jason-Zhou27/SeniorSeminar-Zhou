@@ -22,6 +22,16 @@ public class Student {
 		course3 = c3;
 		course4 = c4;
 		course5 = c5;
+	}
+	public Student(int id, String n, String e, Course c1, Course c2, Course c3, Course c4, Course c5) {
+		idNum = id;
+		name = n;
+		email = e;
+		course1 = c1;
+		course2 = c2;
+		course3 = c3;
+		course4 = c4;
+		course5 = c5;
 	}	
 	//methods
 	
@@ -36,7 +46,7 @@ public class Student {
 		return email;
 	}
 	public Time getFormTime(){
-		return email;
+		return formTime;
 	}
 	public Course getC1(){
 		return course1;
@@ -62,12 +72,12 @@ public class Student {
 		sToString = "id number: " + idNum;
 		sToString = sToString + "\nname: " + name;
 		sToString = sToString + "\nemail: " + email;
-		sToString = sToString + "\nform time: " + formTime;
-		sToString = sToString + "\n1st choice: " + course1;
-		sToString = sToString + "\n2nd choice: " + course2;
-		sToString = sToString + "\n3rd choice: " + course3;
-		sToString = sToString + "\n4th choice: " + course4;
-		sToString = sToString + "\n5th choice: " + course5;
+		sToString = sToString + "\nform time: " + formTime.toString();
+		sToString = sToString + "\n1st choice: " + course1.getName();
+		sToString = sToString + "\n2nd choice: " + course2.getName();
+		sToString = sToString + "\n3rd choice: " + course3.getName();
+		sToString = sToString + "\n4th choice: " + course4.getName();
+		sToString = sToString + "\n5th choice: " + course5.getName();
 		return sToString;
 	}	
 
