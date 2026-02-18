@@ -7,11 +7,18 @@ public class Schedule{
 	private String fileNameCourse = "courseInfo.txt"; //Name of txt file with Student info
 	private ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList to store student objects
 	private ArrayList<Course> courseList = new ArrayList<Course>(); //ArrayList to store course objects
+	private Course[][] seniorS;
+	
+	private int numTimes;
+	private int numClassrooms;
 	
 	//constructors
-	public Schedule(){
+	public Schedule(int nT, int nC){
 		readFileCourse();
 		readFileStudent();
+		numTimes = nT;
+		numClassrooms = nC;
+		seniorS = new Course[numTimes][numClassrooms];
 	}	
 	//methods
 	public void readFileStudent() {
@@ -81,7 +88,7 @@ public class Schedule{
 				String nameCourse = elementsCourse[0];
 				int idCourse = Integer.parseInt(elementsCourse[1]);
 				String nameTeacher = elementsCourse[2];
-				courseList.add(new Course(new Teacher(nameTeacher), nameCourse, idCourse));;
+				courseList.add(new Course(nameTeacher, nameCourse, idCourse));
 				}	
 			} catch (FileNotFoundException e){
 				System.out.println("File Not Found!");
@@ -110,7 +117,64 @@ public class Schedule{
 		for (int i=0;i<courseList.size();i++){
 			System.out.println(courseList.get(i).toString());		
 		}	
-		
-	}	
+	}
+	
+	public void findPop(){
+		for(int i=0; i<studentList.size();i++){
+			studentList.get(i).getC1().updatePopRating(5);
+			studentList.get(i).getC2().updatePopRating(4);
+			studentList.get(i).getC3().updatePopRating(3);
+			studentList.get(i).getC4().updatePopRating(2);
+			studentList.get(i).getC5().updatePopRating(1);
+		}	
+	}
+	
+	public void findDemand(){
+		for(int i=0; i<studentList.size();i++){
+			studentList.get(i).getC1().updateDemand();
+			studentList.get(i).getC2().updateDemand();
+			studentList.get(i).getC3().updateDemand();
+			studentList.get(i).getC4().updateDemand();
+			studentList.get(i).getC5().updateDemand();
+		}	
+	}
+	
+	public void assignPriority(){ //priority rating for courses are used to determine order for placement
+		for(int i=0; i<courseList.size();i++){
+			courseList.get(i).updatePriorityRating();
 			
-}
+		}		
+	}
+	
+	public void sortCourses(){ //sorts courses so those with highest priority are at the beginning of the arrayList courseList
+		do {	
+			for(int i=0;i<courseList.size()-1;i++){
+				if(courseList.get(i).getPR()<courseList.get(i+1).getPR()){
+					Course temp = courseList.get(i+1); 
+					courseList.remove(i+1);
+					courseList.add(i,temp);
+				}
+			}
+		} while(sortCCheck()==false);
+		
+	}
+	public boolean sortCCheck(){
+		boolean sorted = true;
+		for(int i=0;i<courseList.size()-1;i++){
+			if(courseList.get(i).getPR()<courseList.get(i+1).getPR()){
+				sorted=false;
+			}	
+		}
+		return sorted;
+	}	
+		
+		
+				
+			
+			
+}	
+		
+				
+	
+			
+

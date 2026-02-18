@@ -62,8 +62,8 @@ public class Student {
 	}
 	public Course getC5(){
 		return course5;
-	}			
-		
+	}
+				
 	
 	//setters
 	//toString
