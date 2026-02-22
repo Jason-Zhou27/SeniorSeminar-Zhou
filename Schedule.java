@@ -13,6 +13,7 @@ public class Schedule{
 	private int coursesPerS; //number of courses per student
 	private int numClassrooms;
 	private int maxStudents;
+	private int maxSpots;
 	
 	private int conflicts = 0;
 	
@@ -21,11 +22,13 @@ public class Schedule{
 		numTimes = nT;
 		coursesPerS = nCPS;
 		maxStudents = mS;
+		numClassrooms = nC;
+		maxSpots=nT*nC;
 		Student.setCoursesPerStudent(coursesPerS);
 		readFileCourse();
 		readFileStudent();
 		
-		numClassrooms = nC;
+		
 		seniorS = new Course[numTimes][numClassrooms];
 	}	
 	//methods
@@ -124,8 +127,10 @@ public class Schedule{
 		assignPriority();
 		sortCourses();
 		loadRoster();
-		//duplicateCourses();
-		for(int i=0;i<courseList.size();i++){
+		duplicateCourses();
+		System.out.println("Course List Size is: " + courseList.size());
+		printCourses();
+		for(int i=0;i<maxSpots;i++){
 			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
 			int timeBlock = cPlacement[0]+1; //time in 2d array
@@ -179,13 +184,17 @@ public class Schedule{
 	public void duplicateCourses(){
 		Course c;
 		Course cCopy;
-		int multiple;
-		for(int i=0;i<courseList.size();i++){
+		double quotient=0.0;
+		int multiple =0; //placeholder value
+		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
+			System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
 			if(c.getRosterSize()>maxStudents){
-				multiple = c.getRosterSize()/maxStudents;
+				quotient = (double)c.getRosterSize()/maxStudents;
+				multiple = (int)(quotient+0.5);
 				System.out.println(multiple);
-				for(int k=0; k<multiple; k++){
+				
+				for(int k=0; k<multiple-1; k++){
 					courseList.add(i+1, new Course(c.getTeacher(), c.getName(), c.getID()));
 					cCopy = courseList.get(i+1);
 					cCopy.setDemand(c.getDemand());
