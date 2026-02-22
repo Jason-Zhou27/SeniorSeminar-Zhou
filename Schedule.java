@@ -144,6 +144,17 @@ public class Schedule{
 						courseList.get(i).updateRoster();
 					}
 				}
+				if(courseList.get(i).getRosterSize()>maxStudents){
+					//removeStudents as of right now, I will just truncate; but later, for optimization, the removal of students should be more strategic
+					int numRemove = courseList.get(i).getRosterSize()-maxStudents;
+					for(int k=0;k<numRemove;k++){
+						courseList.get(i).rosterRemove();
+						
+					}
+					courseList.get(i).updateRoster();
+					
+				}
+				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i);	
 			}
 		}
 	}
@@ -209,6 +220,26 @@ public class Schedule{
 			
 		}	
 	}
+	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos){ //this method removes the students placed in a course from the other section
+		ArrayList<Student> placed = r;
+		//the logic here is that the same courses diff sections are adjacent to each other on the courseList
+		//and I only have to check the courses after and take off already placed students from those
+		for(int i=pos+1; i<courseList.size();i++){
+			if(courseList.get(i).getID()==idCourse){
+				for(int k=0; k<placed.size(); k++){
+					courseList.get(i).rosterRemove(placed.get(k));
+					
+					
+				}
+				courseList.get(i).updateRoster();	
+				
+				
+			}	
+		}	
+		
+		
+		
+	}	
 				
 	public Course getCourse(int idCourse){
 		//traverse course arraylist

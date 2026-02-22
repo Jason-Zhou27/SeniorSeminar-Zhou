@@ -59,7 +59,7 @@ public class Course {
 	public int getRosterSize(){
 		return rosterSize;
 	}
-	public void rosterRemove(int rosterPos){
+	public void rosterRemove(int rosterPos){ //overloaded
 		roster.remove(rosterPos);
 	}
 	//following setters and getters are used to copy courses
@@ -76,7 +76,26 @@ public class Course {
 	public Student getStudent(int rosterPos){
 		return roster.get(rosterPos);
 		
-	}				
+	}
+	public void rosterRemove(){//overloaded
+		roster.remove(roster.size()-1);
+		
+	}
+	public void rosterRemove(Student s){
+		//search for student object;if found, remove
+		for(int i=0;i<roster.size();i++){
+			if(roster.get(i).getID()==s.getID()){
+				roster.remove(i);
+				
+			}	
+			
+		}	
+		
+	}	
+	public ArrayList<Student> getRoster(){
+		return roster;
+		
+	}						
 		
 	public String toString(){
 		
