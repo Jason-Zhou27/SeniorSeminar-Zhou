@@ -60,6 +60,7 @@ public class Student {
 	public Time getFormTime(){
 		return formTime;
 	}
+	/*
 	public Course getC1(){
 		return course1;
 	}
@@ -75,13 +76,37 @@ public class Student {
 	public Course getC5(){
 		return course5;
 	}
+	*/
 	public Course getCourse(int ranking){
 		return courseRequest.get(ranking-1); //ArrayList starts at index 0
 	}	
 	public void addCourseReq(Course c){ //add requested course to courseRequest ArrayList
 		Course addCourse = c;
 		courseRequest.add(addCourse);
-	}	
+	}
+	public boolean checkConflict(int t){ //returns true if there is conflict and returns false if there is not conflict
+		if(studentSchedule[t]!=null){
+			return true;
+			
+		} else {
+			return false;
+			
+		}		
+		
+		
+	}
+	public boolean updateSchedule(int t, Course c){
+		if(studentSchedule[t]==null){
+			studentSchedule[t]=c;
+			return true;
+		}
+		else {
+			return false;
+			
+		}		
+		
+		
+	}			
 				
 	
 	//setters

@@ -14,9 +14,9 @@ public class Schedule{
 	private int numClassrooms;
 	
 	//constructors
-	public Schedule(int nT, int nC){
+	public Schedule(int nT, int nCPS, int nC){
 		numTimes = nT;
-		coursesPerS = nT;
+		coursesPerS = nCPS;
 		readFileCourse();
 		readFileStudent();
 		
@@ -113,18 +113,51 @@ public class Schedule{
 	}
 	public void placeCourses(){ //takes charge in placing courses
 		for(int i=0;i<courseList.size();i++){
-			
-			
-		
-		
+			int[] cPlacement = findOptimalPlace(courseList.get(i));
+			int timeBlock = cPlacement[0]+1; //time in 2d array
+			int classroom = cPlacement[1]+1; //classroom in 2d array
+			seniorS[timeBlock][classroom]=courseList.get(i);
+			if(timeBlock!=-1 &&classroom!=-1){
+				for(int k=0;k<courseList.get(i).getRosterNum();i++){
+					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
+						courseList.get(i).rosterRemove(k);
+					}
+				}
+			}
 		}
 	}
-	/*
-	public int[][] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
+	
+	public int[] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
+		int optRow = -2;
+		int optCol = -2;
+		int counter;
+		int fewestConflicts=Integer.MAX_VALUE;
+		int rowMax = numTimes;
+		int colMax = numClassrooms;
+		for(int row=0;row<rowMax;row++){
+			for(int col=0;col<colMax;col++){
+				if(seniorS[row][col]==null){
+					counter=0;
+					for(int i=0;i<c.getRosterNum();i++){
+						if(c.getStudent(i).checkConflict(row)==true){
+							counter++;
+						}
+					}
+					if(counter<fewestConflicts){
+						fewestConflicts=counter;
+						optRow=row;
+						optCol=col;
+					}		
+					
+				}	
+			}
+		}
+		int[] infoOptimalRC = {optRow, optCol};
+		return infoOptimalRC;
+			
 		
 		
-	}
-	*/		
+	}		
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
