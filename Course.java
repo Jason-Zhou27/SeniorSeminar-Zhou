@@ -61,9 +61,18 @@ public class Course {
 	}
 	public void rosterRemove(int rosterPos){
 		roster.remove(rosterPos);
+	}
+	//following setters and getters are used to copy courses
+	public void setDemand(int d){
+		studentDemand = d;
+	}
+	public int getDemand(){
+		return studentDemand; 
+	}
+	public void setPR(int pr){
+		priorityRating=pr;
 		
-		
-	}	
+	}				
 	public Student getStudent(int rosterPos){
 		return roster.get(rosterPos);
 		

@@ -12,13 +12,15 @@ public class Schedule{
 	private int numTimes;
 	private int coursesPerS; //number of courses per student
 	private int numClassrooms;
+	private int maxStudents;
 	
 	private int conflicts = 0;
 	
 	//constructors
-	public Schedule(int nT, int nCPS, int nC){
+	public Schedule(int nT, int nCPS, int nC, int mS){
 		numTimes = nT;
 		coursesPerS = nCPS;
+		maxStudents = mS;
 		Student.setCoursesPerStudent(coursesPerS);
 		readFileCourse();
 		readFileStudent();
@@ -117,7 +119,14 @@ public class Schedule{
 			}			
 	}
 	public void placeCourses(){ //takes charge in placing courses
+		findPop();
+		findDemand();
+		assignPriority();
+		sortCourses();
+		loadRoster();
+		//duplicateCourses();
 		for(int i=0;i<courseList.size();i++){
+			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
@@ -166,7 +175,32 @@ public class Schedule{
 			
 		
 		
-	}		
+	}
+	public void duplicateCourses(){
+		Course c;
+		Course cCopy;
+		int multiple;
+		for(int i=0;i<courseList.size();i++){
+			c = courseList.get(i);
+			if(c.getRosterSize()>maxStudents){
+				multiple = c.getRosterSize()/maxStudents;
+				System.out.println(multiple);
+				for(int k=0; k<multiple; k++){
+					courseList.add(i+1, new Course(c.getTeacher(), c.getName(), c.getID()));
+					cCopy = courseList.get(i+1);
+					cCopy.setDemand(c.getDemand());
+					cCopy.setPR(c.getPR());
+					for(int s=0; s<c.getRosterSize(); s++){
+						cCopy.updateRoster(c.getStudent(s));
+					}
+				}	
+				
+			}	
+			
+			
+		}	
+	}
+				
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
