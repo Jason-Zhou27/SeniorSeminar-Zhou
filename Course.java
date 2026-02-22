@@ -9,7 +9,7 @@ public class Course {
 	private int popRating = 0;
 	private int studentDemand = 0; //number of students that select the course (regardless of choice #)
 	private int priorityRating;
-	private int rosterNum=0;
+	private int rosterSize=0;
 	private ArrayList<Student> roster = new ArrayList<Student>();
 	//constructors
 	public Course(String t, String n, int id){
@@ -49,10 +49,10 @@ public class Course {
 	}
 	public void updateRoster(Student s){
 		roster.add(s);
-		rosterNum++;
+		rosterSize++;
 	}
-	public int getRosterNum(){
-		return rosterNum;
+	public int getRosterSize(){
+		return rosterSize;
 	}
 	public void rosterRemove(int rosterPos){
 		roster.remove(rosterPos);

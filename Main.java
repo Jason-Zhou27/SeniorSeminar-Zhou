@@ -10,6 +10,7 @@ public class Main {
 		s1.sortCourses();
 		s1.loadRoster();
 		s1.printCourses();
+		s1.placeCourses();
 		
 	
 	}

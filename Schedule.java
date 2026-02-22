@@ -17,6 +17,7 @@ public class Schedule{
 	public Schedule(int nT, int nCPS, int nC){
 		numTimes = nT;
 		coursesPerS = nCPS;
+		Student.setCoursesPerStudent(coursesPerS);
 		readFileCourse();
 		readFileStudent();
 		
@@ -61,6 +62,7 @@ public class Schedule{
 				if (timeStamp.equals("")){
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
+					System.out.println("Constructor WAS CALLED");
 					
 				} else {	
 					String[] timeStampDE = timeStampD.split("/");
@@ -74,6 +76,7 @@ public class Schedule{
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(month, day, year, hour, minute, second)));
+					System.out.println("Constructor WAS CALLED");
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
 				}	
 				//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
@@ -116,9 +119,9 @@ public class Schedule{
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
-			seniorS[timeBlock][classroom]=courseList.get(i);
+			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
 			if(timeBlock!=-1 &&classroom!=-1){
-				for(int k=0;k<courseList.get(i).getRosterNum();i++){
+				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
 					}
@@ -138,7 +141,8 @@ public class Schedule{
 			for(int col=0;col<colMax;col++){
 				if(seniorS[row][col]==null){
 					counter=0;
-					for(int i=0;i<c.getRosterNum();i++){
+					int numRoster = c.getRosterNum();
+					for(int i=0;i<numRoster;i++){
 						if(c.getStudent(i).checkConflict(row)==true){
 							counter++;
 						}

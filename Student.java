@@ -7,15 +7,19 @@ public class Student {
 	private String name;
 	private String email;
 	private Time formTime;
+	/*
 	private Course course1;
 	private Course course2;
 	private Course course3;
 	private Course course4;
 	private Course course5;
-	private ArrayList<Course> courseRequest = new ArrayList<Course>();
+	*/
+	private static int coursesPerS;
+	private ArrayList<Course> courseRequest;
 	private Course[] studentSchedule;
 	private String sToString;
 	//constructors
+	/*
 	public Student(int id, String n, String e, Time t, Course c1, Course c2, Course c3, Course c4, Course c5) { //trying to retire (magic numbers/ineffficiency)
 		idNum = id;
 		name = n;
@@ -26,12 +30,18 @@ public class Student {
 		course3 = c3;
 		course4 = c4;
 		course5 = c5;
+		
 	}
+	*/
 	public Student(int id, String n, String e, Time t) {
+		//System.out.println("constructor called");
 		idNum = id;
 		name = n;
 		email = e;
 		formTime = t;
+		courseRequest = new ArrayList<Course>();
+		studentSchedule = new Course[coursesPerS];
+		//System.out.println("l43 works");
 	}
 	/* not in use
 	public Student(int id, String n, String e, Course c1, Course c2, Course c3, Course c4, Course c5) {
@@ -48,6 +58,9 @@ public class Student {
 	//methods
 	
 	//getters
+	public static void setCoursesPerStudent(int n){
+		coursesPerS=n;
+	}	
 	public int getID(){
 		return idNum;
 	}
