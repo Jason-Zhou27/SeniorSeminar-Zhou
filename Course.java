@@ -83,13 +83,24 @@ public class Course {
 	}
 	public void rosterRemove(Student s){
 		//search for student object;if found, remove
+		boolean found = false;
 		for(int i=0;i<roster.size();i++){
-			if(roster.get(i).getID()==s.getID()){
+			if(roster.get(i)==s){
 				roster.remove(i);
+				found=true;
 				
 			}	
 			
-		}	
+		}
+		if(found==true){
+			System.out.println("removed");
+			
+			
+		}
+		else {
+			System.out.println("notfound & roster size is " + roster.size() + " and student " + s.getName() + " is trying to get removed from" + courseName);
+				
+		}			
 		
 	}	
 	public ArrayList<Student> getRoster(){

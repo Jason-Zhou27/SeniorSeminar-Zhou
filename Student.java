@@ -118,6 +118,9 @@ public class Student {
 			
 		}		
 	}
+	public void updateScheduleDelete(int t){ //it will delete course at that timeSlot
+		studentSchedule[t]=null;	
+	}
 	public int calculateConflictInd(){
 		int conflictCounter = 0;
 		boolean placed;

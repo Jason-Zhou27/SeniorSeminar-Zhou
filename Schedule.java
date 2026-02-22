@@ -136,25 +136,33 @@ public class Schedule{
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
+			//FOR EACH CLASS: I first remove people from the rosters of classes they cannot attend; then, I make sure each class has 16; then, I remove duplicates
 			if(timeBlock!=-1 &&classroom!=-1){
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
 						//conflicts++; I changed my method of calculating conflicts
 						courseList.get(i).updateRoster();
+						
 					}
 				}
 				if(courseList.get(i).getRosterSize()>maxStudents){
 					//removeStudents as of right now, I will just truncate; but later, for optimization, the removal of students should be more strategic
 					int numRemove = courseList.get(i).getRosterSize()-maxStudents;
+					
 					for(int k=0;k<numRemove;k++){
+						courseList.get(i).updateRoster();
+						courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1);
 						courseList.get(i).rosterRemove();
+						
 						
 					}
 					courseList.get(i).updateRoster();
 					
 				}
-				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i);	
+				System.out.println("remove attempted");	
+				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i);
+				
 			}
 		}
 	}
@@ -222,12 +230,12 @@ public class Schedule{
 	}
 	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos){ //this method removes the students placed in a course from the other section
 		ArrayList<Student> placed = r;
-		//the logic here is that the same courses diff sections are adjacent to each other on the courseList
-		//and I only have to check the courses after and take off already placed students from those
-		for(int i=pos+1; i<courseList.size();i++){
-			if(courseList.get(i).getID()==idCourse){
+		for(int i=0; i<courseList.size();i++){
+			if(courseList.get(i).getID()==idCourse && i!=pos){
 				for(int k=0; k<placed.size(); k++){
+					System.out.println("remove line 231 works");
 					courseList.get(i).rosterRemove(placed.get(k));
+					courseList.get(i).updateRoster();
 					
 					
 				}
