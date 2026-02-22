@@ -48,9 +48,14 @@ public class Course {
 		return priorityRating;
 	}
 	public void updateRoster(Student s){
+		
 		roster.add(s);
-		rosterSize++;
+		rosterSize=roster.size();
 	}
+	public void updateRoster(){
+		rosterSize=roster.size();
+		
+	}	
 	public int getRosterSize(){
 		return rosterSize;
 	}

@@ -13,6 +13,8 @@ public class Schedule{
 	private int coursesPerS; //number of courses per student
 	private int numClassrooms;
 	
+	private int conflicts = 0;
+	
 	//constructors
 	public Schedule(int nT, int nCPS, int nC){
 		numTimes = nT;
@@ -124,6 +126,8 @@ public class Schedule{
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
+						conflicts++;
+						courseList.get(i).updateRoster();
 					}
 				}
 			}
@@ -141,7 +145,8 @@ public class Schedule{
 			for(int col=0;col<colMax;col++){
 				if(seniorS[row][col]==null){
 					counter=0;
-					int numRoster = c.getRosterNum();
+					int numRoster = c.getRosterSize();
+	
 					for(int i=0;i<numRoster;i++){
 						if(c.getStudent(i).checkConflict(row)==true){
 							counter++;
@@ -259,7 +264,26 @@ public class Schedule{
 				studentList.get(i).getCourse(k+1).updateRoster(studentList.get(i));
 			}
 		}	
-	}		
+	}
+	public void printSeniorSeminar(){
+		
+		int maxRow=numTimes;
+		int maxCol=numClassrooms;
+		for(int r=0;r<maxRow;r++){
+			for(int c=0;c<maxCol;c++){
+				if(seniorS[r][c]!=null){
+					System.out.print(" " + seniorS[r][c].getID() + " ");
+				}
+				else {
+					System.out.print(" " + -1 + " ");
+				}		
+			}
+			System.out.println();	
+		}
+		
+		System.out.print("\n\n\nNumber of Conflicts: " + conflicts);	
+	
+	}			
 		
 		
 				

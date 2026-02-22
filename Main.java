@@ -11,6 +11,7 @@ public class Main {
 		s1.loadRoster();
 		s1.printCourses();
 		s1.placeCourses();
+		s1.printSeniorSeminar();
 		
 	
 	}
