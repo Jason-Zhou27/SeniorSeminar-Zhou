@@ -145,7 +145,12 @@ public class Student {
 		return conflictCounter;	
 		
 		
-	}				
+	}
+	public Course[] getSchedule(){
+		return studentSchedule;
+		
+		
+	}					
 				
 	
 	//setters

@@ -13,10 +13,12 @@ public class Main {
 		s1.printCourses();
 		*/
 		s1.placeCourses();
+		s1.fillGaps();
 		s1.printStudents();
 		s1.printCourses();
 		s1.printSeniorSeminar();
-		System.out.println(s1.calculateOverallConflicts());
+
+		s1.printOverview();
 		
 	
 	}

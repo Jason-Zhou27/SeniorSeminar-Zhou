@@ -16,6 +16,8 @@ public class Schedule{
 	private int maxSpots;
 	
 	private int conflicts = 0;
+	private double conflictPerS = 0.0;
+	private int numGaps;
 	
 	//constructors
 	public Schedule(int nT, int nCPS, int nC, int mS){
@@ -69,7 +71,7 @@ public class Schedule{
 				if (timeStamp.equals("")){
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
-					System.out.println("Constructor WAS CALLED");
+					//System.out.println("Constructor WAS CALLED");
 					
 				} else {	
 					String[] timeStampDE = timeStampD.split("/");
@@ -83,7 +85,7 @@ public class Schedule{
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(month, day, year, hour, minute, second)));
-					System.out.println("Constructor WAS CALLED");
+					//System.out.println("Constructor WAS CALLED");
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
 				}	
 				//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
@@ -128,8 +130,8 @@ public class Schedule{
 		sortCourses();
 		loadRoster();
 		duplicateCourses();
-		System.out.println("Course List Size is: " + courseList.size());
-		printCourses();
+		//System.out.println("Course List Size is: " + courseList.size());
+		//printCourses();
 		for(int i=0;i<maxSpots;i++){
 			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
@@ -160,7 +162,7 @@ public class Schedule{
 					courseList.get(i).updateRoster();
 					
 				}
-				System.out.println("remove attempted");	
+				//System.out.println("remove attempted");	
 				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i);
 				
 			}
@@ -176,20 +178,20 @@ public class Schedule{
 		int colMax = numClassrooms;
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
-				if(seniorS[row][col]==null){
-					counter=0;
-					int numRoster = c.getRosterSize();
-	
-					for(int i=0;i<numRoster;i++){
-						if(c.getStudent(i).checkConflict(row)==true){
-							counter++;
+				if(seniorS[row][col]==null && checkTeacherAvailability(row, c.getTeacher())==true){
+						counter=0;
+						int numRoster = c.getRosterSize();
+		
+						for(int i=0;i<numRoster;i++){
+							if(c.getStudent(i).checkConflict(row)==true){
+								counter++;
+							}
 						}
-					}
-					if(counter<fewestConflicts){
-						fewestConflicts=counter;
-						optRow=row;
-						optCol=col;
-					}		
+						if(counter<fewestConflicts){
+							fewestConflicts=counter;
+							optRow=row;
+							optCol=col;
+						}		
 					
 				}	
 			}
@@ -200,6 +202,62 @@ public class Schedule{
 		
 		
 	}
+	public boolean checkTeacherAvailability(int r, String teacher){
+		int timeBlock = r+1;
+		boolean free = true;
+		for(int c=0; c<numClassrooms; c++){
+			if(seniorS[timeBlock-1][c]!=null && seniorS[timeBlock-1][c].getTeacher().equals(teacher)){ //prefixed to prevent null error
+				free=false;
+				
+			}	
+		}
+		return free;	
+		
+		
+		
+	}	
+	public void fillGaps(){
+		boolean filled;
+		Course[] schedule;
+		numGaps=0;
+		for(int i=0; i<studentList.size();i++){
+			Student s = studentList.get(i);
+			schedule = s.getSchedule();
+			for(int k=0;k<schedule.length;k++){
+				if(schedule[k]==null){
+					System.out.println("there's a spot!");
+					filled = false;
+					int timeBlock = k+1;
+					for(int c=0;c<numClassrooms && filled==false;c++){ //c for column
+						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents){
+							seniorS[timeBlock-1][c].updateRoster(s);
+							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]);
+							filled=true;
+							
+						}	
+						
+					}
+					if(filled==false){
+						numGaps=numGaps+1;
+						System.out.println("not filled!");
+					} else {
+						System.out.println("filled!");
+						
+					}		
+					
+					
+				}	
+			}
+
+			
+			
+			
+		}	
+		
+		
+		
+		
+	}	
 	public void duplicateCourses(){
 		Course c;
 		Course cCopy;
@@ -207,11 +265,11 @@ public class Schedule{
 		int multiple =0; //placeholder value
 		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
-			System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
+			//System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
 			if(c.getRosterSize()>maxStudents){
 				quotient = (double)c.getRosterSize()/maxStudents;
 				multiple = (int)(quotient+0.5);
-				System.out.println(multiple);
+				//System.out.println(multiple);
 				
 				for(int k=0; k<multiple-1; k++){
 					courseList.add(i+1, new Course(c.getTeacher(), c.getName(), c.getID()));
@@ -361,24 +419,31 @@ public class Schedule{
 				}		
 			}
 			System.out.println();	
-		}
-		
-		System.out.print("\n\n\nNumber of Conflicts: " + conflicts);	
+		}	
 	
 	}
-	public int calculateOverallConflicts(){
-		int totalConflicts =0;
+	public void calculateOverallConflicts(){
+		conflicts = 0;
 		for(int i=0;i<studentList.size();i++){
-			totalConflicts+=studentList.get(i).calculateConflictInd();
+			conflicts+=studentList.get(i).calculateConflictInd();
 				
 		}
-		return totalConflicts;
+			
+	}
+	public void calculateConflictPerStudent(){
+		conflictPerS = (double)conflicts/studentList.size();
 		
 		
+	}
+	public void printOverview(){
+		calculateOverallConflicts();
+		calculateConflictPerStudent();
+		System.out.println("Number of Conflicts: " + conflicts);
+		System.out.println("Conflicts Per Student: " + conflictPerS);
+		System.out.println("Number of Gaps: " + numGaps);
 		
 		
-		
-	}				
+	}						
 		
 		
 				
