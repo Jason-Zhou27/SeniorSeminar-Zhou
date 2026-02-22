@@ -140,7 +140,7 @@ public class Schedule{
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
-						conflicts++;
+						//conflicts++; I changed my method of calculating conflicts
 						courseList.get(i).updateRoster();
 					}
 				}
@@ -357,7 +357,20 @@ public class Schedule{
 		
 		System.out.print("\n\n\nNumber of Conflicts: " + conflicts);	
 	
-	}			
+	}
+	public int calculateOverallConflicts(){
+		int totalConflicts =0;
+		for(int i=0;i<studentList.size();i++){
+			totalConflicts+=studentList.get(i).calculateConflictInd();
+				
+		}
+		return totalConflicts;
+		
+		
+		
+		
+		
+	}				
 		
 		
 				

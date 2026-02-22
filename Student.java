@@ -108,7 +108,7 @@ public class Student {
 		
 		
 	}
-	public boolean updateSchedule(int t, Course c){
+	public boolean updateSchedule(int t, Course c){ //it will update schedule and will return boolean for confirmation
 		if(studentSchedule[t]==null){
 			studentSchedule[t]=c;
 			return true;
@@ -117,9 +117,31 @@ public class Student {
 			return false;
 			
 		}		
+	}
+	public int calculateConflictInd(){
+		int conflictCounter = 0;
+		boolean placed;
+		for(int r=0;r<courseRequest.size();r++){ //r for request
+			placed=false;
+			
+			for(int s=0;s<studentSchedule.length;s++){ //s for schedule
+				
+				if(studentSchedule[s]!=null){
+					
+					if((courseRequest.get(r).getID()==studentSchedule[s].getID())){
+						placed=true;	
+					}		
+				}
+			}
+			if(placed==false){
+				conflictCounter++;
+				
+			}		
+		}
+		return conflictCounter;	
 		
 		
-	}			
+	}				
 				
 	
 	//setters
