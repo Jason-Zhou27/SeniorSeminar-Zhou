@@ -15,10 +15,10 @@ public class Schedule{
 	
 	//constructors
 	public Schedule(int nT, int nC){
+		numTimes = nT;
+		coursesPerS = nT;
 		readFileCourse();
 		readFileStudent();
-		numTimes = nT;
-		coursesPerS = numTimes;
 		
 		numClassrooms = nC;
 		seniorS = new Course[numTimes][numClassrooms];
@@ -77,9 +77,15 @@ public class Schedule{
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
 				}	
 				//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
+				//System.out.println("I'm working1 and the value of coursesPerS is " + coursesPerS);
+				
+				//int numUse=5;
 				for(int i=0; i<coursesPerS;i++){ //load courses for students
+					//System.out.println("I'm working2");
 					int courseIndex = Integer.parseInt(elementsStudent[6+i]);
 					Course courseAdd = getCourse(courseIndex);
+					//System.out.println("I'm working3");
+					studentList.get(studentList.size()-1).addCourseReq(courseAdd);
 				}
 				
 			}	

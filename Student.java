@@ -79,7 +79,8 @@ public class Student {
 		return courseRequest.get(ranking-1); //ArrayList starts at index 0
 	}	
 	public void addCourseReq(Course c){ //add requested course to courseRequest ArrayList
-		courseRequest.add(c);
+		Course addCourse = c;
+		courseRequest.add(addCourse);
 	}	
 				
 	
