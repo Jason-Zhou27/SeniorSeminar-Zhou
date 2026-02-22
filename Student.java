@@ -127,11 +127,12 @@ public class Student {
 			for(int s=0;s<studentSchedule.length;s++){ //s for schedule
 				
 				if(studentSchedule[s]!=null){
-					
 					if((courseRequest.get(r).getID()==studentSchedule[s].getID())){
 						placed=true;	
-					}		
+					}
+							
 				}
+	
 			}
 			if(placed==false){
 				conflictCounter++;
@@ -159,9 +160,15 @@ public class Student {
 		sToString = sToString + "\n4th choice: " + course4.getName();
 		sToString = sToString + "\n5th choice: " + course5.getName();
 		*/
+		sToString = sToString + "\nREQUESTS";
 		for (int i=0; i<courseRequest.size();i++){
 			sToString = sToString + "\nchoice " + (i+1) + ":" + courseRequest.get(i); 
-		}	
+		}
+		sToString = sToString + "\nSCHEDULE";
+		for (int i=0; i<studentSchedule.length;i++){
+			sToString = sToString + "\ntime " + (i+1) + ":" + studentSchedule[i];
+			
+		}		
 		return sToString;
 	}	
 
