@@ -38,6 +38,8 @@ public class Schedule{
 				String emailPrefix = elementsStudent[4];
 				String nameStudent = elementsStudent[5];
 				//course info
+
+				/*	
 				int course1Index = Integer.parseInt(elementsStudent[6]);
 				int course2Index = Integer.parseInt(elementsStudent[7]);
 				int course3Index = Integer.parseInt(elementsStudent[8]);
@@ -49,6 +51,7 @@ public class Schedule{
 				Course course3 = getCourse(course3Index);
 				Course course4 = getCourse(course4Index);
 				Course course5 = getCourse(course5Index);
+				*/
 				//student id
 				int studentId = studentList.size()+1;
 				
@@ -56,7 +59,8 @@ public class Schedule{
 				String timeStamp = elementsStudent[0];
 				String timeStampD = elementsStudent[1];
 				if (timeStamp.equals("")){
-					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
+					//studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
+					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
 					
 				} else {	
 					String[] timeStampDE = timeStampD.split("/");
@@ -69,10 +73,14 @@ public class Schedule{
 					int hour = Integer.parseInt(timeStampTE[0]);
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
-					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(month, day, year, hour, minute, second), course1, course2, course3, course4, course5));
+					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(month, day, year, hour, minute, second)));
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
 				}	
 				//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
+				for(int i=0; i<coursesPerS;i++){ //load courses for students
+					int courseIndex = Integer.parseInt(elementsStudent[6+i]);
+					Course courseAdd = getCourse(courseIndex);
+				}
 				
 			}	
 		} catch (FileNotFoundException e){
@@ -105,10 +113,12 @@ public class Schedule{
 		
 		}
 	}
+	/*
 	public int[][] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
 		
 		
-	}		
+	}
+	*/		
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
@@ -136,21 +146,32 @@ public class Schedule{
 	
 	public void findPop(){
 		for(int i=0; i<studentList.size();i++){
+			/*
 			studentList.get(i).getC1().updatePopRating(5);
 			studentList.get(i).getC2().updatePopRating(4);
 			studentList.get(i).getC3().updatePopRating(3);
 			studentList.get(i).getC4().updatePopRating(2);
 			studentList.get(i).getC5().updatePopRating(1);
+			*/
+			for(int k=0;k<coursesPerS;k++){
+				studentList.get(i).getCourse(k+1).updatePopRating(coursesPerS-k);
+			}
 		}	
 	}
 	
 	public void findDemand(){
 		for(int i=0; i<studentList.size();i++){
+			/*
 			studentList.get(i).getC1().updateDemand();
 			studentList.get(i).getC2().updateDemand();
 			studentList.get(i).getC3().updateDemand();
 			studentList.get(i).getC4().updateDemand();
 			studentList.get(i).getC5().updateDemand();
+			*/
+			for(int k=0;k<coursesPerS;k++){
+				studentList.get(i).getCourse(k+1).updateDemand();
+			}
+			
 		}	
 	}
 	
@@ -184,11 +205,16 @@ public class Schedule{
 	}
 	public void loadRoster(){ //uses updateRoster method from Course class to add students to each of their courses' rosters
 		for(int i=0; i<studentList.size();i++){
+			/*
 			studentList.get(i).getC1().updateRoster(studentList.get(i));
 			studentList.get(i).getC2().updateRoster(studentList.get(i));
 			studentList.get(i).getC3().updateRoster(studentList.get(i));
 			studentList.get(i).getC4().updateRoster(studentList.get(i));
-			studentList.get(i).getC5().updateRoster(studentList.get(i));	
+			studentList.get(i).getC5().updateRoster(studentList.get(i));
+			*/	
+			for(int k=0;k<coursesPerS;k++){
+				studentList.get(i).getCourse(k+1).updateRoster(studentList.get(i));
+			}
 		}	
 	}		
 		
