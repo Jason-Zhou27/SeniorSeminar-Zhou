@@ -10,6 +10,7 @@ public class Student {
 	private Course course3;
 	private Course course4;
 	private Course course5;
+	private Course[] studentSchedule;
 	private String sToString;
 	//constructors
 	public Student(int id, String n, String e, Time t, Course c1, Course c2, Course c3, Course c4, Course c5) {

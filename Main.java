@@ -8,6 +8,7 @@ public class Main {
 		s1.findDemand();
 		s1.assignPriority();
 		s1.sortCourses();
+		s1.loadRoster();
 		s1.printCourses();
 		
 	

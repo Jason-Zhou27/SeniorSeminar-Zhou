@@ -10,6 +10,7 @@ public class Schedule{
 	private Course[][] seniorS;
 	
 	private int numTimes;
+	private int coursesPerS; //number of courses per student
 	private int numClassrooms;
 	
 	//constructors
@@ -17,6 +18,8 @@ public class Schedule{
 		readFileCourse();
 		readFileStudent();
 		numTimes = nT;
+		coursesPerS = numTimes;
+		
 		numClassrooms = nC;
 		seniorS = new Course[numTimes][numClassrooms];
 	}	
@@ -94,6 +97,18 @@ public class Schedule{
 				System.out.println("File Not Found!");
 			}			
 	}
+	public void placeCourses(){ //takes charge in placing courses
+		for(int i=0;i<courseList.size();i++){
+			
+			
+		
+		
+		}
+	}
+	public int[][] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
+		
+		
+	}		
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
@@ -166,7 +181,16 @@ public class Schedule{
 			}	
 		}
 		return sorted;
-	}	
+	}
+	public void loadRoster(){ //uses updateRoster method from Course class to add students to each of their courses' rosters
+		for(int i=0; i<studentList.size();i++){
+			studentList.get(i).getC1().updateRoster(studentList.get(i));
+			studentList.get(i).getC2().updateRoster(studentList.get(i));
+			studentList.get(i).getC3().updateRoster(studentList.get(i));
+			studentList.get(i).getC4().updateRoster(studentList.get(i));
+			studentList.get(i).getC5().updateRoster(studentList.get(i));	
+		}	
+	}		
 		
 		
 				

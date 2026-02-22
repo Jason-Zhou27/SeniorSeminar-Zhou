@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Course {
 
 	//variables
@@ -7,6 +9,7 @@ public class Course {
 	private int popRating = 0;
 	private int studentDemand = 0; //number of students that select the course (regardless of choice #)
 	private int priorityRating;
+	private ArrayList<Student> roster = new ArrayList<Student>();
 	//constructors
 	public Course(String t, String n, int id){
 		courseTeacher = t;
@@ -42,8 +45,10 @@ public class Course {
 	}
 	public int getPR(){
 		return priorityRating;
-		
-	}	
+	}
+	public void updateRoster(Student s){
+		roster.add(s);
+	}		
 		
 	public String toString(){
 		
