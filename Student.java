@@ -178,7 +178,24 @@ public class Student {
 			
 		}		
 		return sToString;
-	}	
+	}
+	public int getNumRequests(){
+		int counter =0;
+		int size = courseRequest.size();
+		for(int i=0;i<size;i++){
+			if(courseRequest.get(0).getName().equals("NA")){
+				courseRequest.remove(0);
+			}
+			else {
+				counter++;
+				
+			}		
+			
+		}
+		return counter;	
+		
+		
+	}		
 
 
 }

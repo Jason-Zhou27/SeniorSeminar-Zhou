@@ -49,3 +49,27 @@ would allow a seminar to run twice; I hope to do that in a future work session. 
 despite my work session being quite long, I spent considerable time thinking about the approach, mapping out the process, and contemplating about sources
 of error.
 
+
+2.22.2026
+
+Today, I worked through the intricacies of the project; I created multiple sections of coureses that have excessive demand, maxed out courses
+at a certain capacity, created methods to ensure that no student is in two sections of the same course, and filled in gaps in course requests and schedules. 
+
+Furthermore, I've programmed functionality to calculate the # of conflicts, # of conflicts per student, and # of gaps in the students' schedules (unscheduled blocks). 
+In order to create the functionality above, I had to add many methods in Schedule and supplementary ones in Course and Student. Also, a key aspect of today was debugging: 
+I have spent at least two hours thinking about the sources of error and how I can overcome those. Some sources of error that are worth mentioning are forgetting
+to update student schedules despite updating rosters and failure to update roster size in many places. I recently come across the issue in which 
+the files would not be built correctly (reflecting a past version of the file), but I was able to fix that issue by deleting the class files and 
+building the class files again through geany. So far in the project, I think I made considerable progress on many fronts; as of right now, I am able
+to get total conflicts to 103, which averages to ~1.39 per student out of 5 time blocks--which is the lowest I have gotten to. I have also got the 
+number of gaps (unscheduled blocks) to 20 for all students; I think that feat is still solid, but ideally, this number should be 0. I now realize
+why this project is so difficult: I must ensure that every spot is filled for every student. This notion may seem easy, but it poses considerable conflict
+to my optimization. I will need to devise a strategy to approach this issue, but I think it will require a sacrifice in number of conflicts. The approach
+I have in my mind as of right now is to adjust priority of courses based on the updated rosters with those who forgot to request courses. I also plan 
+to change the threshold for a course to be duplicated to be based off a detailed calculation rather than proximity to the nearest integer. As I move forward,
+I want to ensure that I am eliminating any source (no matter how tiny) of magic numbers: I want to ensure that no matter how I adjust values, I will not
+encounter an unexpected outcome/error (like out of bounds). I also want to make sure that when I duplicate courses, I am strategic on where I put the 
+duplicated copy--maybe it is not wise to place the duplicated course adjacent to the original one; we'll see. In my future work sessions, I anticipate 
+that I will not make visual progress in terms of lines of code, but I will make progress in thought. I will do a lot of mapping of ideas to ensure that
+my strategy moving forward is effective.
+

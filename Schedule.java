@@ -128,6 +128,7 @@ public class Schedule{
 		findDemand();
 		assignPriority();
 		sortCourses();
+		fillBlankRequests();
 		loadRoster();
 		duplicateCourses();
 		//System.out.println("Course List Size is: " + courseList.size());
@@ -215,7 +216,21 @@ public class Schedule{
 		
 		
 		
-	}	
+	}
+	public void fillBlankRequests(){
+		System.out.println("fillBlankRequests is being called");
+		for(int i=0;i<studentList.size();i++){
+			Student s = studentList.get(i);
+			if (s.getNumRequests()<coursesPerS){
+				int numFilled = coursesPerS-s.getNumRequests();
+				for(int k=0;k<numFilled;k++){
+					s.addCourseReq(courseList.get(courseList.size()-1-k)); //don't make these people who have not filled out forms compete with those who did
+					System.out.println("I'm GETTING ADDED to fill in the BLANK");
+				}	
+			}		
+		}		
+		
+	}		
 	public void fillGaps(){
 		boolean filled;
 		Course[] schedule;
@@ -248,15 +263,7 @@ public class Schedule{
 					
 				}	
 			}
-
-			
-			
-			
 		}	
-		
-		
-		
-		
 	}	
 	public void duplicateCourses(){
 		Course c;
@@ -268,7 +275,10 @@ public class Schedule{
 			//System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
 			if(c.getRosterSize()>maxStudents){
 				quotient = (double)c.getRosterSize()/maxStudents;
-				multiple = (int)(quotient+0.5);
+				multiple = (int)(quotient+0.5); //round to nearest int
+					
+						
+				
 				//System.out.println(multiple);
 				
 				for(int k=0; k<multiple-1; k++){
@@ -318,7 +328,7 @@ public class Schedule{
 				return courseList.get(i);		
 			}	
 		}
-		return new Course("Does Not Exist");	
+		return new Course("DNE");	
 	}
 	public void printStudents(){
 		for (int i=0;i<studentList.size();i++){
@@ -443,7 +453,8 @@ public class Schedule{
 		System.out.println("Number of Gaps: " + numGaps);
 		
 		
-	}						
+	}
+						
 		
 		
 				
