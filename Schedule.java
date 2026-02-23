@@ -124,6 +124,7 @@ public class Schedule{
 			}			
 	}
 	public void placeCourses(){ //takes charge in placing courses
+		//fillBlankRequests();
 		findPop();
 		findDemand();
 		assignPriority();
@@ -273,9 +274,12 @@ public class Schedule{
 		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
 			//System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
-			if(c.getRosterSize()>maxStudents){
+			if(c.getRosterSize()>maxStudents || courseList.size()<maxSpots){
 				quotient = (double)c.getRosterSize()/maxStudents;
 				multiple = (int)(quotient+0.5); //round to nearest int
+				if(multiple>1 || courseList.size()<maxSpots){
+					multiple=2;
+				}	
 					
 						
 				
@@ -446,14 +450,69 @@ public class Schedule{
 		
 	}
 	public void printOverview(){
+		printAllRosters();
 		calculateOverallConflicts();
 		calculateConflictPerStudent();
 		System.out.println("Number of Conflicts: " + conflicts);
 		System.out.println("Conflicts Per Student: " + conflictPerS);
 		System.out.println("Number of Gaps: " + numGaps);
+		printFree();
+		printCheckDuplicate();
+		
 		
 		
 	}
+	public void printFree(){ //more of a debugging tool as of 2/23
+		int trackerTotal = 0;
+		for(int i=0;i<numTimes;i++){
+			int tracker =0;
+			for(int k=0;k<numClassrooms;k++){
+				tracker+=(maxStudents-seniorS[i][k].getRosterSize());
+				
+			}
+		System.out.println("For time " + (i+1) + " there are " + tracker + "spots free");
+		trackerTotal+=tracker;	
+		}
+		System.out.println("There are " + trackerTotal + " spots free total, and there are supposed to be " + (numClassrooms*maxStudents-studentList.size())*numTimes);
+	}
+	public void printCheckDuplicate(){ //debugging
+		boolean isDuplicate = false;
+		for(int i=0;i<courseList.size();i++){
+			for(int k=0; k<courseList.size();k++){
+				if(i!=k && courseList.get(i).getID()==courseList.get(k).getID()){
+					for(int j=0;j<courseList.get(i).getRosterSize();j++){
+						for(int l=0;l<courseList.get(k).getRosterSize();l++){
+							if(courseList.get(i).getStudent(j)==courseList.get(k).getStudent(k)){
+								isDuplicate = true;
+							}	
+						}			
+					}			
+				}				
+			}		
+		}
+		System.out.println("isDuplicate?: " + isDuplicate);
+				
+			
+			
+			
+			
+			
+	}
+	public void printAllRosters(){
+		for(int i=0;i<maxSpots;i++){
+			System.out.print("\nCourse: " + courseList.get(i).getName() + "\n\nRoster:");
+			courseList.get(i).printRoster();
+		}
+			
+		
+		
+		
+			
+		
+		
+		
+		
+	}		
 						
 		
 		

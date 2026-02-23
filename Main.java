@@ -19,6 +19,7 @@ public class Main {
 		s1.printSeniorSeminar();
 
 		s1.printOverview();
+
 		
 	
 	}

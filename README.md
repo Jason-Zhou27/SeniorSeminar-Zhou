@@ -73,3 +73,11 @@ duplicated copy--maybe it is not wise to place the duplicated course adjacent to
 that I will not make visual progress in terms of lines of code, but I will make progress in thought. I will do a lot of mapping of ideas and strategy to ensure that
 my strategy moving forward is effective.
 
+2.23.2026
+
+Today, I realized that I violated one of the rules of the project (no session is repeated more than twice) in duplicateCourses() method, so I changed the conditional
+to account for the fact. Other than that, I did some significant debugging. There is a disrepancy between the number of free spots that should exist at the end (30)
+and the actual number of free spots that exist (2). I want to find the source of such error. So far, I have analyzed the potential outcome that the roster was not getting
+updated properly (which does not seem to be the case). I want to print out the rosters right now to see if I can find the bug that way. I think that by fixing this error,
+I can greatly reduce the number of gaps.
+
