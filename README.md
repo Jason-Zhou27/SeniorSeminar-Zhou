@@ -70,6 +70,6 @@ to change the threshold for a course to be duplicated to be based off a detailed
 I want to ensure that I am eliminating any source (no matter how tiny) of magic numbers: I want to ensure that no matter how I adjust values, I will not
 encounter an unexpected outcome/error (like out of bounds). I also want to make sure that when I duplicate courses, I am strategic on where I put the 
 duplicated copy--maybe it is not wise to place the duplicated course adjacent to the original one; we'll see. In my future work sessions, I anticipate 
-that I will not make visual progress in terms of lines of code, but I will make progress in thought. I will do a lot of mapping of ideas to ensure that
+that I will not make visual progress in terms of lines of code, but I will make progress in thought. I will do a lot of mapping of ideas and strategy to ensure that
 my strategy moving forward is effective.
 
