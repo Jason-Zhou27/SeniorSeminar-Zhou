@@ -34,9 +34,17 @@ public class Schedule{
 		seniorS = new Course[numTimes][numClassrooms];
 	}	
 	//methods
+	/*The method readFileStudent uses a Scanner to read a txt file; it splits each line of a Student's info
+	 * into individual pieces/elements stored in an array. This method then extracts individual elements 
+	 * from the array and stores them into variables--which are used in the Student constructor to create
+	 * Student objects. This method does not load course requests in the constructor but rather after the objects
+	 * are created w/ Student object methods. It accesses the recently created Student object and loads all 
+	 * the course requests available into the Student's ArrayList of course requests. This method employs
+	 * a try catch structure to catch any File error
+	*/
 	public void readFileStudent() {
 		try {
-			Scanner scanStudent = new Scanner(new File(fileNameStudent));
+			Scanner scanStudent = new Scanner(new File(fileNameStudent));//Scanner object for student
 			scanStudent.nextLine(); //skips over first line (column names)
 			while (scanStudent.hasNext()){
 				String lineStudent = scanStudent.nextLine();
@@ -47,8 +55,7 @@ public class Schedule{
 				String emailStudent = elementsStudent[3];
 				String emailPrefix = elementsStudent[4];
 				String nameStudent = elementsStudent[5];
-				//course info
-
+				//following lines are commented out as they referenced magic numbers (courses 1-5)
 				/*	
 				int course1Index = Integer.parseInt(elementsStudent[6]);
 				int course2Index = Integer.parseInt(elementsStudent[7]);
@@ -68,19 +75,19 @@ public class Schedule{
 				//time info
 				String timeStamp = elementsStudent[0];
 				String timeStampD = elementsStudent[1];
-				if (timeStamp.equals("")){
+				if (timeStamp.equals("")){ //if there is no time recorded, create student object w/ time object of greatest time (100 for all time measurements)
 					//studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
 					//System.out.println("Constructor WAS CALLED");
 					
-				} else {	
-					String[] timeStampDE = timeStampD.split("/");
+				} else {	//if there is a time recorded, create student object w/ time object provided by form info
+					String[] timeStampDE = timeStampD.split("/"); //time stamp date elements
 					int month = Integer.parseInt(timeStampDE[0]);
 					int day = Integer.parseInt(timeStampDE[1]);
 					int year = Integer.parseInt(timeStampDE[2]);
 					
 					String timeStampT = elementsStudent[2];
-					String[] timeStampTE = timeStampT.split(":");
+					String[] timeStampTE = timeStampT.split(":"); //time stamp time elements (more specific than just date)
 					int hour = Integer.parseInt(timeStampTE[0]);
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
@@ -97,17 +104,22 @@ public class Schedule{
 					int courseIndex = Integer.parseInt(elementsStudent[6+i]);
 					Course courseAdd = getCourse(courseIndex);
 					//System.out.println("I'm working3");
-					studentList.get(studentList.size()-1).addCourseReq(courseAdd);
+					studentList.get(studentList.size()-1).addCourseReq(courseAdd); //add course requests for recently created student object
 				}
 				
 			}	
-		} catch (FileNotFoundException e){
+		} catch (FileNotFoundException e){ //catch File error
 				System.out.println("File Not Found!");
 			}			
 	}
+	/*The method readFileCourse uses a Scanner to read a txt file; it splits each line of a Course's info
+	 * into individual pieces/elements stored in an array. This method then extracts individual elements 
+	 * from the array and stores them into variables--which are used in the Course constructor to create
+	 * Course objects. This method employs a try catch structure to catch any File error.
+	*/
 	public void readFileCourse() {
 		try {
-			Scanner scanCourse = new Scanner(new File(fileNameCourse));
+			Scanner scanCourse = new Scanner(new File(fileNameCourse)); //Scanner object for course
 			scanCourse.nextLine(); //skips over first line (column names)
 			while (scanCourse.hasNext()){
 				String lineCourse = scanCourse.nextLine();
@@ -115,11 +127,13 @@ public class Schedule{
 				String[] elementsCourse = lineCourse.split(",");
 				//course name
 				String nameCourse = elementsCourse[0];
+				//course id
 				int idCourse = Integer.parseInt(elementsCourse[1]);
+				//course teacher name
 				String nameTeacher = elementsCourse[2];
-				courseList.add(new Course(nameTeacher, nameCourse, idCourse));
+				courseList.add(new Course(nameTeacher, nameCourse, idCourse)); //create course object with info from created variables
 				}	
-			} catch (FileNotFoundException e){
+			} catch (FileNotFoundException e){ //catch File error
 				System.out.println("File Not Found!");
 			}			
 	}

@@ -81,3 +81,7 @@ and the actual number of free spots that exist (2). I want to find the source of
 updated properly (which does not seem to be the case). I want to print out the rosters right now to see if I can find the bug that way. I think that by fixing this error,
 I can greatly reduce the number of gaps.
 
+2.24.2026
+
+I updated the documentation/comments for readFileStudent and readFileCourse methods in Schedule class.
+
