@@ -85,3 +85,10 @@ I can greatly reduce the number of gaps.
 
 I updated the documentation/comments for readFileStudent and readFileCourse methods in Schedule class.
 
+2.27.2026
+
+I developed a new approach for optimization; instead of following the current order of placing courses w/
+same courses placed adjacently & higher demand courses put in first, I aim to place the coureses in every order
+possible--then picking the most optimal one for the user. I am still working to fix the error which results
+in the disrepancy of gaps; so far, I have gotten the printRoster() method to work, and I plan to use that
+to find the source of the error.

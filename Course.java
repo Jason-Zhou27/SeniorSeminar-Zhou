@@ -123,7 +123,7 @@ public class Course {
 	}
 	public void printRoster(){
 		for(int i=0;i<roster.size();i++){
-			return ("\nStudent #" + (i+1) + roster.get(i).getName());	
+			System.out.println("\nStudent #" + (i+1) + roster.get(i).getName());	
 		}	
 	}			
 
