@@ -179,7 +179,7 @@ public class Schedule{
 					
 				}
 				//System.out.println("remove attempted");	
-				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i);
+				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock);
 				
 			}
 		}
@@ -314,12 +314,12 @@ public class Schedule{
 			
 		}	
 	}
-	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos){ //this method removes the students placed in a course from the other section
+	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //this method removes the students placed in a course from the other section
 		ArrayList<Student> placed = r;
 		for(int i=0; i<courseList.size();i++){
 			if(courseList.get(i).getID()==idCourse && i!=pos){
 				for(int k=0; k<placed.size(); k++){
-					System.out.println("remove line 231 works");
+					System.out.println("remove line 231 works");	
 					courseList.get(i).rosterRemove(placed.get(k));
 					courseList.get(i).updateRoster();
 					
@@ -514,8 +514,8 @@ public class Schedule{
 	}
 	public void printAllRosters(){
 		for(int i=0;i<maxSpots;i++){
-			System.out.print("\nCourse: " + courseList.get(i).getName() + "\n\nRoster:");
-			courseList.get(i).printRoster();
+			System.out.print("\nCourse: " + courseList.get(i).getID() + "\n\nRoster:");
+			courseList.get(i).printRosterSimple();
 		}
 			
 		

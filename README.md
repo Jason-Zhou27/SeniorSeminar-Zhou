@@ -92,3 +92,10 @@ same courses placed adjacently & higher demand courses put in first, I aim to pl
 possible--then picking the most optimal one for the user. I am still working to fix the error which results
 in the disrepancy of gaps; so far, I have gotten the printRoster() method to work, and I plan to use that
 to find the source of the error.
+
+3.12.2026
+
+Today, I changed the printRoster method to print IDs, so I can import each roster into a spreadsheet. I looked through the spreadsheet, and some people
+are taking >5 classes, which signals that an issue truly exists. The problem is that this issue can occur in multiple places--so right now, I am looking through the whole program
+and continuing to try to debug the error. I expect the origin of this issue is in removeDuplicateStudents.
+Please see the spreadsheet to see my work: https://docs.google.com/spreadsheets/d/16BMeEpPLZVsgxSx0Q-8vri2covNVRRhxb3X6e6Uh3dM/edit?usp=sharing  

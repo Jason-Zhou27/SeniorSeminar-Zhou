@@ -125,6 +125,11 @@ public class Course {
 		for(int i=0;i<roster.size();i++){
 			System.out.println("\nStudent #" + (i+1) + roster.get(i).getName());	
 		}	
+	}
+	public void printRosterSimple(){
+		for(int i=0;i<roster.size();i++){
+			System.out.println(roster.get(i).getID());	
+		}	
 	}			
 
 
