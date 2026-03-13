@@ -146,6 +146,11 @@ public class Schedule{
 		fillBlankRequests();
 		loadRoster();
 		duplicateCourses();
+		//Twyford's reference schedule on the whiteboad 3/13; it's difficult to integrate into my program
+		//because my algorithm works in a very different manner--if I were to implement this algorithm, it would take revamping 
+		//of my program infrastructure
+		//Nevertheless, without Twyford's reference schedule, I still figure out that most if not all can get at least 3 courses
+		int[][] seniorSID = {{1,9,14,5,115},{2,6,10,12,116},{15,3,11,4,107},{16,18,13,101,109},{7,8,17,102,106}};  
 		//System.out.println("Course List Size is: " + courseList.size());
 		//printCourses();
 		for(int i=0;i<maxSpots;i++){
@@ -160,16 +165,15 @@ public class Schedule{
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
 						//conflicts++; I changed my method of calculating conflicts
-						courseList.get(i).updateRoster();
-						
 					}
+					courseList.get(i).updateRoster();
 				}
 				if(courseList.get(i).getRosterSize()>maxStudents){
 					//removeStudents as of right now, I will just truncate; but later, for optimization, the removal of students should be more strategic
 					int numRemove = courseList.get(i).getRosterSize()-maxStudents;
 					
 					for(int k=0;k<numRemove;k++){
-						courseList.get(i).updateRoster();
+						courseList.get(i).updateRoster(); //updates size
 						courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1);
 						courseList.get(i).rosterRemove();
 						

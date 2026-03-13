@@ -98,4 +98,12 @@ to find the source of the error.
 Today, I changed the printRoster method to print IDs, so I can import each roster into a spreadsheet. I looked through the spreadsheet, and some people
 are taking >5 classes, which signals that an issue truly exists. The problem is that this issue can occur in multiple places--so right now, I am looking through the whole program
 and continuing to try to debug the error. I expect the origin of this issue is in removeDuplicateStudents.
-Please see the spreadsheet to see my work: https://docs.google.com/spreadsheets/d/16BMeEpPLZVsgxSx0Q-8vri2covNVRRhxb3X6e6Uh3dM/edit?usp=sharing  
+Please see the spreadsheet to see my work: https://docs.google.com/spreadsheets/d/16BMeEpPLZVsgxSx0Q-8vri2covNVRRhxb3X6e6Uh3dM/edit?usp=sharing
+
+3.13.2026
+
+Today, I documented the reference schedule that Mr. Twyford put on the board. I created a 2d array of senior seminar ids which is initialized to this reference schedule. However,
+because of the infrastructure of my program , it is exceptionally difficult to integrate the "place course then place students" algorithm into my program; nevertheless, I have pretty much
+achieved the objective of this activity earlier: I have determined that nearly all/all can get at least 3 of their requested schedules. I am still encountering the issue of gaps and
+making some progress in debugging. I think to fix this issue, I must devote a long stretch of time to debugging--simply debugging in small bits is ineffective and inefficient. 
+Over Spring Break, I hope to finish the project.
