@@ -1,20 +1,25 @@
+//import libraries
 import java.util.*;
 import java.io.*;
 
 public class Schedule{
 	//variables
+	
+	//files, arrays, arrayLists
 	private String fileNameStudent = "studentInfo.txt"; //Name of txt file with Student info
 	private String fileNameCourse = "courseInfo.txt"; //Name of txt file with Student info
 	private ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList to store student objects
 	private ArrayList<Course> courseList = new ArrayList<Course>(); //ArrayList to store course objects
 	private Course[][] seniorS;
 	
+	//important parameters
 	private int numTimes;
 	private int coursesPerS; //number of courses per student
 	private int numClassrooms;
 	private int maxStudents;
 	private int maxSpots;
 	
+	//effectiveness values
 	private int conflicts = 0;
 	private double conflictPerS = 0.0;
 	private int numGaps;
@@ -29,8 +34,6 @@ public class Schedule{
 		Student.setCoursesPerStudent(coursesPerS);
 		readFileCourse();
 		readFileStudent();
-		
-		
 		seniorS = new Course[numTimes][numClassrooms];
 	}	
 	//methods
@@ -55,20 +58,6 @@ public class Schedule{
 				String emailStudent = elementsStudent[3];
 				String emailPrefix = elementsStudent[4];
 				String nameStudent = elementsStudent[5];
-				//following lines are commented out as they referenced magic numbers (courses 1-5)
-				/*	
-				int course1Index = Integer.parseInt(elementsStudent[6]);
-				int course2Index = Integer.parseInt(elementsStudent[7]);
-				int course3Index = Integer.parseInt(elementsStudent[8]);
-				int course4Index = Integer.parseInt(elementsStudent[9]);
-				int course5Index = Integer.parseInt(elementsStudent[10]);
-				
-				Course course1 = getCourse(course1Index);
-				Course course2 = getCourse(course2Index);
-				Course course3 = getCourse(course3Index);
-				Course course4 = getCourse(course4Index);
-				Course course5 = getCourse(course5Index);
-				*/
 				//student id
 				int studentId = studentList.size()+1;
 				
@@ -76,10 +65,7 @@ public class Schedule{
 				String timeStamp = elementsStudent[0];
 				String timeStampD = elementsStudent[1];
 				if (timeStamp.equals("")){ //if there is no time recorded, create student object w/ time object of greatest time (100 for all time measurements)
-					//studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100), course1, course2, course3, course4, course5));
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
-					//System.out.println("Constructor WAS CALLED");
-					
 				} else {	//if there is a time recorded, create student object w/ time object provided by form info
 					String[] timeStampDE = timeStampD.split("/"); //time stamp date elements
 					int month = Integer.parseInt(timeStampDE[0]);
@@ -92,21 +78,12 @@ public class Schedule{
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(month, day, year, hour, minute, second)));
-					//System.out.println("Constructor WAS CALLED");
-					//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
 				}	
-				//studentList.add(new Student(studentId, nameStudent, emailStudent, course1, course2, course3, course4, course5));
-				//System.out.println("I'm working1 and the value of coursesPerS is " + coursesPerS);
-				
-				//int numUse=5;
 				for(int i=0; i<coursesPerS;i++){ //load courses for students
-					//System.out.println("I'm working2");
 					int courseIndex = Integer.parseInt(elementsStudent[6+i]);
 					Course courseAdd = getCourse(courseIndex);
-					//System.out.println("I'm working3");
 					studentList.get(studentList.size()-1).addCourseReq(courseAdd); //add course requests for recently created student object
 				}
-				
 			}	
 		} catch (FileNotFoundException e){ //catch File error
 				System.out.println("File Not Found!");
@@ -138,21 +115,17 @@ public class Schedule{
 			}			
 	}
 	public void placeCourses(){ //takes charge in placing courses
-		//fillBlankRequests();
 		findPop();
 		findDemand();
 		assignPriority();
 		sortCourses();
-		//fillBlankRequests();
 		loadRoster();
 		duplicateCourses();
 		//Twyford's reference schedule on the whiteboad 3/13; it's difficult to integrate into my program
 		//because my algorithm works in a very different manner--if I were to implement this algorithm, it would take revamping 
 		//of my program infrastructure
 		//Nevertheless, without Twyford's reference schedule, I still figure out that most if not all can get at least 3 courses
-		int[][] seniorSID = {{1,9,14,5,115},{2,6,10,12,116},{15,3,11,4,107},{16,18,13,101,109},{7,8,17,102,106}};  
-		//System.out.println("Course List Size is: " + courseList.size());
-		//printCourses();
+		//int[][] seniorSID = {{1,9,14,5,115},{2,6,10,12,116},{15,3,11,4,107},{16,18,13,101,109},{7,8,17,102,106}};  
 		
 		//for how many courses I can place...
 		for(int i=0;i<maxSpots;i++){
@@ -166,27 +139,9 @@ public class Schedule{
 				//for each student in the roster...
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					//try to update their schedule w/ the course
-					if(courseList.get(i).getStudent(k).getID()==6){
-						System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "is placed in  " + courseList.get(i).getName());
-					}
-					Student jsRemoved = courseList.get(i).getStudent(k);
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
-						
-						if(courseList.get(i).getStudent(k).getID()==6){
-							System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "was removed from " + courseList.get(i).getName() + " b/c of conflict");
-							if(jsRemoved.getID()==6){
-								System.out.println("Student " + jsRemoved.toString());
-							}
-						}
 						courseList.get(i).rosterRemove(k);
-						//conflicts++; I changed my method of calculating conflicts
 					}
-					else {
-						if(jsRemoved.getID()==6){
-							System.out.println("Student " + jsRemoved.toString());
-						}
-						
-					}	
 					courseList.get(i).updateRoster();
 				}
 				if(courseList.get(i).getRosterSize()>maxStudents){
@@ -196,18 +151,11 @@ public class Schedule{
 					for(int k=0;k<numRemove;k++){
 						courseList.get(i).updateRoster(); //updates size
 						courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1);
-						System.out.println("Student " + courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).getID() + " was removed b/c of overflow");
 						courseList.get(i).rosterRemove();
-			
-						
-						
 					}
 					courseList.get(i).updateRoster();
-					
 				}
-				//System.out.println("remove attempted");	
 				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock);
-				
 			}
 		}
 		searchDelete();
@@ -225,21 +173,8 @@ public class Schedule{
 				if(matched==false){
 					courseList.get(k).tryRemove(studentList.get(i));
 				}		
-				
-				
-				
 			}	
-			
-			
-			
-			
-			
-			
 		}	
-		
-		
-		
-		
 	}	
 	
 	public int[] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
@@ -265,15 +200,11 @@ public class Schedule{
 							optRow=row;
 							optCol=col;
 						}		
-					
 				}	
 			}
 		}
 		int[] infoOptimalRC = {optRow, optCol};
 		return infoOptimalRC;
-			
-		
-		
 	}
 	public boolean checkTeacherAvailability(int r, String teacher){
 		int timeBlock = r+1;
@@ -281,13 +212,9 @@ public class Schedule{
 		for(int c=0; c<numClassrooms; c++){
 			if(seniorS[timeBlock-1][c]!=null && seniorS[timeBlock-1][c].getTeacher().equals(teacher)){ //prefixed to prevent null error
 				free=false;
-				
 			}	
 		}
 		return free;	
-		
-		
-		
 	}
 	/*
 	public void fillBlankRequests(){
@@ -302,7 +229,6 @@ public class Schedule{
 				}	
 			}		
 		}		
-		
 	}
 	*/		
 	public void fillGaps(){
@@ -314,10 +240,6 @@ public class Schedule{
 		for(int i=0; i<studentList.size();i++){
 			s = studentList.get(i);
 			schedule = s.getSchedule();
-			if(s.getID()==6){ //debugging
-				System.out.println(s.toString());
-				
-			}
 			//for each block in their schedule
 			for(int k=0;k<schedule.length;k++){
 				//if their schedule has an empty spot
@@ -332,9 +254,7 @@ public class Schedule{
 							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
 							System.out.println(s.getID() + ": " + "filled"); //debugging
 							filled=true;
-							
 						}	
-						
 					}
 					if(filled==false){
 						numGaps=numGaps+1;
@@ -350,18 +270,12 @@ public class Schedule{
 		int multiple =0; //placeholder value
 		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
-			//System.out.println("Course size: " + c.getRosterSize() + "\nmaxStudents:" + maxStudents);
 			if(c.getRosterSize()>maxStudents || courseList.size()<maxSpots){
 				quotient = (double)c.getRosterSize()/maxStudents;
 				multiple = (int)(quotient+0.5); //round to nearest int
 				if(multiple>1 || courseList.size()<maxSpots){
 					multiple=2;
 				}	
-					
-						
-				
-				//System.out.println(multiple);
-				
 				for(int k=0; k<multiple-1; k++){
 					courseList.add(i+1, new Course(c.getTeacher(), c.getName(), c.getID()));
 					cCopy = courseList.get(i+1);
@@ -371,18 +285,14 @@ public class Schedule{
 						cCopy.updateRoster(c.getStudent(s));
 					}
 				}	
-				
 			}	
-			
-			
 		}	
 	}
 	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //this method removes the students placed in a course from the other section
 		ArrayList<Student> placed = r;
 		for(int i=0; i<courseList.size();i++){
 			if(courseList.get(i).getID()==idCourse && i!=pos){
-				for(int k=0; k<placed.size(); k++){
-					System.out.println("remove line 231 works");	
+				for(int k=0; k<placed.size(); k++){	
 					courseList.get(i).rosterRemove(placed.get(k));
 					courseList.get(i).updateRoster();
 				}
@@ -417,13 +327,6 @@ public class Schedule{
 	
 	public void findPop(){
 		for(int i=0; i<studentList.size();i++){
-			/*
-			studentList.get(i).getC1().updatePopRating(5);
-			studentList.get(i).getC2().updatePopRating(4);
-			studentList.get(i).getC3().updatePopRating(3);
-			studentList.get(i).getC4().updatePopRating(2);
-			studentList.get(i).getC5().updatePopRating(1);
-			*/
 			for(int k=0;k<coursesPerS;k++){
 				if(studentList.get(i).getCourse(k+1)!=null){
 					studentList.get(i).getCourse(k+1).updatePopRating(coursesPerS-k);
@@ -433,13 +336,6 @@ public class Schedule{
 	}
 	public void findDemand(){
 		for(int i=0; i<studentList.size();i++){
-			/*
-			studentList.get(i).getC1().updateDemand();
-			studentList.get(i).getC2().updateDemand();
-			studentList.get(i).getC3().updateDemand();
-			studentList.get(i).getC4().updateDemand();
-			studentList.get(i).getC5().updateDemand();
-			*/
 			for(int k=0;k<coursesPerS;k++){
 				if(studentList.get(i).getCourse(k+1)!=null){
 					studentList.get(i).getCourse(k+1).updateDemand();
@@ -477,13 +373,6 @@ public class Schedule{
 	}
 	public void loadRoster(){ //uses updateRoster method from Course class to add students to each of their courses' rosters
 		for(int i=0; i<studentList.size();i++){
-			/*
-			studentList.get(i).getC1().updateRoster(studentList.get(i));
-			studentList.get(i).getC2().updateRoster(studentList.get(i));
-			studentList.get(i).getC3().updateRoster(studentList.get(i));
-			studentList.get(i).getC4().updateRoster(studentList.get(i));
-			studentList.get(i).getC5().updateRoster(studentList.get(i));
-			*/	
 			for(int k=0;k<coursesPerS;k++){
 				if(studentList.get(i).getCourse(k+1)!=null){
 					studentList.get(i).getCourse(k+1).updateRoster(studentList.get(i));
@@ -506,15 +395,12 @@ public class Schedule{
 			}
 			System.out.println();	
 		}	
-	
 	}
 	public void calculateOverallConflicts(){
 		conflicts = 0;
 		for(int i=0;i<studentList.size();i++){
-			conflicts+=studentList.get(i).calculateConflictInd();
-				
-		}
-			
+			conflicts+=studentList.get(i).calculateConflictInd();	
+		}	
 	}
 	public void calculateConflictPerStudent(){
 		conflictPerS = (double)conflicts/studentList.size();
@@ -528,13 +414,9 @@ public class Schedule{
 		System.out.println("Number of Conflicts: " + conflicts);
 		System.out.println("Conflicts Per Student: " + conflictPerS);
 		System.out.println("Number of Gaps: " + numGaps);
-		printFree();
-		//printCheckDuplicate();
-		
-		
-		
+		//printFree();
 	}
-	public void printFree(){ //more of a debugging tool as of 2/23
+	public void printFree(){ //more of a debugging tool as of 2/23; still might be needed so I will keep it here
 		int trackerTotal = 0;
 		for(int i=0;i<numTimes;i++){
 			int tracker =0;
@@ -542,61 +424,21 @@ public class Schedule{
 				tracker+=(maxStudents-seniorS[i][k].getRosterSize());
 				
 			}
-		System.out.println("For time " + (i+1) + " there are " + tracker + "spots free");
+		System.out.println("For time " + (i+1) + " there are " + tracker + " spots free");
 		trackerTotal+=tracker;	
 		}
 		System.out.println("There are " + trackerTotal + " spots free total, and there are supposed to be " + (numClassrooms*maxStudents-studentList.size())*numTimes);
 	}
-	public void printCheckDuplicate(){ //debugging
-		boolean isDuplicate = false;
-		for(int i=0;i<maxSpots;i++){
-			for(int k=0; k<maxSpots;k++){
-				if(i!=k && courseList.get(i).getID()==courseList.get(k).getID()){
-					for(int j=0;j<courseList.get(i).getRosterSize();j++){
-						for(int l=0;l<courseList.get(k).getRosterSize();l++){
-							if(courseList.get(i).getStudent(j)==courseList.get(k).getStudent(l)){
-								isDuplicate = true;
-							}	
-						}			
-					}			
-				}				
-			}		
-		}
-		System.out.println("isDuplicate?: " + isDuplicate);
-				
-			
-			
-			
-			
-			
-	}
+	
 	public void printAllRosters(){
 		for(int i=0;i<maxSpots;i++){
 			System.out.print("\nCourse: " + courseList.get(i).getID() + "\n\nRoster:");
 			courseList.get(i).printRosterSimple();
 		}
-			
-		
-		
-		
-			
-		
-		
-		
-		
 	}		
 	public Student getStudent(int i){
 		return studentList.get(i);
 		
 	}	
-		
-		
-				
-			
-			
 }	
-		
-				
-	
-			
 
