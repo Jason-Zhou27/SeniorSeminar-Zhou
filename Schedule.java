@@ -134,32 +134,36 @@ public class Schedule{
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
-			//FOR EACH CLASS: I first remove people from the rosters of classes they cannot attend; then, I make sure each class has 16; then, I remove duplicates
-			if(timeBlock!=-1 &&classroom!=-1){
-				//for each student in the roster...
-				for(int k=0;k<courseList.get(i).getRosterSize();k++){
-					//try to update their schedule w/ the course
-					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
-						courseList.get(i).rosterRemove(k);
-					}
-					courseList.get(i).updateRoster();
+			//for each class
+			for(int k=0;k<courseList.get(i).getRosterSize();k++){
+				//try to update their schedule w/ the course
+				courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i));
+				Course[] s = courseList.get(i).getStudent(k).getSchedule();
+				Course c = courseList.get(i);
+				boolean matched = false;
+				for(int j=0; j<s.length;j++){
+					if(s[j]==c){
+						matched = true;
+					}	
 				}
-				if(courseList.get(i).getRosterSize()>maxStudents){
-					//removeStudents as of right now, I will just truncate; but later, for optimization, the removal of students should be more strategic
-					int numRemove = courseList.get(i).getRosterSize()-maxStudents;
-					
-					for(int k=0;k<numRemove;k++){
-						courseList.get(i).updateRoster(); //updates size
-						courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1);
-						courseList.get(i).rosterRemove();
-					}
-					courseList.get(i).updateRoster();
-				}
-				removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock);
+				if(matched==false){
+					//System.out.println("conflict handling called");
+					courseList.get(i).rosterRemove(k);
+				}		
 			}
+			if(courseList.get(i).getRosterSize()>maxStudents){ //if there are excess students, remove excess students (giving priority to higher ranked choices) --latter not implemented yet as of 3/28
+				//System.out.println("overflow handling called");
+				int numRemove = courseList.get(i).getRosterSize()-maxStudents; //finds how many students to remove
+				for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
+					courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
+					courseList.get(i).rosterRemove(); //removes student from roster
+				}
+			}
+			removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 		}
-		searchDelete();
+		searchDelete(); //deletes students from the rosters of courses they do not take
 	}
+	 //deletes students from the rosters of courses they do not take
 	public void searchDelete(){
 		for(int i=0; i<studentList.size();i++){
 			Course[] s = studentList.get(i).getSchedule();
@@ -171,15 +175,14 @@ public class Schedule{
 					}	
 				}
 				if(matched==false){
-					courseList.get(k).tryRemove(studentList.get(i));
+					courseList.get(k).rosterRemove(studentList.get(i));
 				}		
 			}	
 		}	
 	}	
-	
 	public int[] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
-		int optRow = -2;
-		int optCol = -2;
+		int optRow = -2; //not magic numbers * there is not a -1 row/column, which is why -2 is used (-2 eventually has 1 added to it in another method for intuitive understanding)
+		int optCol = -2; //not magic numbers * there is not a -1 row/colum, which is why -2 is used (-2 eventually has 1 added to it in another method for intuitive understanding)
 		int counter;
 		int fewestConflicts=Integer.MAX_VALUE;
 		int rowMax = numTimes;
@@ -215,22 +218,7 @@ public class Schedule{
 			}	
 		}
 		return free;	
-	}
-	/*
-	public void fillBlankRequests(){
-		System.out.println("fillBlankRequests is being called");
-		for(int i=0;i<studentList.size();i++){
-			Student s = studentList.get(i);
-			if (s.getNumRequests()<coursesPerS){
-				int numFilled = coursesPerS-s.getNumRequests();
-				for(int k=0;k<numFilled;k++){
-					s.addCourseReq(courseList.get(courseList.size()-1-k)); //don't make these people who have not filled out forms compete with those who did
-					System.out.println("I'm GETTING ADDED to fill in the BLANK");
-				}	
-			}		
-		}		
-	}
-	*/		
+	}		
 	public void fillGaps(){
 		boolean filled;
 		Course[] schedule;
@@ -252,7 +240,7 @@ public class Schedule{
 						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
 							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
-							System.out.println(s.getID() + ": " + "filled"); //debugging
+							//System.out.println(s.getID() + ": " + "filled"); //debugging
 							filled=true;
 						}	
 					}
@@ -408,7 +396,7 @@ public class Schedule{
 		
 	}
 	public void printOverview(){
-		printAllRosters();
+		//printAllRosters();
 		calculateOverallConflicts();
 		calculateConflictPerStudent();
 		System.out.println("Number of Conflicts: " + conflicts);
@@ -439,6 +427,6 @@ public class Schedule{
 	public Student getStudent(int i){
 		return studentList.get(i);
 		
-	}	
+	}
+	
 }	
-

@@ -157,5 +157,10 @@ created debugging tools (prints)
 
 I think the best way to resolve this issue is to look at case by case basis. I will analyze student 6 to see where the issue originates from.
 So I tried to debug by analyzing student 6...but I realized that I can just see if this issue exists by resolving it with a searchDelete() method.
+This searchDelete() method will look through all the rosters for each student and if the student does not have that course in his/her schedule, he/she will be removed.
 Rather than finding the source of error (which has taken me days upon days) and fixing it there, I can just create a new method that will resolve the issue.
 Guess what? it works!
+Here's the thing though: eliminating students from rosters of courses they do not take may not be most optimized; I might still look into the underlying issue;
+neverthless, I've done some effective eliminating of the issue.
+
+I did quite a bit of housekeeping today; I eliminated old debugging tools that were not needed/old lines. 

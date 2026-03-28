@@ -54,21 +54,13 @@ public class Student {
 			return true;
 			
 		} else {
-			return false;
-			
-		}		
-		
-		
+			return false;	
+		}			
 	}
-	public boolean updateSchedule(int t, Course c){ //it will update schedule and will return boolean for confirmation
-		if(studentSchedule[t]==null){
+	public void updateSchedule(int t, Course c){ //it will update schedule and will return boolean for confirmation
+		if(studentSchedule[t]==null){ //maybe scrutinize this line right here
 			studentSchedule[t]=c;
-			return true;
-		}
-		else {
-			return false;
-			
-		}		
+		}				
 	}
 	public void updateScheduleDelete(int t){ //it will delete course at that timeSlot
 		studentSchedule[t]=null;	
@@ -102,8 +94,6 @@ public class Student {
 	}
 	public Course[] getSchedule(){
 		return studentSchedule;
-		
-		
 	}					
 				
 	
@@ -137,12 +127,7 @@ public class Student {
 				counter++;
 				
 			}		
-			
 		}
-		return counter;	
-		
-		
+		return counter;		
 	}		
-
-
 }

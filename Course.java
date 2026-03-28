@@ -17,14 +17,6 @@ public class Course {
 		courseName = n;
 		courseID = id;
 	}
-	public Course(String t, int id){
-		courseTeacher = t;
-		courseID=id;
-	}
-	//DNE constructor	
-	public Course(String n){
-		courseName = n;
-	}
 	//methods
 	public int getID(){
 		return courseID;
@@ -48,13 +40,11 @@ public class Course {
 		return priorityRating;
 	}
 	public void updateRoster(Student s){
-		
 		roster.add(s);
 		rosterSize=roster.size();
 	}
 	public void updateRoster(){
 		rosterSize=roster.size();
-		
 	}	
 	public int getRosterSize(){
 		updateRoster();
@@ -62,6 +52,7 @@ public class Course {
 	}
 	public void rosterRemove(int rosterPos){ //overloaded
 		roster.remove(rosterPos);
+		rosterSize=roster.size();
 	}
 	//following setters and getters are used to copy courses
 	public void setDemand(int d){
@@ -80,6 +71,7 @@ public class Course {
 	}
 	public void rosterRemove(){//overloaded
 		roster.remove(roster.size()-1);
+		rosterSize=roster.size();
 		
 	}
 	public void rosterRemove(Student s){
@@ -88,21 +80,11 @@ public class Course {
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
 				roster.remove(i);
-				found=true;
+				rosterSize=roster.size();
 				
 			}	
 			
 		}
-		if(found==true){
-			System.out.println("removed");
-			
-			
-		}
-		else {
-			System.out.println("notfound & roster size is " + roster.size() + " and student " + s.getName() + " is trying to get removed from" + courseName);
-				
-		}			
-		
 	}	
 	public ArrayList<Student> getRoster(){
 		return roster;
@@ -119,8 +101,6 @@ public class Course {
 		cToString = cToString + "student demand: " + studentDemand + "\n";
 		cToString = cToString + "priority rating: " + priorityRating + "\n";
 		return cToString;
-		
-		
 	}
 	public void printRoster(){
 		for(int i=0;i<roster.size();i++){
@@ -131,20 +111,5 @@ public class Course {
 		for(int i=0;i<roster.size();i++){
 			System.out.println(roster.get(i).getID());	
 		}	
-	}
-	public void tryRemove(Student s){
-		for(int i=0; i<roster.size();i++){
-			if(roster.get(i)==s){
-				roster.remove(i);
-				
-			}	
-			
-			
-		}	
-		
-		
-		
 	}				
-
-
 }

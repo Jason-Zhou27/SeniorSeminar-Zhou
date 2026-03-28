@@ -7,8 +7,6 @@ public class Main {
 		s1.fillGaps();
 		//s1.printStudents();
 		//s1.printCourses();
-
-		
 		//System.out.println(s1.getStudent(5).toString());
 		s1.printSeniorSeminar();
 		s1.printOverview();
