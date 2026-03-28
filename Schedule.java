@@ -143,7 +143,7 @@ public class Schedule{
 		findDemand();
 		assignPriority();
 		sortCourses();
-		fillBlankRequests();
+		//fillBlankRequests();
 		loadRoster();
 		duplicateCourses();
 		//Twyford's reference schedule on the whiteboad 3/13; it's difficult to integrate into my program
@@ -236,6 +236,7 @@ public class Schedule{
 		
 		
 	}
+	/*
 	public void fillBlankRequests(){
 		System.out.println("fillBlankRequests is being called");
 		for(int i=0;i<studentList.size();i++){
@@ -249,23 +250,29 @@ public class Schedule{
 			}		
 		}		
 		
-	}		
+	}
+	*/		
 	public void fillGaps(){
 		boolean filled;
 		Course[] schedule;
 		numGaps=0;
+		//for each student
 		for(int i=0; i<studentList.size();i++){
 			Student s = studentList.get(i);
 			schedule = s.getSchedule();
+			//for each block in their schedule
 			for(int k=0;k<schedule.length;k++){
+				//if their schedule has an empty spot
 				if(schedule[k]==null){
 					System.out.println("there's a spot!");
+					//set a boolean filled to convey that the block is not filled
 					filled = false;
 					int timeBlock = k+1;
+					//search the courses at that time and see if there is availability
 					for(int c=0;c<numClassrooms && filled==false;c++){ //c for column
 						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents){
-							seniorS[timeBlock-1][c].updateRoster(s);
-							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]);
+							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
+							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
 							filled=true;
 							
 						}	
