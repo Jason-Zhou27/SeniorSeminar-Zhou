@@ -153,6 +153,8 @@ public class Schedule{
 		int[][] seniorSID = {{1,9,14,5,115},{2,6,10,12,116},{15,3,11,4,107},{16,18,13,101,109},{7,8,17,102,106}};  
 		//System.out.println("Course List Size is: " + courseList.size());
 		//printCourses();
+		
+		//for how many courses I can place...
 		for(int i=0;i<maxSpots;i++){
 			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
@@ -161,7 +163,9 @@ public class Schedule{
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
 			//FOR EACH CLASS: I first remove people from the rosters of classes they cannot attend; then, I make sure each class has 16; then, I remove duplicates
 			if(timeBlock!=-1 &&classroom!=-1){
+				//for each student in the roster...
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
+					//try to update their schedule w/ the course
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						courseList.get(i).rosterRemove(k);
 						//conflicts++; I changed my method of calculating conflicts
@@ -334,14 +338,14 @@ public class Schedule{
 					courseList.get(i).rosterRemove(placed.get(k));
 					courseList.get(i).updateRoster();
 				}
-				courseList.get(i).updateRoster();	
+				courseList.get(i).updateRoster(); //extra doesn't hurt lol	
 			}	
 		}	
 	}	
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
-			return new Course("NA");
+			return null;
 		}	
 		for(int i=0; i<courseList.size(); i++){
 			int currentID = courseList.get(i).getID();
@@ -349,7 +353,7 @@ public class Schedule{
 				return courseList.get(i);		
 			}	
 		}
-		return new Course("DNE");	
+		return null;	
 	}
 	public void printStudents(){
 		for (int i=0;i<studentList.size();i++){
@@ -373,7 +377,9 @@ public class Schedule{
 			studentList.get(i).getC5().updatePopRating(1);
 			*/
 			for(int k=0;k<coursesPerS;k++){
-				studentList.get(i).getCourse(k+1).updatePopRating(coursesPerS-k);
+				if(studentList.get(i).getCourse(k+1)!=null){
+					studentList.get(i).getCourse(k+1).updatePopRating(coursesPerS-k);
+				}
 			}
 		}	
 	}
@@ -387,7 +393,9 @@ public class Schedule{
 			studentList.get(i).getC5().updateDemand();
 			*/
 			for(int k=0;k<coursesPerS;k++){
-				studentList.get(i).getCourse(k+1).updateDemand();
+				if(studentList.get(i).getCourse(k+1)!=null){
+					studentList.get(i).getCourse(k+1).updateDemand();
+				}
 			}
 		}	
 	}
@@ -429,7 +437,9 @@ public class Schedule{
 			studentList.get(i).getC5().updateRoster(studentList.get(i));
 			*/	
 			for(int k=0;k<coursesPerS;k++){
-				studentList.get(i).getCourse(k+1).updateRoster(studentList.get(i));
+				if(studentList.get(i).getCourse(k+1)!=null){
+					studentList.get(i).getCourse(k+1).updateRoster(studentList.get(i));
+				}
 			}
 		}	
 	}

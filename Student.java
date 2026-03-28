@@ -125,21 +125,23 @@ public class Student {
 		int conflictCounter = 0;
 		boolean placed;
 		for(int r=0;r<courseRequest.size();r++){ //r for request
-			placed=false;
-			
-			for(int s=0;s<studentSchedule.length;s++){ //s for schedule
+			if(courseRequest.get(r)!=null){
+				placed=false;
 				
-				if(studentSchedule[s]!=null){
-					if((courseRequest.get(r).getID()==studentSchedule[s].getID())){
-						placed=true;	
+				for(int s=0;s<studentSchedule.length;s++){ //s for schedule
+					
+					if(studentSchedule[s]!=null){
+						if((courseRequest.get(r).getID()==studentSchedule[s].getID())){
+							placed=true;	
+						}
+								
 					}
-							
+		
 				}
-	
-			}
-			if(placed==false){
-				conflictCounter++;
-				
+				if(placed==false){
+					conflictCounter++;
+					
+				}
 			}		
 		}
 		return conflictCounter;	

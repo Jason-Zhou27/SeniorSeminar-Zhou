@@ -125,3 +125,9 @@ a student can be placed into let's say 5 course rosters, but if his schedule is 
 
 ok, so how can a student be placed into rosters but not have his/her schedule updated correctly?
 it must be the placeStudents, right? I will check that.
+
+the question I'm trying to tackle right now is when do I update the students' schedules when I place the courses? do I even do that in the placeCourses section?
+so I actually do that
+
+sidenote: I adjusted the getCourse method to return null as a course instead of some placeholder course--no change I think NEVERMIND--I lowered conflicts per student to 1.5
+	same amount of # free total
