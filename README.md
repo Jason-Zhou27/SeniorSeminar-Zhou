@@ -131,10 +131,24 @@ so I actually do that
 
 sidenote: I adjusted the getCourse method to return null as a course instead of some placeholder course--no change I think NEVERMIND--I lowered conflicts per student to 1.5
 	same amount of # free total
+	
 alright, so I think my intuition was wrong--I think these students have their schedules updated. how do I know? well, I looked at case study student 6.
 Student 6 had a full schedule when I ran the toString on him, and the courses in his schedule were all those that he requested. The extra 2 courses
 in whose rosters he appeared in were courses he DID NOT request. What does this phenomenon tell us? fillGaps or maybe another method somehow adds students with full
 schedules to other full courses
+
 	nevermind, this statement is wrong; I incorrectly referenced the spreadsheet
+	
 I think my intuition was correct: for case study student 6, his schedule shows that he was placed into most (4) of his choices' rosters, but his schedule didn't update correctly
 (in fact, he only got 2 in his schedule); therefore, fillGaps added 3 more courses
+
+please see my spreadsheet linked above to see more work.
+
+I have a new question: could those courses whose rosters he had been added to even fit in his schedule? 
+ok so he wanted 18 and 14 (both at time block 1) but got neither added to his schedule--he could have gotten removed from 1 of them, and when it was removed,
+the "null" that was typed in may not have been the same null that had been originated
+
+also I have been thinking and I realized that my program takes into account ranked choice indirectly to satisfy the collective good (to address individual good
+I will need to look more at the removal of students when there are excess)
+
+created debugging tools (prints)

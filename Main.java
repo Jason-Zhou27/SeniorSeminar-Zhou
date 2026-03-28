@@ -14,12 +14,13 @@ public class Main {
 		*/
 		s1.placeCourses();
 		s1.fillGaps();
-		s1.printStudents();
-		s1.printCourses();
-		s1.printSeniorSeminar();
+		//s1.printStudents();
+		//s1.printCourses();
+		//s1.printSeniorSeminar();
 
-		s1.printOverview();
+		//s1.printOverview();
 		System.out.println(s1.getStudent(5).toString());
+		s1.printSeniorSeminar();
 
 		
 	

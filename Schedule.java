@@ -167,6 +167,8 @@ public class Schedule{
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					//try to update their schedule w/ the course
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
+						
+						System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "was removed from " + courseList.get(i).getName() + " b/c of conflict");
 						courseList.get(i).rosterRemove(k);
 						//conflicts++; I changed my method of calculating conflicts
 					}
@@ -179,7 +181,9 @@ public class Schedule{
 					for(int k=0;k<numRemove;k++){
 						courseList.get(i).updateRoster(); //updates size
 						courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1);
+						System.out.println("Student " + courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).getID() + " was removed b/c of overflow");
 						courseList.get(i).rosterRemove();
+			
 						
 						
 					}
