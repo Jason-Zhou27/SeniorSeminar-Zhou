@@ -259,16 +259,20 @@ public class Schedule{
 	public void fillGaps(){
 		boolean filled;
 		Course[] schedule;
+		Student s;
 		numGaps=0;
 		//for each student
 		for(int i=0; i<studentList.size();i++){
-			Student s = studentList.get(i);
+			s = studentList.get(i);
 			schedule = s.getSchedule();
+			if(s.getID()==6){ //debugging
+				System.out.println(s.toString());
+				
+			}
 			//for each block in their schedule
 			for(int k=0;k<schedule.length;k++){
 				//if their schedule has an empty spot
 				if(schedule[k]==null){
-					System.out.println("there's a spot!");
 					//set a boolean filled to convey that the block is not filled
 					filled = false;
 					int timeBlock = k+1;
@@ -277,6 +281,7 @@ public class Schedule{
 						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
 							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
+							System.out.println(s.getID() + ": " + "filled"); //debugging
 							filled=true;
 							
 						}	
@@ -284,13 +289,7 @@ public class Schedule{
 					}
 					if(filled==false){
 						numGaps=numGaps+1;
-						System.out.println("not filled!");
-					} else {
-						System.out.println("filled!");
-						
-					}		
-					
-					
+					}
 				}	
 			}
 		}	
@@ -537,7 +536,10 @@ public class Schedule{
 		
 		
 	}		
-						
+	public Student getStudent(int i){
+		return studentList.get(i);
+		
+	}	
 		
 		
 				

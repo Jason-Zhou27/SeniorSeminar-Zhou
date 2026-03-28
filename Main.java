@@ -19,6 +19,7 @@ public class Main {
 		s1.printSeniorSeminar();
 
 		s1.printOverview();
+		System.out.println(s1.getStudent(5).toString());
 
 		
 	

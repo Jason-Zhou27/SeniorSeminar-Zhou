@@ -131,3 +131,10 @@ so I actually do that
 
 sidenote: I adjusted the getCourse method to return null as a course instead of some placeholder course--no change I think NEVERMIND--I lowered conflicts per student to 1.5
 	same amount of # free total
+alright, so I think my intuition was wrong--I think these students have their schedules updated. how do I know? well, I looked at case study student 6.
+Student 6 had a full schedule when I ran the toString on him, and the courses in his schedule were all those that he requested. The extra 2 courses
+in whose rosters he appeared in were courses he DID NOT request. What does this phenomenon tell us? fillGaps or maybe another method somehow adds students with full
+schedules to other full courses
+	nevermind, this statement is wrong; I incorrectly referenced the spreadsheet
+I think my intuition was correct: for case study student 6, his schedule shows that he was placed into most (4) of his choices' rosters, but his schedule didn't update correctly
+(in fact, he only got 2 in his schedule); therefore, fillGaps added 3 more courses
