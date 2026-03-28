@@ -166,12 +166,27 @@ public class Schedule{
 				//for each student in the roster...
 				for(int k=0;k<courseList.get(i).getRosterSize();k++){
 					//try to update their schedule w/ the course
+					if(courseList.get(i).getStudent(k).getID()==6){
+						System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "is placed in  " + courseList.get(i).getName());
+					}
+					Student jsRemoved = courseList.get(i).getStudent(k);
 					if(courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 						
-						System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "was removed from " + courseList.get(i).getName() + " b/c of conflict");
+						if(courseList.get(i).getStudent(k).getID()==6){
+							System.out.println("Student " + courseList.get(i).getStudent(k).getID() + "was removed from " + courseList.get(i).getName() + " b/c of conflict");
+							if(jsRemoved.getID()==6){
+								System.out.println("Student " + jsRemoved.toString());
+							}
+						}
 						courseList.get(i).rosterRemove(k);
 						//conflicts++; I changed my method of calculating conflicts
 					}
+					else {
+						if(jsRemoved.getID()==6){
+							System.out.println("Student " + jsRemoved.toString());
+						}
+						
+					}	
 					courseList.get(i).updateRoster();
 				}
 				if(courseList.get(i).getRosterSize()>maxStudents){
@@ -195,7 +210,37 @@ public class Schedule{
 				
 			}
 		}
+		searchDelete();
 	}
+	public void searchDelete(){
+		for(int i=0; i<studentList.size();i++){
+			Course[] s = studentList.get(i).getSchedule();
+			for(int k=0; k<maxSpots;k++){
+				boolean matched = false;
+				for(int j=0; j<s.length;j++){
+					if(s[j]==courseList.get(k)){
+						matched = true;
+					}	
+				}
+				if(matched==false){
+					courseList.get(k).tryRemove(studentList.get(i));
+				}		
+				
+				
+				
+			}	
+			
+			
+			
+			
+			
+			
+		}	
+		
+		
+		
+		
+	}	
 	
 	public int[] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
 		int optRow = -2;
@@ -484,7 +529,7 @@ public class Schedule{
 		System.out.println("Conflicts Per Student: " + conflictPerS);
 		System.out.println("Number of Gaps: " + numGaps);
 		printFree();
-		printCheckDuplicate();
+		//printCheckDuplicate();
 		
 		
 		
@@ -504,12 +549,12 @@ public class Schedule{
 	}
 	public void printCheckDuplicate(){ //debugging
 		boolean isDuplicate = false;
-		for(int i=0;i<courseList.size();i++){
-			for(int k=0; k<courseList.size();k++){
+		for(int i=0;i<maxSpots;i++){
+			for(int k=0; k<maxSpots;k++){
 				if(i!=k && courseList.get(i).getID()==courseList.get(k).getID()){
 					for(int j=0;j<courseList.get(i).getRosterSize();j++){
 						for(int l=0;l<courseList.get(k).getRosterSize();l++){
-							if(courseList.get(i).getStudent(j)==courseList.get(k).getStudent(k)){
+							if(courseList.get(i).getStudent(j)==courseList.get(k).getStudent(l)){
 								isDuplicate = true;
 							}	
 						}			

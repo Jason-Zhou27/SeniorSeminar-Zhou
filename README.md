@@ -152,3 +152,10 @@ also I have been thinking and I realized that my program takes into account rank
 I will need to look more at the removal of students when there are excess)
 
 created debugging tools (prints)
+
+3.28.2026 
+
+I think the best way to resolve this issue is to look at case by case basis. I will analyze student 6 to see where the issue originates from.
+So I tried to debug by analyzing student 6...but I realized that I can just see if this issue exists by resolving it with a searchDelete() method.
+Rather than finding the source of error (which has taken me days upon days) and fixing it there, I can just create a new method that will resolve the issue.
+Guess what? it works!

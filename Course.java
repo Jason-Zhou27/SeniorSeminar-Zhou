@@ -57,7 +57,8 @@ public class Course {
 		
 	}	
 	public int getRosterSize(){
-		return rosterSize;
+		updateRoster();
+		return roster.size();
 	}
 	public void rosterRemove(int rosterPos){ //overloaded
 		roster.remove(rosterPos);
@@ -130,7 +131,20 @@ public class Course {
 		for(int i=0;i<roster.size();i++){
 			System.out.println(roster.get(i).getID());	
 		}	
-	}			
+	}
+	public void tryRemove(Student s){
+		for(int i=0; i<roster.size();i++){
+			if(roster.get(i)==s){
+				roster.remove(i);
+				
+			}	
+			
+			
+		}	
+		
+		
+		
+	}				
 
 
 }
