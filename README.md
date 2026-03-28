@@ -107,3 +107,21 @@ because of the infrastructure of my program , it is exceptionally difficult to i
 achieved the objective of this activity earlier: I have determined that nearly all/all can get at least 3 of their requested schedules. I am still encountering the issue of gaps and
 making some progress in debugging. I think to fix this issue, I must devote a long stretch of time to debugging--simply debugging in small bits is ineffective and inefficient. 
 Over Spring Break, I hope to finish the project.
+
+3.27.2026
+
+As I work to debug the issue, I will make some notes here to help myself:
+ok, so for me to debug, I want to limit as many sources of error as possible; thus, right now, I will take out fillBlankRequests (it's kind of redundant
+anyways as it has the same function as fillGaps)
+for students to be placed in more courses than they should...
+issue with fillGaps? no
+I've noticed that those with >5 courses are not placed into the same courses --> thus, I don't think the error comes from duplicating courses,
+copying rosters, or removing duplicate students...so for right now, I will eliminate those from scrutiny
+
+I've so far deduced that fillGaps is not the issue by looking at the code--but a puzzling issue comes up. How can a student get courses he/she
+never even picked?--that has to do somehow with fillGaps, right? b/c no other method deals with inserting courses that a student has not requested
+BUT WAIT--what if fillGaps is acting correctly and putting these students in new courses BECAUSE THE STUDENT'S SCHEDULE WASN'T UPDATED PROPERLY TO BEGIN WITH!
+a student can be placed into let's say 5 course rosters, but if his schedule is only updated with 3 courses, fillGaps will add him to 2 additional courses.
+
+ok, so how can a student be placed into rosters but not have his/her schedule updated correctly?
+it must be the placeStudents, right? I will check that.

@@ -269,8 +269,8 @@ public class Schedule{
 					filled = false;
 					int timeBlock = k+1;
 					//search the courses at that time and see if there is availability
-					for(int c=0;c<numClassrooms && filled==false;c++){ //c for column
-						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents){
+					for(int c=0;c<numClassrooms;c++){ //c for column
+						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
 							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
 							filled=true;
@@ -333,19 +333,11 @@ public class Schedule{
 					System.out.println("remove line 231 works");	
 					courseList.get(i).rosterRemove(placed.get(k));
 					courseList.get(i).updateRoster();
-					
-					
 				}
 				courseList.get(i).updateRoster();	
-				
-				
 			}	
 		}	
-		
-		
-		
 	}	
-				
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
@@ -385,7 +377,6 @@ public class Schedule{
 			}
 		}	
 	}
-	
 	public void findDemand(){
 		for(int i=0; i<studentList.size();i++){
 			/*
@@ -398,10 +389,8 @@ public class Schedule{
 			for(int k=0;k<coursesPerS;k++){
 				studentList.get(i).getCourse(k+1).updateDemand();
 			}
-			
 		}	
 	}
-	
 	public void assignPriority(){ //priority rating for courses are used to determine order for placement
 		for(int i=0; i<courseList.size();i++){
 			courseList.get(i).updatePriorityRating();
