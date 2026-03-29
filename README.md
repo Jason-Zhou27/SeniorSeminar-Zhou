@@ -169,4 +169,8 @@ I did quite a bit of housekeeping today; I eliminated old debugging tools that w
 
 Today, I made sure that students got choices based on their ranks. I initially had used only ranks to set the common good (what courses to choose). However,
 running this change allowed me to see a new issue: the last course could sometimes not be placed because the teacher was not available. Therefore, I adjusted
-the placeCourses method to change that last course if needed.
+the placeCourses method to change that last course if needed. I made sure also to clean up placeCourses() method by separating it into placeCourses() and
+studentHandling(). I changed the calculation of conflicts per student to be more accurate (not counting those who did not even submit course requests). I made
+the program more judicious in judging whether a course should be duplicated by looking at opportunity cost of duplicating that course. I made a debugging tool
+with print statements to see where students are not getting properly deleted from. By looking at the results of this debugging tool, I'm guessing that I can reduce the
+conflicts by more than 10 if I fix this issue.

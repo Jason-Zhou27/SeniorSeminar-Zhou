@@ -83,6 +83,17 @@ public class Course {
 			
 		}
 		rosterSize=roster.size();
+	}
+	public void rosterRemove(Student s, int useless){
+		//search for student object;if found, remove
+		for(int i=0;i<roster.size();i++){
+			if(roster.get(i)==s){
+				System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
+				roster.remove(i);
+			}	
+			
+		}
+		rosterSize=roster.size();
 	}	
 	public ArrayList<Student> getRoster(){
 		return roster;
@@ -106,6 +117,7 @@ public class Course {
 		}	
 	}
 	public void printRosterSimple(){
+		System.out.println(courseName);
 		for(int i=0;i<roster.size();i++){
 			System.out.println(roster.get(i).getID());	
 		}	

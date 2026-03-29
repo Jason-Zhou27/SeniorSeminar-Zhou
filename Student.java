@@ -94,7 +94,19 @@ public class Student {
 	}
 	public Course[] getSchedule(){
 		return studentSchedule;
-	}					
+	}
+	public boolean madeRequest(){
+		for(int i=0;i<courseRequest.size();i++){
+			if(courseRequest.get(i)!=null){
+				return true;
+			}	
+			
+			
+		}
+		return false;	
+		
+		
+	}						
 				
 	
 	//setters

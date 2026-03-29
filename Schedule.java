@@ -144,11 +144,11 @@ public class Schedule{
 				
 			}	
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
-			loadStudents(i, timeBlock, classroom);
+			studentHandling(i, timeBlock, classroom);
 		}
 		searchDelete(); //deletes students from the rosters of courses they do not take
 	}
-	public void loadStudents(int i, int timeBlock, int classroom){
+	public void studentHandling(int i, int timeBlock, int classroom){
 		//for each class
 			for(int k=0;k<courseList.get(i).getRosterSize();k++){
 				//try to update their schedule w/ the course
@@ -162,15 +162,20 @@ public class Schedule{
 					}	
 				}
 				if(matched==false){
-					//System.out.println("conflict handling called");
-					courseList.get(i).rosterRemove(k);
+					//c.printRosterSimple();
+					//System.out.println(courseList.get(i).getStudent(k).getName() + " is removed from " + courseList.get(i).getName() + " because of conflict");
+					c.rosterRemove(courseList.get(i).getStudent(k));
+					//c.printRosterSimple();
 				}		
 			}
 			int numRemove = courseList.get(i).getRosterSize()-maxStudents; //finds how many students to remove
 			for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
 				Student studentRemove = studentRemove(courseList.get(i));
+				//System.out.println(studentRemove.getName() + " is removed from " + courseList.get(i).getName() + " because of overflow");
 				studentRemove.updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
+				//courseList.get(i).printRosterSimple();
 				courseList.get(i).rosterRemove(studentRemove); //removes student from roster
+				//courseList.get(i).printRosterSimple();
 			}
 			removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}	
@@ -187,7 +192,6 @@ public class Schedule{
 			}	
 		}
 		return toRemove;	
-	
 	}	
 	 //deletes students from the rosters of courses they do not take
 	public void searchDelete(){
@@ -197,11 +201,12 @@ public class Schedule{
 				boolean matched = false;
 				for(int j=0; j<s.length;j++){
 					if(s[j]==courseList.get(k)){
+						System.out.println("It's A MATCH");
 						matched = true;
 					}	
 				}
 				if(matched==false){
-					courseList.get(k).rosterRemove(studentList.get(i));
+					courseList.get(k).rosterRemove(studentList.get(i),i);
 				}		
 			}	
 		}	
@@ -281,13 +286,29 @@ public class Schedule{
 	public void duplicateCourses(){
 		Course c;
 		Course cCopy;
-		double quotient=0.0;
+		int fit = 0;
 		int multiple =0; //placeholder value
 		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
 			if(c.getRosterSize()>maxStudents || courseList.size()<maxSpots*maxSections){
-				quotient = (double)c.getRosterSize()/maxStudents;
-				multiple = (int)(quotient+0.5); //round to nearest int
+				fit = c.getRosterSize()/maxStudents;
+				int overflow = c.getRosterSize()-fit*maxStudents;
+				//comparing to "what could have been" to see if duplication is worth it
+				int compared;
+				if(courseList.size()<maxSpots){
+					compared = courseList.size()-1;	
+				}
+				else {
+					compared = maxSpots-1;
+					
+				}		
+				if(overflow>courseList.get(compared).getRosterSize()){
+					multiple=fit+1;
+				}
+				else {
+					multiple=fit;
+					
+				}		
 				if(multiple>1 || courseList.size()<maxSpots*maxSections){
 					multiple=2;
 				}	
@@ -418,9 +439,14 @@ public class Schedule{
 		}	
 	}
 	public void calculateConflictPerStudent(){
-		conflictPerS = (double)conflicts/studentList.size();
-		
-		
+		//not all students made requests
+		int counter=0;
+		for(int i=0; i<studentList.size();i++){
+			if(studentList.get(i).madeRequest()==true){
+				counter++;
+			}
+		}	
+		conflictPerS = (double)conflicts/counter;
 	}
 	public void printOverview(){
 		//printAllRosters();
