@@ -18,6 +18,7 @@ public class Schedule{
 	private int numClassrooms;
 	private int maxStudents;
 	private int maxSpots;
+	private int maxSections;
 	
 	//effectiveness values
 	private int conflicts = 0;
@@ -25,12 +26,13 @@ public class Schedule{
 	private int numGaps;
 	
 	//constructors
-	public Schedule(int nT, int nCPS, int nC, int mS){
+	public Schedule(int nT, int nCPS, int nC, int mS, int mSx){
 		numTimes = nT;
 		coursesPerS = nCPS;
 		maxStudents = mS;
 		numClassrooms = nC;
 		maxSpots=nT*nC;
+		maxSections = mSx;
 		Student.setCoursesPerStudent(coursesPerS);
 		readFileCourse();
 		readFileStudent();
@@ -133,8 +135,21 @@ public class Schedule{
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
+			while(timeBlock==-1 && classroom==-1){
+				System.out.println("stuck");
+				courseList.remove(i);
+				cPlacement = findOptimalPlace(courseList.get(i));
+				timeBlock = cPlacement[0]+1; //time in 2d array
+				classroom = cPlacement[1]+1; //classroom in 2d array
+				
+			}	
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
-			//for each class
+			loadStudents(i, timeBlock, classroom);
+		}
+		searchDelete(); //deletes students from the rosters of courses they do not take
+	}
+	public void loadStudents(int i, int timeBlock, int classroom){
+		//for each class
 			for(int k=0;k<courseList.get(i).getRosterSize();k++){
 				//try to update their schedule w/ the course
 				courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i));
@@ -151,18 +166,29 @@ public class Schedule{
 					courseList.get(i).rosterRemove(k);
 				}		
 			}
-			if(courseList.get(i).getRosterSize()>maxStudents){ //if there are excess students, remove excess students (giving priority to higher ranked choices) --latter not implemented yet as of 3/28
-				//System.out.println("overflow handling called");
-				int numRemove = courseList.get(i).getRosterSize()-maxStudents; //finds how many students to remove
-				for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
-					courseList.get(i).getStudent(courseList.get(i).getRosterSize()-1).updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
-					courseList.get(i).rosterRemove(); //removes student from roster
-				}
+			int numRemove = courseList.get(i).getRosterSize()-maxStudents; //finds how many students to remove
+			for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
+				Student studentRemove = studentRemove(courseList.get(i));
+				studentRemove.updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
+				courseList.get(i).rosterRemove(studentRemove); //removes student from roster
 			}
 			removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock); //removes student from the same courses (just diff sections)
+	}	
+	public Student studentRemove(Course c){
+		ArrayList<Student> r = c.getRoster();
+		int highest=r.get(0).getRanking(c);
+		Student toRemove = r.get(0);
+		int studentRanking;
+		for(int i=0;i<r.size();i++){
+			studentRanking = r.get(i).getRanking(c);
+			if(studentRanking>highest){
+				highest = studentRanking;
+				toRemove = r.get(i);	
+			}	
 		}
-		searchDelete(); //deletes students from the rosters of courses they do not take
-	}
+		return toRemove;	
+	
+	}	
 	 //deletes students from the rosters of courses they do not take
 	public void searchDelete(){
 		for(int i=0; i<studentList.size();i++){
@@ -199,6 +225,7 @@ public class Schedule{
 							}
 						}
 						if(counter<fewestConflicts){
+
 							fewestConflicts=counter;
 							optRow=row;
 							optCol=col;
@@ -258,10 +285,10 @@ public class Schedule{
 		int multiple =0; //placeholder value
 		for(int i=0;i<courseList.size();i=i+multiple){
 			c = courseList.get(i);
-			if(c.getRosterSize()>maxStudents || courseList.size()<maxSpots){
+			if(c.getRosterSize()>maxStudents || courseList.size()<maxSpots*maxSections){
 				quotient = (double)c.getRosterSize()/maxStudents;
 				multiple = (int)(quotient+0.5); //round to nearest int
-				if(multiple>1 || courseList.size()<maxSpots){
+				if(multiple>1 || courseList.size()<maxSpots*maxSections){
 					multiple=2;
 				}	
 				for(int k=0; k<multiple-1; k++){

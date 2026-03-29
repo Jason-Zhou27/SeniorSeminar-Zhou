@@ -164,3 +164,9 @@ Here's the thing though: eliminating students from rosters of courses they do no
 neverthless, I've done some effective eliminating of the issue.
 
 I did quite a bit of housekeeping today; I eliminated old debugging tools that were not needed/old lines. 
+
+3.29.2026
+
+Today, I made sure that students got choices based on their ranks. I initially had used only ranks to set the common good (what courses to choose). However,
+running this change allowed me to see a new issue: the last course could sometimes not be placed because the teacher was not available. Therefore, I adjusted
+the placeCourses method to change that last course if needed.

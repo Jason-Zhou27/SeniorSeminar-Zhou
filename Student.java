@@ -129,5 +129,13 @@ public class Student {
 			}		
 		}
 		return counter;		
-	}		
+	}
+	public int getRanking(Course c){
+		for(int i=0;i<courseRequest.size();i++){
+			if(c==courseRequest.get(i)){
+				return i+1;
+			}	
+		}
+		return -1;	
+	}			
 }

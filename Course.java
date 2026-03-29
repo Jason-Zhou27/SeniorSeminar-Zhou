@@ -76,15 +76,13 @@ public class Course {
 	}
 	public void rosterRemove(Student s){
 		//search for student object;if found, remove
-		boolean found = false;
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
 				roster.remove(i);
-				rosterSize=roster.size();
-				
 			}	
 			
 		}
+		rosterSize=roster.size();
 	}	
 	public ArrayList<Student> getRoster(){
 		return roster;
