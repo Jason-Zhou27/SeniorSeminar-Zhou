@@ -174,3 +174,9 @@ studentHandling(). I changed the calculation of conflicts per student to be more
 the program more judicious in judging whether a course should be duplicated by looking at opportunity cost of duplicating that course. I made a debugging tool
 with print statements to see where students are not getting properly deleted from. By looking at the results of this debugging tool, I'm guessing that I can reduce the
 conflicts by more than 10 if I fix this issue.
+
+
+4.1.2026
+
+I tried debugging the issue of students not being deleted from rosters by talking to Mr. Twyford. I cleaned up some of the code to be more concise. I did not make significant
+progress.

@@ -76,18 +76,37 @@ public class Course {
 	}
 	public void rosterRemove(Student s){
 		//search for student object;if found, remove
+		boolean found = false;
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
 				roster.remove(i);
+				found = true;
 			}	
 			
 		}
+		if(found==false){
+			//System.out.println("ERROR");
+			
+			
+		}	
 		rosterSize=roster.size();
+	}
+	public boolean rosterFind(Student s){
+		//search for student object;if found, remove
+		boolean found = false;
+		for(int i=0;i<roster.size();i++){
+			if(roster.get(i)==s){
+				return true;
+			}	
+			
+		}
+		return false;
 	}
 	public void rosterRemove(Student s, int useless){
 		//search for student object;if found, remove
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
+				//System.out.println(s.toString());
 				System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
 				roster.remove(i);
 			}	

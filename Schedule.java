@@ -136,7 +136,6 @@ public class Schedule{
 			int timeBlock = cPlacement[0]+1; //time in 2d array
 			int classroom = cPlacement[1]+1; //classroom in 2d array
 			while(timeBlock==-1 && classroom==-1){
-				System.out.println("stuck");
 				courseList.remove(i);
 				cPlacement = findOptimalPlace(courseList.get(i));
 				timeBlock = cPlacement[0]+1; //time in 2d array
@@ -150,11 +149,11 @@ public class Schedule{
 	}
 	public void studentHandling(int i, int timeBlock, int classroom){
 		//for each class
+			Course c = courseList.get(i);
 			for(int k=0;k<courseList.get(i).getRosterSize();k++){
 				//try to update their schedule w/ the course
-				courseList.get(i).getStudent(k).updateSchedule(timeBlock-1, courseList.get(i));
+				c.getStudent(k).updateSchedule(timeBlock-1, courseList.get(i));
 				Course[] s = courseList.get(i).getStudent(k).getSchedule();
-				Course c = courseList.get(i);
 				boolean matched = false;
 				for(int j=0; j<s.length;j++){
 					if(s[j]==c){
@@ -164,20 +163,20 @@ public class Schedule{
 				if(matched==false){
 					//c.printRosterSimple();
 					//System.out.println(courseList.get(i).getStudent(k).getName() + " is removed from " + courseList.get(i).getName() + " because of conflict");
-					c.rosterRemove(courseList.get(i).getStudent(k));
+					c.rosterRemove(c.getStudent(k));
 					//c.printRosterSimple();
 				}		
 			}
-			int numRemove = courseList.get(i).getRosterSize()-maxStudents; //finds how many students to remove
+			int numRemove = c.getRosterSize()-maxStudents; //finds how many students to remove
 			for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
-				Student studentRemove = studentRemove(courseList.get(i));
+				Student studentRemove = studentRemove(c);
 				//System.out.println(studentRemove.getName() + " is removed from " + courseList.get(i).getName() + " because of overflow");
 				studentRemove.updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
 				//courseList.get(i).printRosterSimple();
-				courseList.get(i).rosterRemove(studentRemove); //removes student from roster
+				c.rosterRemove(studentRemove); //removes student from roster
 				//courseList.get(i).printRosterSimple();
 			}
-			removeDuplicateStudents(courseList.get(i).getRoster(), courseList.get(i).getID(), i, timeBlock); //removes student from the same courses (just diff sections)
+			removeDuplicateStudents(c.getRoster(), c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}	
 	public Student studentRemove(Course c){
 		ArrayList<Student> r = c.getRoster();
@@ -201,7 +200,7 @@ public class Schedule{
 				boolean matched = false;
 				for(int j=0; j<s.length;j++){
 					if(s[j]==courseList.get(k)){
-						System.out.println("It's A MATCH");
+						//System.out.println("It's A MATCH");
 						matched = true;
 					}	
 				}
@@ -332,7 +331,6 @@ public class Schedule{
 					courseList.get(i).rosterRemove(placed.get(k));
 					courseList.get(i).updateRoster();
 				}
-				courseList.get(i).updateRoster(); //extra doesn't hurt lol	
 			}	
 		}	
 	}	
