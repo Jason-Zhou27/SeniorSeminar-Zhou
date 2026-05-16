@@ -88,37 +88,28 @@ public class Course {
 	*/
 	public void updateRoster(){
 		rosterSize=roster.size();
-	}/*
+	}
+	/*
 	 * getRosterSize is a getter that fetches the roster size of a course
 	*/	
 	public int getRosterSize(){
 		updateRoster();
 		return roster.size();
 	}
-	public void rosterRemove(int rosterPos){ //overloaded
-		roster.remove(rosterPos);
-		rosterSize=roster.size();
-	}
-	//following setters and getters are used to copy courses
-	public void setDemand(int d){
-		studentDemand = d;
-	}
-	public int getDemand(){
-		return studentDemand; 
-	}
-	public void setPR(int pr){
-		priorityRating=pr;
-		
-	}				
-	public Student getStudent(int rosterPos){
-		return roster.get(rosterPos);
-		
-	}
+	/*
+	 * rosterRemove w/ no arguments removes last student in roster;
+	 *  overloaded method
+	*/
 	public void rosterRemove(){//overloaded
 		roster.remove(roster.size()-1);
 		rosterSize=roster.size();
 		
 	}
+	/*
+	 * rosterRemove w/ student argument searches the roster for a student and removes
+	 * student if found;
+	 * overloaded method
+	*/
 	public void rosterRemove(Student s){
 		//search for student object;if found, remove
 		boolean found = false;
@@ -127,14 +118,38 @@ public class Course {
 				roster.remove(i);
 				found = true;
 			}	
-			
-		}
-		if(found==false){
-			//System.out.println("ERROR");
-			
-			
 		}	
 		rosterSize=roster.size();
+	}
+	/*
+	 * rosterRemove w/ int argumentremoves a student at a given roster position/index in roster; 
+	 * rosterPos is a parameter;
+	 * overloaded method
+	*/
+	public void rosterRemove(int rosterPos){
+		roster.remove(rosterPos);
+		rosterSize=roster.size();
+	}
+	/*
+	 * setDemand sets the demand of a course to a given int parameter
+	*/
+	public void setDemand(int d){
+		studentDemand = d;
+	}
+	/*
+	 * getDemand is a getter that fetches the student demand for a course
+	*/
+	public int getDemand(){
+		return studentDemand; 
+	}
+	/*
+	 * setDPR sets the priority rating of a course to a given int parameter
+	*/
+	public void setPR(int pr){
+		priorityRating=pr;
+	}				
+	public Student getStudent(int rosterPos){
+		return roster.get(rosterPos);
 	}
 	public boolean rosterFind(Student s){
 		//search for student object;if found, remove
