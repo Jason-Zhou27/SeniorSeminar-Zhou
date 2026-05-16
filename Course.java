@@ -1,51 +1,96 @@
-import java.util.*;
+/**
+ * Course.java
+ * @author Jason Zhou
+ * @since (date) 02/09/2026
+ * outlines course behaviors and attributes
+*/
 
+import java.util.*; //ArrayLists
+/*
+ *outlines scourse behaviors and attributes 
+*/
 public class Course {
 
-	//variables
+	//instance variables
 	private String courseTeacher;
 	private String courseName;
 	private int courseID;
-	private int popRating = 0;
-	private int studentDemand = 0; //number of students that select the course (regardless of choice #)
+	private int popRating;
+	private int studentDemand; //number of students that select the course (regardless of choice #)
 	private int priorityRating;
-	private int rosterSize=0;
+	private int rosterSize;
 	private ArrayList<Student> roster = new ArrayList<Student>();
-	//constructors
+	/*
+	 * course constructor initializes attributes/instance variables and sets popularity rating, student demand, and roster size
+	 * to 0
+	*/
 	public Course(String t, String n, int id){
 		courseTeacher = t;
 		courseName = n;
 		courseID = id;
+		popRating = 0;
+		studentDemand = 0;
+		rosterSize=0;
 	}
 	//methods
+	/*
+	 * getID is a getter which fetches the course id attribute
+	*/
 	public int getID(){
 		return courseID;
 	}
+	/*
+	 * getName is a getter which fetches the course name attribute
+	*/
 	public String getName(){
 		return courseName;
 	}
+	/*
+	 * getTeacher is a getter which fetches the teacher attribute in the form of a String
+	*/
 	public String getTeacher(){
 		return courseTeacher;
 	}
+	/*
+	 * updatePopRating updates a course's popularity rating by a parameter increment; the parameter, n,
+	 * signals the course's ranking on a student's courseRequests
+	*/
 	public void updatePopRating(int n){
 		popRating = popRating + (1*n);		
 	}
+	/*
+	 * updateDemand updates student demand by incrementing studentDemand by 1
+	*/
 	public void updateDemand(){
 		studentDemand++;			
 	}
+	/*
+	 * updatePriorityRating updates a course's priority rating by summing student demand and popularity rating
+	*/
 	public void updatePriorityRating(){
-		priorityRating = studentDemand + popRating/3; //aims to give equal weight b/w studentDemand & popRating			
+		priorityRating = studentDemand+popRating;
 	}
+	/*
+	 * getPR is a getter that fetches the priority rating of a course
+	*/
 	public int getPR(){
 		return priorityRating;
 	}
+	/*
+	 * updateRoster takes in parameter student and adds the student to the roster
+	*/
 	public void updateRoster(Student s){
 		roster.add(s);
 		rosterSize=roster.size();
 	}
+	/*
+	 * updateRoster with no parameter updates roster size
+	*/
 	public void updateRoster(){
 		rosterSize=roster.size();
-	}	
+	}/*
+	 * getRosterSize is a getter that fetches the roster size of a course
+	*/	
 	public int getRosterSize(){
 		updateRoster();
 		return roster.size();

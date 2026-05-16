@@ -1,5 +1,5 @@
 /**
- * Schedule.java
+ * Student.java
  * @author Jason Zhou
  * @since (date) 02/09/2026
  * outlines student behaviors and attributes
@@ -151,21 +151,11 @@ public class Student {
 			}	
 		}
 		return false;	
-	}						
-	public int getNumRequests(){
-		int counter =0;
-		int size = courseRequest.size();
-		for(int i=0;i<size;i++){
-			if(courseRequest.get(0).getName().equals("NA")){
-				courseRequest.remove(0);
-			}
-			else {
-				counter++;
-				
-			}		
-		}
-		return counter;		
 	}
+	/*
+	 * getRanking finds the ranking of a course in a student's schedule; it takes in a course parameter
+	 * and returns an int, conveying ranking; if course is not found, method returns -1
+	*/
 	public int getRanking(Course c){
 		for(int i=0;i<courseRequest.size();i++){
 			if(c==courseRequest.get(i)){
@@ -174,6 +164,9 @@ public class Student {
 		}
 		return -1;	
 	}
+	/*
+	 * toString turns the info for a given student (name, id, email, form time, course requests, student schedule) into String form
+	*/
 	public String toString(){
 		sToString = "";
 		sToString = "id number: " + idNum;
