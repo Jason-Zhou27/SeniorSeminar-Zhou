@@ -1,7 +1,8 @@
 import java.util.*;
 //tester class
 public class Main {
-	public statule s1 = new Schedule(5,5,5,16,2);
+	public static void main(String[] args){
+		Schedule s1 = new Schedule(5,5,5,16,2);
 		s1.placeCourses();
 		s1.fillGaps();
 		//s1.printStudents();
@@ -9,6 +10,8 @@ public class Main {
 		//System.out.println(s1.getStudent(5).toString());
 		s1.printSeniorSeminar();
 		s1.printOverview();
+		s1.printAllRosters();
+		s1.printStudents();
 
 		
 	

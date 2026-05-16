@@ -477,7 +477,6 @@ public class Schedule{
 	}		
 	public Student getStudent(int i){
 		return studentList.get(i);
-		
 	}
 	
 }	
