@@ -253,6 +253,10 @@ public class Schedule{
 		int[] infoOptimalRC = {optRow, optCol};
 		return infoOptimalRC;
 	}
+	/*
+	 * checkTeacherAvailability ensures that the teacher is not already teaching in a certain time block;
+	 * it searches the columns of the 2d senior seminar array as a row represents a time block and columns represent classrooms
+	*/
 	public boolean checkTeacherAvailability(int r, String teacher){
 		int timeBlock = r+1;
 		boolean free = true;
@@ -262,13 +266,16 @@ public class Schedule{
 			}	
 		}
 		return free;	
-	}		
+	}	
+	/*
+	 * fillGaps ensures that all students have full schedules; some have not been loaded into courses because
+	 * they did not fill out thier ranked choices or because choices were not compatible with their schedules
+	*/
 	public void fillGaps(){
 		boolean filled;
 		Course[] schedule;
 		Student s;
-		numGaps=0;
-		//for each student
+		numGaps=0;//tracks numGaps
 		for(int i=0; i<studentList.size();i++){
 			s = studentList.get(i);
 			schedule = s.getSchedule();
@@ -283,8 +290,7 @@ public class Schedule{
 					for(int c=0;c<numClassrooms;c++){ //c for column
 						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
-							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule
-							//System.out.println(s.getID() + ": " + "filled"); //debugging
+							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule ****WAIT THIS MIGHT BE AN ISSUE (BOOLEAN RETURN?)
 							filled=true;
 						}	
 					}
@@ -294,10 +300,13 @@ public class Schedule{
 				}	
 			}
 		}	
-	}	
+	}
+	/*
+	 * duplicateCourses duplicates courses (starting with most popular) to ensure that all available class spots are filled
+	*/	
 	public void duplicateCourses(){
 		Course c;
-		Course cCopy;
+		Course cCopy; //duplicated or copied course
 		int fit = 0;
 		int multiple =0; //placeholder value
 		for(int i=0;i<courseList.size();i=i+multiple){
@@ -306,23 +315,21 @@ public class Schedule{
 				fit = c.getRosterSize()/maxStudents;
 				int overflow = c.getRosterSize()-fit*maxStudents;
 				//comparing to "what could have been" to see if duplication is worth it
-				int compared;
+				int compared; //index of course in courseList that will be compared
 				if(courseList.size()<maxSpots){
-					compared = courseList.size()-1;	
+					compared = courseList.size()-1;	//if number of sections is less than total available sections, compare with least priority course
 				}
 				else {
-					compared = maxSpots-1;
-					
+					compared = maxSpots-1; //if number of sections is equal to or exceeds total available sections, compare with the least priority course that is set to run
 				}		
 				if(overflow>courseList.get(compared).getRosterSize()){
-					multiple=fit+1;
+					multiple=fit+overflow/courseList.get(compared).getRosterSize();
 				}
 				else {
 					multiple=fit;
-					
 				}		
 				if(multiple>1 || courseList.size()<maxSpots*maxSections){
-					multiple=2;
+					multiple=maxSections; //can't duplicate more than maxSections
 				}	
 				for(int k=0; k<multiple-1; k++){
 					courseList.add(i+1, new Course(c.getTeacher(), c.getName(), c.getID()));
@@ -336,7 +343,10 @@ public class Schedule{
 			}	
 		}	
 	}
-	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //this method removes the students placed in a course from the other section
+	/*
+	 * removeDuplicateStudents removes the students placed in a course from the other section
+	*/
+	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //pos represents position in courseList ArrayList where student was placed
 		ArrayList<Student> placed = r;
 		for(int i=0; i<courseList.size();i++){
 			if(courseList.get(i).getID()==idCourse && i!=pos){
@@ -346,7 +356,10 @@ public class Schedule{
 				}
 			}	
 		}	
-	}	
+	}
+	/*
+	 * getCourse returns the Course object for a particular course id; it serves as to associate course objects with students rather than course ids with students
+	*/	
 	public Course getCourse(int idCourse){
 		//traverse course arraylist
 		if(idCourse==0){ //for students who do not fill out form
@@ -360,18 +373,27 @@ public class Schedule{
 		}
 		return null;	
 	}
+	/*
+	 * printStudents prints out the toStrings of each student
+	*/
 	public void printStudents(){
 		for (int i=0;i<studentList.size();i++){
 			System.out.println(studentList.get(i).toString());		
 		}	
 		
 	}
+	/*
+	 * printCourses prints out the toStrings of each course
+	*/
 	public void printCourses(){
 		for (int i=0;i<courseList.size();i++){
 			System.out.println(courseList.get(i).toString());		
 		}	
 	}
-	
+	/*
+	 * findPop updates the popularity rating for each course
+	 * by cycling through each student's ranked choices (and taking into account the rating)
+	*/
 	public void findPop(){
 		for(int i=0; i<studentList.size();i++){
 			for(int k=0;k<coursesPerS;k++){
@@ -381,6 +403,10 @@ public class Schedule{
 			}
 		}	
 	}
+	/*
+	 * findDemand updates the demand for each course
+	 * by cycling through each student's choices
+	*/
 	public void findDemand(){
 		for(int i=0; i<studentList.size();i++){
 			for(int k=0;k<coursesPerS;k++){
@@ -393,7 +419,6 @@ public class Schedule{
 	public void assignPriority(){ //priority rating for courses are used to determine order for placement
 		for(int i=0; i<courseList.size();i++){
 			courseList.get(i).updatePriorityRating();
-			
 		}		
 	}
 	
