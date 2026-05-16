@@ -6,7 +6,7 @@
 */
 
 //import libraries
-import java.util.*; //Scanner
+import java.util.*; //Scanner + ArrayLists
 import java.io.*; //File
 /*
  * handles main functions (loads data, organizes, optimization)

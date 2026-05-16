@@ -1,19 +1,31 @@
-import java.util.*;
+/**
+ * Schedule.java
+ * @author Jason Zhou
+ * @since (date) 02/09/2026
+ * outlines student behaviors and attributes
+*/
 
+import java.util.*; //ArrayLists
+
+/*
+ * outlines student behaviors and attributes
+*/
 public class Student {
-
-	//variables
+	//class variables
+	private static int coursesPerS;
+	//instance variables
 	private int idNum;
 	private String name;
 	private String email;
-	private Time formTime;
-	
-	private static int coursesPerS;
+	private Time formTime; //not used presently for any function
 	private ArrayList<Course> courseRequest;
 	private Course[] studentSchedule;
-	private String sToString;
-	//constructors
-
+	private String sToString; //stores toString
+	
+	/*
+	 * student constructor initializes instance variables/attributes for student objects; it creates courseRequest ArrayList and
+	 * sets the size for the studentSchedule array
+	*/
 	public Student(int id, String n, String e, Time t) {
 		//System.out.println("constructor called");
 		idNum = id;
@@ -25,26 +37,45 @@ public class Student {
 		//System.out.println("l43 works");
 	}
 	//methods
-	
-	//getters
+	/*
+	 * setCoursesPerStudent is a class method setter which defines the number of courses a student takes
+	*/
 	public static void setCoursesPerStudent(int n){
 		coursesPerS=n;
-	}	
+	}
+	/*
+	 * getID is a getter which fetches the student id attribute
+	*/	
 	public int getID(){
 		return idNum;
 	}
+	/*
+	 * getName is a getter which fetches the student name attribute
+	*/
 	public String getName(){
 		return name;
 	}
+	/*
+	 * getEmail is a getter which fetches the student email attribute
+	*/
 	public String getEmail(){
 		return email;
 	}
+	/*
+	 * getFormTime is a getter which fetches the time in which the form was submitted
+	*/
 	public Time getFormTime(){
 		return formTime;
 	}
+	/*
+	 * getCourse is a method which fetches the course associated with a ranking; it has ranking as a parameter
+	*/
 	public Course getCourse(int ranking){
 		return courseRequest.get(ranking-1); //ArrayList starts at index 0
-	}	
+	}
+	/*
+	 * addCourseReq is a method which adds a course to the courseRequest ArrayList; it has course as a parameter
+	*/	
 	public void addCourseReq(Course c){ //add requested course to courseRequest ArrayList
 		Course addCourse = c;
 		courseRequest.add(addCourse);
