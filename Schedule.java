@@ -180,7 +180,11 @@ public class Schedule{
 				c.rosterRemove(studentRemove); //removes student from roster
 			}
 			removeDuplicateStudents(c.getRoster(), c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
-	}	
+	}
+	/*
+	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity);
+	 * it uses same algorithm as finding min value
+	*/	
 	public Student studentRemove(Course c){
 		ArrayList<Student> r = c.getRoster();
 		int highest=r.get(0).getRanking(c);
@@ -195,7 +199,10 @@ public class Schedule{
 		}
 		return toRemove;	
 	}	
-	 //deletes students from the rosters of courses they do not take
+	/*
+	 * searchDelete removes students from any courses they do not take; this method is a substitute to finding the
+	 * error which causes students to be not removed from rosters
+	*/
 	public void searchDelete(){
 		for(int i=0; i<studentList.size();i++){
 			Course[] s = studentList.get(i).getSchedule();
@@ -203,7 +210,6 @@ public class Schedule{
 				boolean matched = false;
 				for(int j=0; j<s.length;j++){
 					if(s[j]==courseList.get(k)){
-						//System.out.println("It's A MATCH");
 						matched = true;
 					}	
 				}
@@ -212,27 +218,31 @@ public class Schedule{
 				}		
 			}	
 		}	
-	}	
+	}
+	/*
+	 * findOptimalPlace takes in a course parameter to find the optimal place in the 2d
+	 * senior seminar array that would result in the fewest conflicts; it employs a counter
+	 * and variables to store the optimal place (optRow and optCol)
+	*/	
 	public int[] findOptimalPlace(Course c){ //assists placeCourses method by finding optimal position in 2d course array & returning it
-		int optRow = -2; //not magic numbers * there is not a -1 row/column, which is why -2 is used (-2 eventually has 1 added to it in another method for intuitive understanding)
-		int optCol = -2; //not magic numbers * there is not a -1 row/colum, which is why -2 is used (-2 eventually has 1 added to it in another method for intuitive understanding)
+		//not magic numbers * there is not a -1 row/column, which is why -2 is used (-2 has 1 added to it in the method that calls findOptimalPlace)
+		int optRow = -2; 
+		int optCol = -2; 
 		int counter;
-		int fewestConflicts=Integer.MAX_VALUE;
+		int fewestConflicts=Integer.MAX_VALUE; //Integer class
 		int rowMax = numTimes;
 		int colMax = numClassrooms;
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
-				if(seniorS[row][col]==null && checkTeacherAvailability(row, c.getTeacher())==true){
+				if(seniorS[row][col]==null && checkTeacherAvailability(row, c.getTeacher())==true){ //must ensure that the teacher is not teaching at the same time
 						counter=0;
 						int numRoster = c.getRosterSize();
-		
 						for(int i=0;i<numRoster;i++){
 							if(c.getStudent(i).checkConflict(row)==true){
 								counter++;
 							}
 						}
 						if(counter<fewestConflicts){
-
 							fewestConflicts=counter;
 							optRow=row;
 							optCol=col;
