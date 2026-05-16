@@ -416,13 +416,21 @@ public class Schedule{
 			}
 		}	
 	}
-	public void assignPriority(){ //priority rating for courses are used to determine order for placement
+	/*
+	 * assignPriority creates a priority rating for each course based on 
+	 * demand and popularity; prioirty rating is used to determine order of
+	 * placement/order in the courseList ArrayList
+	*/
+	public void assignPriority(){
 		for(int i=0; i<courseList.size();i++){
 			courseList.get(i).updatePriorityRating();
 		}		
 	}
-	
-	public void sortCourses(){ //sorts courses so those with highest priority are at the beginning of the arrayList courseList
+	/*
+	 * sortCourses sorts courses so those with highest priority are at the beginning of the arrayList courseList; it 
+	 * employs a bubble sort algorithm
+	*/
+	public void sortCourses(){
 		do {	
 			for(int i=0;i<courseList.size()-1;i++){
 				if(courseList.get(i).getPR()<courseList.get(i+1).getPR()){
@@ -434,6 +442,9 @@ public class Schedule{
 		} while(sortCCheck()==false);
 		
 	}
+	/*
+	 * wortCCheck supplements sortCourses to check if the courseList is sorted by priority
+	*/
 	public boolean sortCCheck(){
 		boolean sorted = true;
 		for(int i=0;i<courseList.size()-1;i++){
@@ -443,7 +454,10 @@ public class Schedule{
 		}
 		return sorted;
 	}
-	public void loadRoster(){ //uses updateRoster method from Course class to add students to each of their courses' rosters
+	/*
+	 * loadRoster uses updateRoster method from Course class to add students to each of their courses' rosters
+	*/
+	public void loadRoster(){
 		for(int i=0; i<studentList.size();i++){
 			for(int k=0;k<coursesPerS;k++){
 				if(studentList.get(i).getCourse(k+1)!=null){
@@ -452,6 +466,9 @@ public class Schedule{
 			}
 		}	
 	}
+	/*
+	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms
+	*/
 	public void printSeniorSeminar(){
 		
 		int maxRow=numTimes;
@@ -468,12 +485,18 @@ public class Schedule{
 			System.out.println();	
 		}	
 	}
+	/*
+	 * calculateOverallConflcits sums the conflicts for each student (# of courses from requests that do not appear in schedule)
+	*/
 	public void calculateOverallConflicts(){
 		conflicts = 0;
 		for(int i=0;i<studentList.size();i++){
 			conflicts+=studentList.get(i).calculateConflictInd();	
 		}	
 	}
+	/*
+	 * calculateConflictPerStudent calculates the average conflicts per student (that made requests)
+	*/
 	public void calculateConflictPerStudent(){
 		//not all students made requests
 		int counter=0;
@@ -484,16 +507,20 @@ public class Schedule{
 		}	
 		conflictPerS = (double)conflicts/counter;
 	}
+	/* printOverview calls the methods which calculate conflict and conflict per student; it prints out important
+	 * info that signals effectiveness of the program (number of conflicts, avg conflicts, gaps)
+	*/
 	public void printOverview(){
-		//printAllRosters();
 		calculateOverallConflicts();
 		calculateConflictPerStudent();
 		System.out.println("Number of Conflicts: " + conflicts);
 		System.out.println("Conflicts Per Student: " + conflictPerS);
 		System.out.println("Number of Gaps: " + numGaps);
-		//printFree();
 	}
-	public void printFree(){ //more of a debugging tool as of 2/23; still might be needed so I will keep it here
+	/*
+	 * RETIRED!!! printFree was a debugging tool that signaled how many total available spots were in the schedule (where students could be placed)
+	*/
+	public void printFree(){
 		int trackerTotal = 0;
 		for(int i=0;i<numTimes;i++){
 			int tracker =0;
@@ -506,13 +533,18 @@ public class Schedule{
 		}
 		System.out.println("There are " + trackerTotal + " spots free total, and there are supposed to be " + (numClassrooms*maxStudents-studentList.size())*numTimes);
 	}
-	
+	/*
+	 * printAllRosters prints the rosters for all the courses that run
+	*/
 	public void printAllRosters(){
 		for(int i=0;i<maxSpots;i++){
 			System.out.print("\nCourse: " + courseList.get(i).getID() + "\n\nRoster:");
 			courseList.get(i).printRosterSimple();
 		}
-	}		
+	}
+	/*
+	 * getStudent fetches the student given the student's index in studentList ArrayList
+	*/
 	public Student getStudent(int i){
 		return studentList.get(i);
 	}
