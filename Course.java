@@ -131,6 +131,22 @@ public class Course {
 		rosterSize=roster.size();
 	}
 	/*
+	 * this rosterRemove w/ 2 arguments assists searchDelete method in Schedule class; it removes
+	 * students who were somehow placed in a class; the second parameter has no meaning and
+	 * is only used to differentiate this rosterRemove w/ a student argument from the other one--it
+	 * allowed me to put a print statement to help debug;
+	 * overloaded method
+	*/
+	public void rosterRemove(Student s, int useless){
+		for(int i=0;i<roster.size();i++){
+			if(roster.get(i)==s){
+				//System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
+				roster.remove(i);
+			}	
+		}
+		rosterSize=roster.size();
+	}
+	/*
 	 * setDemand sets the demand of a course to a given int parameter
 	*/
 	public void setDemand(int d){
@@ -147,10 +163,17 @@ public class Course {
 	*/
 	public void setPR(int pr){
 		priorityRating=pr;
-	}				
+	}
+	/*
+	 * getStudent is a getter which fetches the student at a certain roster position; rosterPos is the parameter
+	*/		
 	public Student getStudent(int rosterPos){
 		return roster.get(rosterPos);
 	}
+	/*
+	 * rosterFind ascertains whether a student is in the course's roster; it returns a boolean and takes in a student
+	 * argument
+	*/
 	public boolean rosterFind(Student s){
 		//search for student object;if found, remove
 		boolean found = false;
@@ -162,23 +185,33 @@ public class Course {
 		}
 		return false;
 	}
-	public void rosterRemove(Student s, int useless){
-		//search for student object;if found, remove
-		for(int i=0;i<roster.size();i++){
-			if(roster.get(i)==s){
-				//System.out.println(s.toString());
-				System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
-				roster.remove(i);
-			}	
-			
-		}
-		rosterSize=roster.size();
-	}	
+	
+	/*
+	 * getRoster is a getter which fetches the roster (in the form of an ArrayList) of a course
+	*/
 	public ArrayList<Student> getRoster(){
 		return roster;
-		
+	}
+	/*
+	 * printRoster prints out the roster of a course with student names
+	*/
+	public void printRoster(){
+		for(int i=0;i<roster.size();i++){
+			System.out.println("\nStudent #" + (i+1) + roster.get(i).getName());	
+		}	
+	}
+	/*
+	 * printRosterSimple prints out the roster of a course with student ids
+	*/
+	public void printRosterSimple(){
+		System.out.println(courseName);
+		for(int i=0;i<roster.size();i++){
+			System.out.println(roster.get(i).getID());	
+		}	
 	}						
-		
+	/*
+	 * toString turns the info about a course (teacher, name, id, popularity rating, student demand, priority rating) into String form
+	*/	
 	public String toString(){
 		
 		String cToString = "\n";
@@ -189,16 +222,5 @@ public class Course {
 		cToString = cToString + "student demand: " + studentDemand + "\n";
 		cToString = cToString + "priority rating: " + priorityRating + "\n";
 		return cToString;
-	}
-	public void printRoster(){
-		for(int i=0;i<roster.size();i++){
-			System.out.println("\nStudent #" + (i+1) + roster.get(i).getName());	
-		}	
-	}
-	public void printRosterSimple(){
-		System.out.println(courseName);
-		for(int i=0;i<roster.size();i++){
-			System.out.println(roster.get(i).getID());	
-		}	
 	}				
 }
