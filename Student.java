@@ -97,10 +97,14 @@ public class Student {
 	 * updateSchedule will update the student schedule with a course if there is an available slot
 	 * in the student's schedule; it has time and course as parameters
 	*/
-	public void updateSchedule(int t, Course c){
+	public boolean updateSchedule(int t, Course c){
 		if(studentSchedule[t]==null){
 			studentSchedule[t]=c;
-		}				
+			return true;
+		}
+		else {
+			return false;
+		}					
 	}
 	/*
 	 * updateScheduleDelete will delete the course associated with a time slot in a student's schedule;

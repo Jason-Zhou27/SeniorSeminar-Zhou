@@ -14,6 +14,7 @@ public class Main {
 		s1.fillGaps();
 		s1.printSeniorSeminar();
 		s1.printOverview();
+		s1.findStudent();
 	}
 }
 	

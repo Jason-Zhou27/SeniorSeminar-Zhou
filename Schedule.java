@@ -160,18 +160,9 @@ public class Schedule{
 			Course c = courseList.get(i);
 			for(int k=0;k<courseList.get(i).getRosterSize();k++){ //go through each student in course's roster
 				//try to update the student's schedule w/ the course
-				c.getStudent(k).updateSchedule(timeBlock-1, courseList.get(i)); //remember to get to intuitive sense of time blocks, time block = position in array + 1
-				Course[] s = courseList.get(i).getStudent(k).getSchedule(); //get student schedule
-				boolean matched = false;
-				//search through student schedule and if there is a match, do nothing; if there is not, remove the student from the course roster
-				for(int j=0; j<s.length;j++){
-					if(s[j]==c){
-						matched = true;
-					}	
-				}
-				if(matched==false){
+				if(c.getStudent(k).updateSchedule(timeBlock-1, courseList.get(i))==false){
 					c.rosterRemove(c.getStudent(k));
-				}		
+				}
 			}
 			int numRemove = c.getRosterSize()-maxStudents; //finds how many students to remove
 			for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
@@ -290,7 +281,10 @@ public class Schedule{
 					for(int c=0;c<numClassrooms;c++){ //c for column
 						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
-							s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c]); //updates the student's schedule ****WAIT THIS MIGHT BE AN ISSUE (BOOLEAN RETURN?)
+							if(s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c])==false){
+								seniorS[timeBlock-1][c].rosterRemove(s);
+								
+							}	
 							filled=true;
 						}	
 					}
@@ -348,13 +342,14 @@ public class Schedule{
 	*/
 	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //pos represents position in courseList ArrayList where student was placed
 		ArrayList<Student> placed = r;
-		for(int i=0; i<courseList.size();i++){
-			if(courseList.get(i).getID()==idCourse && i!=pos){
-				for(int k=0; k<placed.size(); k++){	
-					courseList.get(i).rosterRemove(placed.get(k));
-					courseList.get(i).updateRoster();
-				}
-			}	
+		for(int k=0; k<placed.size(); k++){	
+			for(int i=0; i<courseList.size();i++){
+				if(courseList.get(i).getID()==idCourse && i!=pos){
+					
+						courseList.get(i).rosterRemove(placed.get(k));
+					
+				}	
+			}
 		}	
 	}
 	/*
@@ -543,10 +538,44 @@ public class Schedule{
 		}
 	}
 	/*
-	 * getStudent fetches the student given the student's index in studentList ArrayList
+	 * getStudent fetches the student given the student's index in studentList ArrayList;
+	 * overloaded
 	*/
+	/*
 	public Student getStudent(int i){
 		return studentList.get(i);
 	}
+	*/
+	/*
+	 * getStudent fetches the student given the student's id;
+	 * overloaded
+	*/
+	public Student getStudent(int id){
+		for(int i=0;i<studentList.size();i++){
+			if(studentList.get(i).getID()==id){
+				return studentList.get(i);
+			}	
+			
+		}
+		return null;	
+	}
+	/*
+	 * findStudent prints out info for given student
+	*/
+	public void findStudent(){
+		Scanner s = new Scanner(System.in);
+		boolean cont = true;
+		while(cont==true){
+			System.out.print("Enter id: ");
+			String response = s.nextLine();
+			if(response.equals("q")){
+				cont = false;
+			}	
+			int id = Integer.parseInt(response);
+			System.out.println(getStudent(id).toString());
+		}
+		
+		
+	}	
 	
 }	
