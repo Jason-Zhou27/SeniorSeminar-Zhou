@@ -1,32 +1,47 @@
-//import libraries
-import java.util.*;
-import java.io.*;
+/**
+ * Schedule.java
+ * @author Jason Zhou
+ * @since (date) 02/09/2026
+ * outlines schedule class which handles main functions of the program
+*/
 
+//import libraries
+import java.util.*; //Scanner
+import java.io.*; //File
+/*
+ * handles main functions (loads data, organizes, optimization)
+*/ 
 public class Schedule{
 	//variables
 	
 	//files, arrays, arrayLists
-	private String fileNameStudent = "studentInfo.txt"; //Name of txt file with Student info
-	private String fileNameCourse = "courseInfo.txt"; //Name of txt file with Student info
+	private String fileNameStudent; //Name of txt file with Student info
+	private String fileNameCourse; //Name of txt file with Student info
 	private ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList to store student objects
 	private ArrayList<Course> courseList = new ArrayList<Course>(); //ArrayList to store course objects
-	private Course[][] seniorS;
+	private Course[][] seniorS;//2d array of courses with rows being times and columns being classrooms
 	
-	//important parameters
-	private int numTimes;
+	//important conditions
+	private int numTimes; //number of times/time blocks
 	private int coursesPerS; //number of courses per student
-	private int numClassrooms;
-	private int maxStudents;
-	private int maxSpots;
-	private int maxSections;
+	private int numClassrooms; //number of classrooms available
+	private int maxStudents; //max students per seminar/class
+	private int maxSpots; // number of seminars/classes that will run throughout the schedule (can include repeats)
+	private int maxSections; //max number of repeats of same seminar/class
 	
 	//effectiveness values
-	private int conflicts = 0;
-	private double conflictPerS = 0.0;
-	private int numGaps;
+	private int conflicts; //tracks total conflicts
+	private double conflictPerS; //tracks average conflicts per student
+	private int numGaps; //tracks empty spots in schedules
 	
-	//constructors
-	public Schedule(int nT, int nCPS, int nC, int mS, int mSx){
+	//constructor
+	/*
+	 * Schedule constructor initializes the conditions for a specific schedule using parameters.
+	 * It initializes file name variables. It sets conflicts at 0 and conflicts per student at 0.0.
+	*/
+	public Schedule(int nT, int nCPS, int nC, int mS, int mSx){ //parameter names are abreviations of what they represent
+		fileNameStudent = "studentInfo.txt";
+		fileNameCourse = "courseInfo.txt";
 		numTimes = nT;
 		coursesPerS = nCPS;
 		maxStudents = mS;
@@ -37,15 +52,14 @@ public class Schedule{
 		readFileCourse();
 		readFileStudent();
 		seniorS = new Course[numTimes][numClassrooms];
+		conflicts = 0;
+		conflictPerS = 0.0;
 	}	
 	//methods
-	/*The method readFileStudent uses a Scanner to read a txt file; it splits each line of a Student's info
-	 * into individual pieces/elements stored in an array. This method then extracts individual elements 
-	 * from the array and stores them into variables--which are used in the Student constructor to create
-	 * Student objects. This method does not load course requests in the constructor but rather after the objects
-	 * are created w/ Student object methods. It accesses the recently created Student object and loads all 
-	 * the course requests available into the Student's ArrayList of course requests. This method employs
-	 * a try catch structure to catch any File error
+	/*readFileStudent reads the student txt file with a Scanner and a try catch structure. For each line available, 
+	 * data will be separated into individual elements stored in variables; these variables are later used in the
+	 * Student constructor. Course requests are inserted not in the Student constructor call but instead through
+	 * Student methods.
 	*/
 	public void readFileStudent() {
 		try {
@@ -55,27 +69,24 @@ public class Schedule{
 				String lineStudent = scanStudent.nextLine();
 				//extract info from line
 				String[] elementsStudent = lineStudent.split(",");
-				
 				//email and name info
 				String emailStudent = elementsStudent[3];
 				String emailPrefix = elementsStudent[4];
 				String nameStudent = elementsStudent[5];
 				//student id
 				int studentId = studentList.size()+1;
-				
-				//time info
+				//time info --> it is important to note that the program does not currently use time in any capacity
 				String timeStamp = elementsStudent[0];
 				String timeStampD = elementsStudent[1];
 				if (timeStamp.equals("")){ //if there is no time recorded, create student object w/ time object of greatest time (100 for all time measurements)
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
 				} else {	//if there is a time recorded, create student object w/ time object provided by form info
-					String[] timeStampDE = timeStampD.split("/"); //time stamp date elements
+					String[] timeStampDE = timeStampD.split("/"); //time stamp date elements (month, day, year)
 					int month = Integer.parseInt(timeStampDE[0]);
 					int day = Integer.parseInt(timeStampDE[1]);
 					int year = Integer.parseInt(timeStampDE[2]);
-					
 					String timeStampT = elementsStudent[2];
-					String[] timeStampTE = timeStampT.split(":"); //time stamp time elements (more specific than just date)
+					String[] timeStampTE = timeStampT.split(":"); //time stamp time elements (hour, minute, second)
 					int hour = Integer.parseInt(timeStampTE[0]);
 					int minute = Integer.parseInt(timeStampTE[1]);
 					int second = Integer.parseInt(timeStampTE[2]);
@@ -84,17 +95,16 @@ public class Schedule{
 				for(int i=0; i<coursesPerS;i++){ //load courses for students
 					int courseIndex = Integer.parseInt(elementsStudent[6+i]);
 					Course courseAdd = getCourse(courseIndex);
-					studentList.get(studentList.size()-1).addCourseReq(courseAdd); //add course requests for recently created student object
+					studentList.get(studentList.size()-1).addCourseReq(courseAdd); //add course requests for recently created student object with Student method addCourseReq()
 				}
 			}	
 		} catch (FileNotFoundException e){ //catch File error
 				System.out.println("File Not Found!");
 			}			
 	}
-	/*The method readFileCourse uses a Scanner to read a txt file; it splits each line of a Course's info
-	 * into individual pieces/elements stored in an array. This method then extracts individual elements 
-	 * from the array and stores them into variables--which are used in the Course constructor to create
-	 * Course objects. This method employs a try catch structure to catch any File error.
+	/*readFileCourse reads the course txt file with a Scanner and a try catch structure. For each line available, 
+	 * data will be separated into individual elements stored in variables; these variables are later used in the
+	 * Course constructor.
 	*/
 	public void readFileCourse() {
 		try {
@@ -116,20 +126,16 @@ public class Schedule{
 				System.out.println("File Not Found!");
 			}			
 	}
-	public void placeCourses(){ //takes charge in placing courses
-		findPop();
-		findDemand();
-		assignPriority();
-		sortCourses();
-		loadRoster();
-		duplicateCourses();
-		//Twyford's reference schedule on the whiteboad 3/13; it's difficult to integrate into my program
-		//because my algorithm works in a very different manner--if I were to implement this algorithm, it would take revamping 
-		//of my program infrastructure
-		//Nevertheless, without Twyford's reference schedule, I still figure out that most if not all can get at least 3 courses
-		//int[][] seniorSID = {{1,9,14,5,115},{2,6,10,12,116},{15,3,11,4,107},{16,18,13,101,109},{7,8,17,102,106}};  
-		
-		//for how many courses I can place...
+	/*
+	 * placeCourses places courses in the 2d senior seminar array; it places courses based on the optimal spot--determiend in findOptimalPlace method
+	*/ 
+	public void placeCourses(){
+		findPop(); //evaluates course popularity with weight (choice #); lower choice --> greater weight
+		findDemand(); //overall number of requests
+		assignPriority(); //creates priority rating from popularity and demand
+		sortCourses(); //sorts courses lin courseList so courses earlier in the list have higher priority ratings
+		loadRoster(); //load the roster for each course
+		duplicateCourses(); //duplicate high priority courses until max course number is reached
 		for(int i=0;i<maxSpots;i++){
 			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
@@ -145,36 +151,33 @@ public class Schedule{
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
 			studentHandling(i, timeBlock, classroom);
 		}
-		searchDelete(); //deletes students from the rosters of courses they do not take
+		searchDelete(); //deletes students from the rosters of courses they do not take; ideally, should not be implemented but it is b/c somehow students are not getting removed from course rosters
 	}
+	/*
+	 * studentHandling manages much of the student side of organizing a schedule; it will update a student's schedule (or attempt to), remove students from courses if capacity is exceeded, and oversee removing duplicate students in different sections.
+	*/
 	public void studentHandling(int i, int timeBlock, int classroom){
-		//for each class
 			Course c = courseList.get(i);
-			for(int k=0;k<courseList.get(i).getRosterSize();k++){
-				//try to update their schedule w/ the course
-				c.getStudent(k).updateSchedule(timeBlock-1, courseList.get(i));
-				Course[] s = courseList.get(i).getStudent(k).getSchedule();
+			for(int k=0;k<courseList.get(i).getRosterSize();k++){ //go through each student in course's roster
+				//try to update the student's schedule w/ the course
+				c.getStudent(k).updateSchedule(timeBlock-1, courseList.get(i)); //remember to get to intuitive sense of time blocks, time block = position in array + 1
+				Course[] s = courseList.get(i).getStudent(k).getSchedule(); //get student schedule
 				boolean matched = false;
+				//search through student schedule and if there is a match, do nothing; if there is not, remove the student from the course roster
 				for(int j=0; j<s.length;j++){
 					if(s[j]==c){
 						matched = true;
 					}	
 				}
 				if(matched==false){
-					//c.printRosterSimple();
-					//System.out.println(courseList.get(i).getStudent(k).getName() + " is removed from " + courseList.get(i).getName() + " because of conflict");
 					c.rosterRemove(c.getStudent(k));
-					//c.printRosterSimple();
 				}		
 			}
 			int numRemove = c.getRosterSize()-maxStudents; //finds how many students to remove
 			for(int k=0;k<numRemove;k++){ //for loop goes through # of iterations it takes to get students to proper capacity
 				Student studentRemove = studentRemove(c);
-				//System.out.println(studentRemove.getName() + " is removed from " + courseList.get(i).getName() + " because of overflow");
 				studentRemove.updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
-				//courseList.get(i).printRosterSimple();
 				c.rosterRemove(studentRemove); //removes student from roster
-				//courseList.get(i).printRosterSimple();
 			}
 			removeDuplicateStudents(c.getRoster(), c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}	
