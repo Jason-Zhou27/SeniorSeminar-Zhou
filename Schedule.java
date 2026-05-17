@@ -510,20 +510,48 @@ public class Schedule{
 	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms
 	*/
 	public void printSeniorSeminar(){
-		int maxDigits; //used for spacing
+		int maxDigitsID; //used for spacing
+		int maxChars; //used for spacing
+		int maxChars; //used for spacing
 		int largestID; //used for spacing
+		int largestC; //used for spacing; largest classroom 
 		largestID=courseListOriginal.size();
-		maxDigits=0;
+		maxDigitsID=0;
 		while(largestID>0){
 			largestID/=10;
-			maxDigits++;
-		}		
+			maxDigitsID++;
+		}
+		maxChars=1;
+		largestC=numClassrooms;
+		while(largestC>0){
+			largestC/=10;
+			maxChars++;
+		}
+		if(maxDigits<2){
+			maxDigits=2; //b/c of the -1 case
+		}
+		else if(maxDigitsID>maxChars){
+			maxDigits = maxDigitsID;
+		}				
+		else {
+			maxDigits=maxChars;
+		}	
 		int maxRow=numTimes;
 		int maxCol=numClassrooms;
 		System.out.print("\n");
 		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
 		System.out.print("    ");
 		for(int c=0; c<maxCol;c++){	
+			int idFindDigits = c+1;
+			int digits = 0;
+			while(idFindDigits>0){
+				idFindDigits/=10;
+				digits++;
+			}
+			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
+				System.out.print(" ");
+			}
+			System.out.print(" c" + (c+1) + " ");
 		}	
 		System.out.print("\n");
 		for(int r=0;r<maxRow;r++){
@@ -545,7 +573,7 @@ public class Schedule{
 					for(int i=0; i<maxDigits-2;i++){ //2 comes from -1 having 2 characters
 						System.out.print(" ");
 					}
-					System.out.print(" " + -1 + " ");
+					System.out.print(" " + "  " + " ");
 				}		
 			}
 			System.out.println();	
@@ -559,19 +587,40 @@ public class Schedule{
 		}
 		System.out.print("\n");
 		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
-		System.out.print("     ");
-		for(int c=0; c<maxCol;c++){
-			System.out.print("c" + (c+1) + "  ");	
+		System.out.print("    ");
+		for(int c=0; c<maxCol;c++){	
+			int idFindDigits = c+1;
+			int digits = 0;
+			while(idFindDigits>0){
+				idFindDigits/=10;
+				digits++;
+			}
+			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
+				System.out.print(" ");
+			}
+			System.out.print(" c" + (c+1) + " ");
 		}
 		System.out.print("\n");
 		for(int r=0;r<maxRow;r++){
 			System.out.print("t" + (r+1) + ": ");
 			for(int c=0;c<maxCol;c++){
 				if(seniorS[r][c]!=null){	
+					int idFindDigits = seniorS[r][c].getSectionID();
+					int digits = 0;
+					while(idFindDigits>0){
+						idFindDigits/=10;
+						digits++;
+					}
+					for(int i=0; i<maxDigits-digits;i++){
+						System.out.print(" ");
+					}
 					System.out.print(" " + seniorS[r][c].getSectionID() + " ");
 				}
 				else {
-					System.out.print("  " + -1 + " ");
+					for(int i=0; i<maxDigits-2;i++){ //2 comes from -1 having 2 characters
+						System.out.print(" ");
+					}
+					System.out.print(" " + "  " + " ");
 				}		
 			}
 			System.out.println();	
