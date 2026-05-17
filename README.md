@@ -219,4 +219,6 @@ I have taken the first approach--and if ineffective, go to the second approach. 
 and some other errors I had in the code from yesterday. I have updated thorough documentation for the reduceGaps method.
 
 Furthermore, I have adjusted UI to make details more clear for the user. I have allowed for the user to access additional statistics (how many and what percent got each
-choice rank). Also, I have reduced confusion that arised from rosters printing for courses that have not run. 
+choice rank). Also, I have reduced confusion that arised from rosters printing for courses that have not run. I have updated functionality, so that the user can
+either decide to use default parameters (ones that Mr. Twyford gave us) or input new ones; I have done my best to break the program and fix any errors that emerge from
+that practice.

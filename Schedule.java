@@ -927,7 +927,7 @@ public class Schedule{
 			printSeniorSeminar();
 			printOverview();
 			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n 4 - additional stats\n q - quit at any time\n\n");
-			System.out.print("Enter selection (numeral): ");
+			System.out.print("Enter selection (numeral/q): ");
 			response = menu.nextLine();
 			if(response.equals("q")){
 				cont=false;
