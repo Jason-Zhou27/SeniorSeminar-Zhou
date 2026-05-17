@@ -19,7 +19,17 @@ The attached CSV/Spreadsheet file is the result of sending out a google form and
 - Generate a schedule for the sessions and speakers, 
 - Create lists for each student so they know what sessions to attend, rooms and times.
 
-Journal Notes:
+##General Strategy:
+load students + courses --> create objects --> find priority for course placement (using weighted & unweighted) --> sort courses by priority so they 
+can be placed in order of priority --> load the courses with their rosters --> duplicate courses and rosters to form sections--> place sections
+in optimal spot in 2d array (spot that will produce least conflicts)-> during placement, remove students who can't take the section at that time, 
+remove excess students (to meet capacity limit), remove the students that were in the placed section from other sections of the same course 
+(previously still on roster)-->**search for students on sections they do not belong on and delete them from those sections** --> fill in gaps in schedules
+
+note: step in ** ** is necessary because despite 3+ months of searching for an error and constant debugging, I cannot locate the error that causes students
+not to be removed properly from certain sections--a frustrating aspect of this project but nevertheless required a creative workaround
+
+##Journal Notes:
 
 02.18.2026 (02.19.2026 Class Work Day Make-up)
 
