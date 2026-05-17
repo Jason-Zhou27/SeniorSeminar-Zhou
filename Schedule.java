@@ -510,31 +510,31 @@ public class Schedule{
 	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms
 	*/
 	public void printSeniorSeminar(){
-		int maxDigitsID; //used for spacing
-		int maxChars; //used for spacing
-		int maxChars; //used for spacing
-		int largestID; //used for spacing
-		int largestC; //used for spacing; largest classroom 
+		int maxDigitsID; //used for spacing --> used specifically for course id/section id; tracks max number of digits/chars
+		int maxCharsClassroom; //used for spacing --> used specifically for classroom num; tracks max number of chars when expressed as c + number
+		int largestID; //used for spacing; largest courseID or section ID
+		int largestC; //used for spacing; largest classroom number
+		int maxChars; //used for spacing; the greater of maxDigitsID and maxCharsClassroom; min value is 2 (b/c -1 has 2 characters)
 		largestID=courseListOriginal.size();
 		maxDigitsID=0;
 		while(largestID>0){
 			largestID/=10;
 			maxDigitsID++;
 		}
-		maxChars=1;
+		maxCharsClassroom=1;
 		largestC=numClassrooms;
 		while(largestC>0){
 			largestC/=10;
-			maxChars++;
+			maxCharsClassroom++;
 		}
-		if(maxDigits<2){
-			maxDigits=2; //b/c of the -1 case
-		}
-		else if(maxDigitsID>maxChars){
-			maxDigits = maxDigitsID;
+		if(maxDigitsID>maxCharsClassroom){
+			maxChars = maxDigitsID;
 		}				
 		else {
-			maxDigits=maxChars;
+			maxChars=maxCharsClassroom;
+		}
+		if(maxChars<2){
+			maxChars=2; //b/c of the -1 case
 		}	
 		int maxRow=numTimes;
 		int maxCol=numClassrooms;
@@ -548,7 +548,7 @@ public class Schedule{
 				idFindDigits/=10;
 				digits++;
 			}
-			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
+			for(int i=0; i<maxChars-digits-1;i++){ //-1 b/c c is a character
 				System.out.print(" ");
 			}
 			System.out.print(" c" + (c+1) + " ");
@@ -564,26 +564,35 @@ public class Schedule{
 						idFindDigits/=10;
 						digits++;
 					}
-					for(int i=0; i<maxDigits-digits;i++){
+					for(int i=0; i<maxChars-digits;i++){
 						System.out.print(" ");
 					}	
 					System.out.print(" " + seniorS[r][c].getID() + " ");
 				}
 				else {
-					for(int i=0; i<maxDigits-2;i++){ //2 comes from -1 having 2 characters
+					for(int i=0; i<maxChars-2;i++){ //2 comes from -1 having 2 characters
 						System.out.print(" ");
 					}
-					System.out.print(" " + "  " + " ");
+					System.out.print(" " + "-1" + " ");
 				}		
 			}
 			System.out.println();	
 		}
 		
 		largestID=courseList.size();
-		maxDigits=0;
+		maxDigitsID=0;
 		while(largestID>0){
 			largestID/=10;
-			maxDigits++;
+			maxDigitsID++;
+		}
+		if(maxDigitsID>maxCharsClassroom){
+			maxChars = maxDigitsID;
+		}				
+		else {
+			maxChars=maxCharsClassroom;
+		}
+		if(maxChars<2){
+			maxChars=2; //b/c of the -1 case
 		}
 		System.out.print("\n");
 		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
@@ -595,7 +604,7 @@ public class Schedule{
 				idFindDigits/=10;
 				digits++;
 			}
-			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
+			for(int i=0; i<maxChars-digits-1;i++){ //-1 b/c c is a character
 				System.out.print(" ");
 			}
 			System.out.print(" c" + (c+1) + " ");
@@ -611,16 +620,16 @@ public class Schedule{
 						idFindDigits/=10;
 						digits++;
 					}
-					for(int i=0; i<maxDigits-digits;i++){
+					for(int i=0; i<maxChars-digits;i++){
 						System.out.print(" ");
 					}
 					System.out.print(" " + seniorS[r][c].getSectionID() + " ");
 				}
 				else {
-					for(int i=0; i<maxDigits-2;i++){ //2 comes from -1 having 2 characters
+					for(int i=0; i<maxChars-2;i++){ //2 comes from -1 having 2 characters
 						System.out.print(" ");
 					}
-					System.out.print(" " + "  " + " ");
+					System.out.print(" " + "-1" + " ");
 				}		
 			}
 			System.out.println();	
