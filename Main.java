@@ -12,8 +12,6 @@ public class Main {
 		Schedule s1 = new Schedule(5,5,5,16,2); //parameters for given senior seminar
 		s1.placeCourses();
 		s1.fillGaps();
-		s1.printSeniorSeminar();
-		s1.printOverview();
 		//s1.printFree();
 		//s1.printAllRosters();
 		s1.menu();

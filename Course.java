@@ -231,7 +231,7 @@ public class Course {
 		cToString = cToString + "course id: " + courseID + "\n";
 		//cToString = cToString + "popularity rating: " + popRating + "\n";
 		//cToString = cToString + "student demand: " + studentDemand + "\n";
-		cToString = cToString + "priority rating: " + priorityRating + "\n";
+		//cToString = cToString + "priority rating: " + priorityRating + "\n";
 		return cToString;
 	}				
 }

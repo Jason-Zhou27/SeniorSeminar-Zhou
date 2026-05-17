@@ -466,6 +466,7 @@ public class Schedule{
 		
 		int maxRow=numTimes;
 		int maxCol=numClassrooms;
+		System.out.print("\n");
 		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
 		for(int r=0;r<maxRow;r++){
 			for(int c=0;c<maxCol;c++){
@@ -478,6 +479,7 @@ public class Schedule{
 			}
 			System.out.println();	
 		}
+		System.out.print("\n");
 		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
 		for(int r=0;r<maxRow;r++){
 			for(int c=0;c<maxCol;c++){
@@ -490,6 +492,7 @@ public class Schedule{
 			}
 			System.out.println();	
 		}	
+		System.out.print("\n");
 	}
 	/*
 	 * calculateOverallConflcits sums the conflicts for each student (# of courses from requests that do not appear in schedule)
@@ -517,11 +520,13 @@ public class Schedule{
 	 * info that signals effectiveness of the program (number of conflicts, avg conflicts, gaps)
 	*/
 	public void printOverview(){
+		System.out.print("\n");
 		calculateOverallConflicts();
 		calculateConflictPerStudent();
 		System.out.println("Number of Conflicts: " + conflicts);
 		System.out.println("Conflicts Per Student: " + conflictPerS);
 		System.out.println("Number of Gaps: " + numGaps);
+		System.out.print("\n");
 	}
 	/*
 	 * RETIRED!!! printFree was a debugging tool that signaled how many total available spots were in the schedule (where students could be placed)
@@ -549,14 +554,18 @@ public class Schedule{
 		}
 	}
 	/*
-	 * getStudent fetches the student given the student's index in studentList ArrayList;
+	 * getStudent fetches the student given the student's name;
 	 * overloaded
 	*/
-	/*
-	public Student getStudent(int i){
-		return studentList.get(i);
+	public Student getStudent(String name){
+		for(int i=0;i<studentList.size();i++){
+			if(studentList.get(i).getName().equals(name)){
+				return studentList.get(i);
+			}	
+			
+		}
+		return null;
 	}
-	*/
 	/*
 	 * getStudent fetches the student given the student's id;
 	 * overloaded
@@ -571,25 +580,72 @@ public class Schedule{
 		return null;	
 	}
 	/*
+	 * getSection fetches the section given the section's id;
+	*/
+	public Course getSection(int id){
+		for(int i=0;i<courseList.size();i++){
+			if(courseList.get(i).getSectionID()==id){
+				return courseList.get(i);
+			}	
+			
+		}
+		return null;	
+	}
+	/*
 	 * findStudent prints out info for given student
 	*/
 	public void findStudent(){
 		Scanner s = new Scanner(System.in);
-		boolean cont = true;
-		int id;
-		int x=0; //incrementor
 		String response = "";
-		while(cont==true){
-			if(x!=0){
-				id = Integer.parseInt(response);
-				System.out.println(getStudent(id).toString());
+		System.out.print("1 - id \n2 - name \n\nenter selection: ");
+		response=s.nextLine();
+		if(response.equals("1")){
+			boolean cont = true;
+			int id;
+			int x=0; //incrementor
+			while(cont==true){
+				if(x!=0){
+					id = Integer.parseInt(response);
+					System.out.println(getStudent(id).toString());
+				}
+				System.out.print("Enter student id: ");
+				response = s.nextLine();
+				if(response.equals("q")){
+					cont=false;
+				}
+				x++;	
 			}
-			System.out.print("Enter student id: ");
-			response = s.nextLine();
-			if(response.equals("q")){
-				cont=false;
+		}
+		if(response.equals("2")){
+			boolean cont = true;
+			String name;
+			int x=0; //incrementor
+			while(cont==true){
+				if(x!=0){
+					name = response;
+					Student stud = getStudent(name);
+					while(stud==null){
+						System.out.println("invalid name");
+						System.out.print("Enter student name: ");
+						response = s.nextLine();
+						stud = getStudent(name);
+						if(response.equals("q")){
+							break;
+						}
+					}
+					if(stud!=null){
+						System.out.println(stud.toString());
+					} else{
+						break;
+					}	
+				}
+				System.out.print("Enter student name: ");
+				response = s.nextLine();
+				if(response.equals("q")){
+					cont=false;
+				}	
+				x++;	
 			}
-			x++;	
 		}
 	}
 	/*
@@ -605,6 +661,7 @@ public class Schedule{
 			if(x!=0){
 				id = Integer.parseInt(response);
 				System.out.println(getSection(id).toString());
+				getSection(id).printRoster();
 			}
 			System.out.print("Enter section id: ");
 			response = s.nextLine();
@@ -623,7 +680,7 @@ public class Schedule{
 		int x=0; //incrementor
 		String response = "";
 		while(cont==true){
-			System.out.println("MENU: \n 1 - search student \n 2 - search section\n");
+			
 			if(x!=0){
 				int choice = Integer.parseInt(response);
 				if(choice==1){
@@ -632,14 +689,20 @@ public class Schedule{
 				if(choice==2){
 					findSection();
 				}		
+				if(choice==3){
+					choicesAndSections();
+				}	
 			}
-			System.out.print("Enter student id: ");
+			System.out.println("\n\n\n\n\n\n\n | SENIOR SEMINAR |");
+			printSeniorSeminar();
+			printOverview();
+			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n3 - courses & their sections\n q - quit at any time\n\n");
+			System.out.print("Enter selection: ");
 			response = menu.nextLine();
 			if(response.equals("q")){
 				cont=false;
 			}
-			x++;	
-		}
-		
+			x++;
+		}	
 	}	
 }	
