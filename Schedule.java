@@ -524,16 +524,6 @@ public class Schedule{
 		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
 		System.out.print("    ");
 		for(int c=0; c<maxCol;c++){	
-			int idFindDigits = c+1;
-			int digits = 0;
-			while(idFindDigits>0){
-				idFindDigits/=10;
-				digits++;
-			}
-			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
-				System.out.print(" ");
-			}
-			System.out.print(" c" + (c+1) + " ");
 		}	
 		System.out.print("\n");
 		for(int r=0;r<maxRow;r++){
