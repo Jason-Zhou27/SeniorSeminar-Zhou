@@ -205,4 +205,18 @@ However, when I go back and work on the problem a few months later, grappling wi
 I have inserted documentation where necessary. 
 
 Also, to be clear, I am working off my mother's laptop, so the commits are coming from "Lin" even though I, Jason Zhou, and writing the code and comments.
-I apologize for commits that have more than 40 lines of comments; the multiline comments have a beginning and end line which overexpress actual substance
+I apologize for commits that have more than 40 lines of comments; the multiline comments have a beginning and end line which overexpress actual substance.
+
+5.17.2026
+
+I had a eureka moment at like 2 am in the morning. I previously thought that turning numGaps to zero would be not possible, but I realized that there are methods to
+counter that occurence. Let's first talk about how a student gets into a case in which the student has a gap in the schedule: right now, it's when the student
+has already taken the only available section for a particular time period at another time. Therefore, if a student instead takes the course at the time in which
+that course's section is the only available, and the student takes a different course at the time in which the student had originally gone to take the section,
+numGaps can decrease. Also, a student can be swapped with someone else at a time in which the other person does not have a restriction to taking  a particular course; this
+second approach is one that I have avoided because I thought that conflicts would increase significantly; however, it hasn't so far. Right now, to reduce gaps,
+I have taken the first approach--and if ineffective, go to the second approach. I have 105 conflicts and 0 gaps now, and that is due to the process described above
+and some other errors I had in the code from yesterday. I have updated thorough documentation for the reduceGaps method.
+
+Furthermore, I have adjusted UI to make details more clear for the user. I have allowed for the user to access additional statistics (how many and what percent got each
+choice rank). Also, I have reduced confusion that arised from rosters printing for courses that have not run. 
