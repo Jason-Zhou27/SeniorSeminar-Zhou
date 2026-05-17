@@ -553,7 +553,8 @@ public class Schedule{
 		System.out.println("There are " + trackerTotal + " spots free total, and there are supposed to be " + (numClassrooms*maxStudents-studentList.size())*numTimes);
 	}
 	/*
-	 * reduceGaps method finds students with gaps and reduces those gaps by swapping when the student takes a certain course
+	 * reduceGaps method finds students with gaps and reduces those gaps by either swapping when the student takes a certain course (preferred method)
+	 * or switching the student's course with another student's course (last ditch)
 	*/
 	public void reduceGaps(Student stud, Course[] schedule, int timeIndex){
 		int classroom=-1;
@@ -562,7 +563,7 @@ public class Schedule{
 		boolean filled = false;
 		for(int c=0;c<numClassrooms;c++){ //c for column
 			if(seniorS[timeIndex][c].getRosterSize()<maxStudents && filled==false){
-				if(stud.updateSchedule(timeIndex, seniorS[timeIndex][c])==false){ //precondition: there is space but the student can't take course b/c taking another section
+				if(stud.updateSchedule(timeIndex, seniorS[timeIndex][c])==false){ //there is space but the student can't take course b/c taking another section
 					seniorS[timeIndex][c].rosterRemove(stud);
 					classroom=c;
 					sectionNew = seniorS[timeIndex][c];
@@ -585,11 +586,44 @@ public class Schedule{
 				seniorS[timeIndexVacantNew][c].updateRoster(stud); //updates the course's roster
 				if(stud.updateSchedule(timeIndexVacantNew, seniorS[timeIndexVacantNew][c])==false){
 					seniorS[timeIndexVacantNew][c].rosterRemove(stud);
-					numGaps++;
+					filled = false;
 				} else {	
+					filled = true;
 				}
 			}	
-		}			
+		}
+		if(filled==false){ //last ditch effort; swap with someone else
+			boolean swapped = false;
+			for(int c=0; c<numClassrooms && swapped==false; c++){
+				Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c]);
+				boolean swapCandidateAble = true;
+				Course[] swapCandidateSchedule = swapCandidate.getSchedule();
+				for(int i=0;i<swapCandidateSchedule.length;i++){
+					if(swapCandidateSchedule[i].getID()==sectionOld.getID()){
+						swapCandidateAble=false;
+					}
+				}
+				if(swapCandidateAble==true){
+					boolean studAble = true;
+					for(int i=0;i<schedule.length;i++){
+						if(schedule[i]!=null && schedule[i].getID()==seniorS[timeIndexVacantNew][c].getID()){
+							studAble=false;
+						}
+					}
+					if(studAble==true){
+						seniorS[timeIndexVacantNew][c].rosterRemove(swapCandidate);
+						seniorS[timeIndexVacantNew][c].updateRoster(stud);
+						sectionOld.rosterRemove(stud);
+						sectionOld.updateRoster(swapCandidate);
+						
+						swapCandidate.updateScheduleDelete(timeIndexVacantNew);
+						stud.updateScheduleDelete(timeIndexVacantNew);
+						stud.updateSchedule(timeIndexVacantNew, seniorS[timeIndexVacantNew][c]);
+						swapCandidate.updateSchedule(timeIndexVacantNew, sectionOld);
+					}		
+				}
+			}	
+		}					
 	}	
 	/*
 	 * printAllRosters prints the rosters for all the courses that run
