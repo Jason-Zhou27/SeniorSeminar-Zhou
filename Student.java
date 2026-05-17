@@ -98,6 +98,11 @@ public class Student {
 	 * in the student's schedule; it has time and course as parameters
 	*/
 	public boolean updateSchedule(int t, Course c){
+		for(int i=0; i<coursesPerS;i++){
+			if(studentSchedule[i]!=null && c.getID()==studentSchedule[i].getID()){
+				return false;
+			}
+		}	
 		if(studentSchedule[t]==null){
 			studentSchedule[t]=c;
 			return true;

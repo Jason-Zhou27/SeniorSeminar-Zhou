@@ -170,7 +170,7 @@ public class Schedule{
 				studentRemove.updateScheduleDelete(timeBlock-1); //deletes course from removed student's schedule
 				c.rosterRemove(studentRemove); //removes student from roster
 			}
-			removeDuplicateStudents(c.getRoster(), c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
+			removeDuplicateStudents(c, c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}
 	/*
 	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity);
@@ -283,9 +283,10 @@ public class Schedule{
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
 							if(s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c])==false){
 								seniorS[timeBlock-1][c].rosterRemove(s);
-								
-							}	
-							filled=true;
+								filled=false;
+							} else {	
+								filled=true;
+							}
 						}	
 					}
 					if(filled==false){
@@ -340,14 +341,11 @@ public class Schedule{
 	/*
 	 * removeDuplicateStudents removes the students placed in a course from the other section
 	*/
-	public void removeDuplicateStudents(ArrayList<Student> r, int idCourse, int pos, int timeBlock){ //pos represents position in courseList ArrayList where student was placed
-		ArrayList<Student> placed = r;
-		for(int k=0; k<placed.size(); k++){	
+	public void removeDuplicateStudents(Course placed, int idCourse, int pos, int timeBlock){ //pos represents position in courseList ArrayList where student was placed
+		for(int k=0; k<placed.getRoster().size(); k++){	
 			for(int i=0; i<courseList.size();i++){
 				if(courseList.get(i).getID()==idCourse && i!=pos){
-					
-						courseList.get(i).rosterRemove(placed.get(k));
-					
+					courseList.get(i).rosterRemove(placed.getRoster().get(k));
 				}	
 			}
 		}	
@@ -576,6 +574,5 @@ public class Schedule{
 		}
 		
 		
-	}	
-	
+	}
 }	

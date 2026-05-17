@@ -103,7 +103,6 @@ public class Course {
 	public void rosterRemove(){//overloaded
 		roster.remove(roster.size()-1);
 		rosterSize=roster.size();
-		
 	}
 	/*
 	 * rosterRemove w/ student argument searches the roster for a student and removes
@@ -117,6 +116,7 @@ public class Course {
 			if(roster.get(i)==s){
 				roster.remove(i);
 				found = true;
+				System.out.println("Successful removal of " + s.getID() + "from " + courseName);
 			}	
 		}	
 		rosterSize=roster.size();

@@ -14,7 +14,10 @@ public class Main {
 		s1.fillGaps();
 		s1.printSeniorSeminar();
 		s1.printOverview();
+		s1.printFree();
+		s1.printAllRosters();
 		s1.findStudent();
+		
 	}
 }
 	
