@@ -298,7 +298,6 @@ public class Schedule{
 					}
 					if(filled==false){
 						reduceGaps(s, schedule, timeBlock-1);
-						numGaps=numGaps+1;
 					}
 				}	
 			}
@@ -557,19 +556,40 @@ public class Schedule{
 	 * reduceGaps method finds students with gaps and reduces those gaps by swapping when the student takes a certain course
 	*/
 	public void reduceGaps(Student stud, Course[] schedule, int timeIndex){
-		int classroom;
+		int classroom=-1;
 		Course sectionNew = null;
 		Course sectionOld = null;
 		boolean filled = false;
 		for(int c=0;c<numClassrooms;c++){ //c for column
 			if(seniorS[timeIndex][c].getRosterSize()<maxStudents && filled==false){
-				if(stud.updateSchedule(timeIndex, seniorS[timeBlock-1][c])==false){ //precondition: there is space but the student can't take course b/c taking another section
-					seniorS[timeIndex][c].rosterRemove(s);
+				if(stud.updateSchedule(timeIndex, seniorS[timeIndex][c])==false){ //precondition: there is space but the student can't take course b/c taking another section
+					seniorS[timeIndex][c].rosterRemove(stud);
 					classroom=c;
 					sectionNew = seniorS[timeIndex][c];
 				}
 			}	
-		}		
+		}
+		int timeIndexVacantNew = -1; //guaranteed to be a valid number b/c of the context of this method
+		for(int i=0;i<schedule.length;i++){
+			if(schedule[i]!=null && schedule[i].getID()==sectionNew.getID()){
+				sectionOld=schedule[i];
+				schedule[i]=null; //now emptied schedule there
+				sectionOld.rosterRemove(stud); //now roster does not have record there
+				timeIndexVacantNew = i;
+			}
+		}
+		stud.updateSchedule(timeIndex, seniorS[timeIndex][classroom]);
+		sectionNew.updateRoster(stud);
+		for(int c=0;c<numClassrooms;c++){
+			if(seniorS[timeIndexVacantNew][c].getRosterSize()<maxStudents && filled==false){
+				seniorS[timeIndexVacantNew][c].updateRoster(stud); //updates the course's roster
+				if(stud.updateSchedule(timeIndexVacantNew, seniorS[timeIndexVacantNew][c])==false){
+					seniorS[timeIndexVacantNew][c].rosterRemove(stud);
+					numGaps++;
+				} else {	
+				}
+			}	
+		}			
 	}	
 	/*
 	 * printAllRosters prints the rosters for all the courses that run
