@@ -954,7 +954,7 @@ public class Schedule{
 	public void coursesAndSections(){
 		Scanner s = new Scanner(System.in);
 		for(int i=0;i<courseListOriginal.size();i++){
-			System.out.println("\ncourse name" + courseListOriginal.get(i).getName() + "\ncourse id: " + courseListOriginal.get(i).getID() + "\nsection ids: ");
+			System.out.println("\ncourse name: " + courseListOriginal.get(i).getName() + "\ncourse id: " + courseListOriginal.get(i).getID() + "\nsection ids: ");
 			for(int j=0;j<maxSpots;j++){
 				if(courseList.get(j).getID()==courseListOriginal.get(i).getID()){
 					System.out.println("\t" + courseList.get(j).getSectionID());
