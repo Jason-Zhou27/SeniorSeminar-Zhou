@@ -555,33 +555,34 @@ public class Schedule{
 	}
 	/*
 	 * reduceGaps method finds students with gaps and reduces those gaps by either swapping when the student takes a certain course (preferred method)
-	 * or switching the student's course with another student's course (last ditch); it takes Student, Course[], and int as parameters
+	 * or switching the student's course with another student's course (last ditch b/c results in more conflicts); it takes Student, Course[], and int as parameters
 	*/
 	public void reduceGaps(Student stud, Course[] schedule, int timeIndex){
 		int classroom=-1;
-		Course sectionNew = null;
-		Course sectionOld = null;
-		boolean filled = false;
+		Course sectionNew = null; //sectionNew is the new section a student will attempt to join
+		Course sectionOld = null; //sectionOld is the old section a student will attempt to join
+		boolean filled = false; //dictates whether student's schedule is filled
 		for(int c=0;c<numClassrooms;c++){ //c for column
 			if(seniorS[timeIndex][c].getRosterSize()<maxStudents && filled==false){
 				if(stud.updateSchedule(timeIndex, seniorS[timeIndex][c])==false){ //there is space but the student can't take course b/c taking another section
-					seniorS[timeIndex][c].rosterRemove(stud);
-					classroom=c;
-					sectionNew = seniorS[timeIndex][c];
+					seniorS[timeIndex][c].rosterRemove(stud); //temp remove student from new roster he/she tries to join
+					classroom=c; //initialize the classroom of the course he/she tries to join (index)
+					sectionNew = seniorS[timeIndex][c]; //store sectoin the student tries to join in sectionNew
 				}
 			}	
 		}
-		int timeIndexVacantNew = -1; //guaranteed to be a valid number b/c of the context of this method
+		int timeIndexVacantNew = -1; //guaranteed to become a valid number b/c of the context of this method
 		for(int i=0;i<schedule.length;i++){
 			if(schedule[i]!=null && schedule[i].getID()==sectionNew.getID()){
-				sectionOld=schedule[i];
+				sectionOld=schedule[i]; //store sectino student tries to leave in sectionOld
 				schedule[i]=null; //now emptied schedule there
 				sectionOld.rosterRemove(stud); //now roster does not have record there
-				timeIndexVacantNew = i;
+				timeIndexVacantNew = i; //new vacancy to be filled
 			}
 		}
-		stud.updateSchedule(timeIndex, seniorS[timeIndex][classroom]);
-		sectionNew.updateRoster(stud);
+		stud.updateSchedule(timeIndex, seniorS[timeIndex][classroom]); //updates student schedule w student joining the sectionNew
+		sectionNew.updateRoster(stud); //updates course roster w student joining the sectionNew; essentially undos line 568 but still helps with reasoning
+		//go through the classrooms in the new vacant spot and try to place a student there
 		for(int c=0;c<numClassrooms;c++){
 			if(seniorS[timeIndexVacantNew][c].getRosterSize()<maxStudents && filled==false){
 				seniorS[timeIndexVacantNew][c].updateRoster(stud); //updates the course's roster
@@ -595,23 +596,27 @@ public class Schedule{
 		}
 		if(filled==false){ //last ditch effort; swap with someone else
 			boolean swapped = false;
-			for(int c=0; c<numClassrooms && swapped==false; c++){
-				Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c]);
+			for(int c=0; c<numClassrooms && swapped==false; c++){ //keep going until someone is swapped
+				Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c]); //get a swap candidate by finding someone with the least priority for the course
 				boolean swapCandidateAble = true;
 				Course[] swapCandidateSchedule = swapCandidate.getSchedule();
+				//circulate through the swap candidate's schedule, and if the swap candidate cannot take on the course left empty, abandon swap  candidate
 				for(int i=0;i<swapCandidateSchedule.length;i++){
 					if(swapCandidateSchedule[i].getID()==sectionOld.getID()){
 						swapCandidateAble=false;
 					}
 				}
 				if(swapCandidateAble==true){
+					//now check if the student can take on the swap candidate's course at that new vacant time 
 					boolean studAble = true;
+					//circulate through the conflicted individual's schedule, and if the student cannot take on the swap candidate's empty course, abandon swap
 					for(int i=0;i<schedule.length;i++){
 						if(schedule[i]!=null && schedule[i].getID()==seniorS[timeIndexVacantNew][c].getID()){
 							studAble=false;
 						}
 					}
 					if(studAble==true){
+						//if student can swap and swap candidate can swap, adjust their rosters/schedules accordingly to make the swap
 						seniorS[timeIndexVacantNew][c].rosterRemove(swapCandidate);
 						seniorS[timeIndexVacantNew][c].updateRoster(stud);
 						sectionOld.rosterRemove(stud);

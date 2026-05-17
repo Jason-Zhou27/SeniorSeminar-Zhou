@@ -173,7 +173,7 @@ public class Student {
 				return i+1;
 			}	
 		}
-		return -1;	
+		return Integer.MAX_VALUE; //those with no ranked choice have least priority	
 	}
 	/*
 	 * toString turns the info for a given student (name, id, email, form time, course requests, student schedule) into String form; String return type
