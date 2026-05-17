@@ -38,14 +38,14 @@ public class Schedule{
 	//constructor
 	/*
 	 * Schedule constructor initializes the conditions for a specific schedule using parameters;
-	 * parameters include number of times, courses per student, max students, number of classrooms, and max sections;
+	 * parameters include number of times, max students, number of classrooms, and max sections;
 	 * It initializes file name variables. It sets conflicts at 0 and conflicts per student at 0.0.
 	*/
-	public Schedule(int nT, int nCPS, int nC, int mS, int mSx){ //parameter names are abreviations of what they represent
+	public Schedule(int nT, int nC, int mS, int mSx){ //parameter names are abreviations of what they represent
 		fileNameStudent = "studentInfo.txt";
 		fileNameCourse = "courseInfo.txt";
 		numTimes = nT;
-		coursesPerS = nCPS;
+		coursesPerS = nT;
 		maxStudents = mS;
 		numClassrooms = nC;
 		maxSpots=nT*nC;
@@ -141,7 +141,7 @@ public class Schedule{
 		sortCourses(); //sorts courses lin courseList so courses earlier in the list have higher priority ratings
 		loadRoster(); //load the roster for each course
 		duplicateCourses(); //duplicate high priority courses until max course number is reached
-		for(int i=0;i<maxSpots;i++){
+		for(int i=0;i<maxSpots && i<courseListOriginal.size()*maxSections && i<courseList.size();i++){
 			
 			int[] cPlacement = findOptimalPlace(courseList.get(i));
 			int timeBlock = cPlacement[0]+1; //time in 2d array
@@ -242,7 +242,7 @@ public class Schedule{
 	public void searchDelete(){
 		for(int i=0; i<studentList.size();i++){
 			Course[] s = studentList.get(i).getSchedule();
-			for(int k=0; k<maxSpots;k++){
+			for(int k=0; k<maxSpots && k<courseListOriginal.size()*maxSections && k<courseList.size();k++){
 				boolean matched = false;
 				for(int j=0; j<s.length;j++){
 					if(s[j]==courseList.get(k)){
@@ -325,7 +325,7 @@ public class Schedule{
 					int timeBlock = k+1;
 					//search the courses at that time and see if there is availability
 					for(int c=0;c<numClassrooms;c++){ //c for column
-						if(seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
+						if(seniorS[timeBlock-1][c]!=null&&seniorS[timeBlock-1][c].getRosterSize()<maxStudents && filled==false){
 							seniorS[timeBlock-1][c].updateRoster(s); //updates the course's roster
 							if(s.updateSchedule(timeBlock-1, seniorS[timeBlock-1][c])==false){
 								seniorS[timeBlock-1][c].rosterRemove(s);
@@ -927,7 +927,7 @@ public class Schedule{
 			printSeniorSeminar();
 			printOverview();
 			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n 4 - additional stats\n q - quit at any time\n\n");
-			System.out.print("Enter selection: ");
+			System.out.print("Enter selection (numeral): ");
 			response = menu.nextLine();
 			if(response.equals("q")){
 				cont=false;
