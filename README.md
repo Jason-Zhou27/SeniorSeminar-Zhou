@@ -26,7 +26,7 @@ in optimal spot in 2d array (spot that will produce least conflicts)-> during pl
 remove excess students (to meet capacity limit), remove the students that were in the placed section from other sections of the same course 
 (previously still on roster)-->*search for students on sections they do not belong on and delete them from those sections* --> fill in gaps in schedules
 
-note: step in astrics is necessary because despite 3+ months of searching for an error and constant debugging, I cannot locate the error that causes students
+note: step in italics is necessary because despite 3+ months of searching for an error and constant debugging, I cannot locate the error that causes students
 not to be removed properly from certain sections--a frustrating aspect of this project but nevertheless required a creative workaround
 
 ## Journal Entries:
@@ -127,10 +127,10 @@ for students to be placed in more courses than they should...
 issue with fillGaps? no
 I've noticed that those with >5 courses are not placed into the same courses --> thus, I don't think the error comes from duplicating courses,
 copying rosters, or removing duplicate students...so for right now, I will eliminate those from scrutiny
-
+Edit 5/17 - my comments here are false; I'm pretty sure I was incorrectly looking at my spreadsheet (it got reordered so rows don't have correlation with id)
 I've so far deduced that fillGaps is not the issue by looking at the code--but a puzzling issue comes up. How can a student get courses he/she
 never even picked?--that has to do somehow with fillGaps, right? b/c no other method deals with inserting courses that a student has not requested
-BUT WAIT--what if fillGaps is acting correctly and putting these students in new courses BECAUSE THE STUDENT'S SCHEDULE WASN'T UPDATED PROPERLY TO BEGIN WITH!
+But wait--what if fillGaps is acting correctly and putting these students in new courses because the student's schedule wasn't properly updated to begin with.
 a student can be placed into let's say 5 course rosters, but if his schedule is only updated with 3 courses, fillGaps will add him to 2 additional courses.
 
 ok, so how can a student be placed into rosters but not have his/her schedule updated correctly?
@@ -139,15 +139,13 @@ it must be the placeStudents, right? I will check that.
 the question I'm trying to tackle right now is when do I update the students' schedules when I place the courses? do I even do that in the placeCourses section?
 so I actually do that
 
-sidenote: I adjusted the getCourse method to return null as a course instead of some placeholder course--no change I think NEVERMIND--I lowered conflicts per student to 1.5
-	same amount of # free total
+sidenote: I adjusted the getCourse method to return null as a course instead of some placeholder course--no change I think; nevermind--I lowered conflicts per student to 1.5
+same amount of # free total
 	
 alright, so I think my intuition was wrong--I think these students have their schedules updated. how do I know? well, I looked at case study student 6.
 Student 6 had a full schedule when I ran the toString on him, and the courses in his schedule were all those that he requested. The extra 2 courses
-in whose rosters he appeared in were courses he DID NOT request. What does this phenomenon tell us? fillGaps or maybe another method somehow adds students with full
-schedules to other full courses
-
-	nevermind, this statement is wrong; I incorrectly referenced the spreadsheet
+in whose rosters he appeared in were courses he did not request. What does this phenomenon tell us? fillGaps or maybe another method somehow adds students with full
+schedules to other full courses; nevermind, this statement is wrong; I incorrectly referenced the spreadsheet
 	
 I think my intuition was correct: for case study student 6, his schedule shows that he was placed into most (4) of his choices' rosters, but his schedule didn't update correctly
 (in fact, he only got 2 in his schedule); therefore, fillGaps added 3 more courses
