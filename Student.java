@@ -182,8 +182,8 @@ public class Student {
 		sToString = "";
 		sToString = "id number: " + idNum;
 		sToString = sToString + "\nname: " + name;
-		sToString = sToString + "\nemail: " + email;
-		sToString = sToString + "\nform time: " + formTime.toString();
+		sToString = sToString + "\nemail: " + email + "\n";
+		//sToString = sToString + "\nform time: " + formTime.toString();
 		sToString = sToString + "\nREQUESTS";
 		for (int i=0; i<courseRequest.size();i++){
 			sToString = sToString + "\nchoice " + (i+1) + ":" + courseRequest.get(i); 

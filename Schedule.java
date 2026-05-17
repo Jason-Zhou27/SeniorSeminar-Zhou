@@ -737,9 +737,10 @@ public class Schedule{
 		return null;	
 	}
 	/*
-	 * printRunLogistics prints timeblock and classroom for a given section; section is the parameter
+	 * printRunLogistics prints timeblock and classroom for a given section, and it returns a boolean
+	 * signaling if the section runs; section is the parameter
 	*/
-	public void printRunLogistics(Course section){
+	public boolean printRunLogistics(Course section){
 		int timeBlock=-1;
 		int classroom=-1;
 		for(int t = 0; t<numTimes;t++){
@@ -752,9 +753,11 @@ public class Schedule{
 		}	
 		if(timeBlock!=-1 && classroom!=-1){
 			System.out.print("\ntime block: " + timeBlock + "\nclassroom: " + classroom + "\n");
+			return true;
 		}
 		else {
 			System.out.print("section is not running\n");
+			return false;
 		}		
 	}	
 	/*
@@ -773,6 +776,7 @@ public class Schedule{
 				if(x!=0){
 					id = Integer.parseInt(response);
 					System.out.println(getStudent(id).toString());
+					System.out.println("Number of conflicts: " + getStudent(id).calculateConflictInd());
 				}
 				System.out.print("Enter student id: ");
 				response = s.nextLine();
@@ -801,6 +805,7 @@ public class Schedule{
 					}
 					if(stud!=null){
 						System.out.println(stud.toString());
+						System.out.println("Number of conflicts: " + stud.calculateConflictInd());
 					} else{
 						break;
 					}	
@@ -827,10 +832,12 @@ public class Schedule{
 			if(x!=0){
 				id = Integer.parseInt(response);
 				System.out.println(getSection(id).toString());
-				printRunLogistics(getSection(id));
-				getSection(id).printRoster();
+				boolean running = printRunLogistics(getSection(id));
+				if(running==true){
+					getSection(id).printRoster();
+				}
 			}
-			System.out.print("Enter section id (1-" + (courseList.size()) + "):");
+			System.out.print("\nEnter section id (1-" + (courseList.size()) + "):");
 			response = s.nextLine();
 			if(response.equals("q")){
 				cont=false;
@@ -858,6 +865,11 @@ public class Schedule{
 		}	
 	}
 	/*
+	 * printAdditionalStats aims to help user understanding of the true effectiveness of the program;
+	 * it quanitifies additional values, so the user can get a holistic view of effectiveness
+	*/
+	public void additional
+	/*
 	 * menu method uses Scanner to enable the user to navigate the program
 	*/
 	public void menu(){
@@ -879,7 +891,7 @@ public class Schedule{
 					coursesAndSections();
 				}	
 			}
-			System.out.println("\n\n\n\n\n\n\n | SENIOR SEMINAR |");
+			System.out.println("\n\n\n\n\n\n\n\n\n | SENIOR SEMINAR |");
 			printSeniorSeminar();
 			printOverview();
 			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n q - quit at any time\n\n");
