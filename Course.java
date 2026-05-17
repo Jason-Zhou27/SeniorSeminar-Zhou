@@ -2,12 +2,12 @@
  * Course.java
  * @author Jason Zhou
  * @since (date) 02/09/2026
- * outlines course behaviors and attributes
+ * This class outlines course behaviors and attributes
 */
 
 import java.util.*; //ArrayLists
 /*
- *outlines scourse behaviors and attributes 
+ *Course class outlines course behaviors and attributes 
 */
 public class Course {
 	//class variables
@@ -23,8 +23,8 @@ public class Course {
 	private ArrayList<Student> roster = new ArrayList<Student>();
 	private int sectionID;
 	/*
-	 * course constructor initializes attributes/instance variables and sets popularity rating, student demand, and roster size
-	 * to 0
+	 * course constructor initializes attributes/instance variables (teacher, name, course id) and sets popularity rating, student demand, and roster size
+	 * to 0; it intializes sectionID by number of total sections (class variable)
 	*/
 	public Course(String t, String n, int id){
 		numSections++;
@@ -38,25 +38,25 @@ public class Course {
 	}
 	//methods
 	/*
-	 * getID is a getter which fetches the course id attribute
+	 * getID is a getter which fetches the course id attribute; int return
 	*/
 	public int getID(){
 		return courseID;
 	}
 	/*
-	 * getSectionID is a getter which fetches the section id attribute
+	 * getSectionID is a getter which fetches the section id attribute; int return
 	*/
 	public int getSectionID(){
 		return sectionID;
 	}
 	/*
-	 * getName is a getter which fetches the course name attribute
+	 * getName is a getter which fetches the course name attribute; String return
 	*/
 	public String getName(){
 		return courseName;
 	}
 	/*
-	 * getTeacher is a getter which fetches the teacher attribute in the form of a String
+	 * getTeacher is a getter which fetches the teacher attribute in the form of a String; String return
 	*/
 	public String getTeacher(){
 		return courseTeacher;
@@ -100,7 +100,7 @@ public class Course {
 		rosterSize=roster.size();
 	}
 	/*
-	 * getRosterSize is a getter that fetches the roster size of a course
+	 * getRosterSize is a getter that fetches the roster size of a course; int return
 	*/	
 	public int getRosterSize(){
 		updateRoster();
@@ -115,7 +115,7 @@ public class Course {
 		rosterSize=roster.size();
 	}
 	/*
-	 * rosterRemove w/ student argument searches the roster for a student and removes
+	 * rosterRemove w/ student parameter searches the roster for a student and removes
 	 * student if found;
 	 * overloaded method
 	*/
@@ -132,7 +132,7 @@ public class Course {
 		rosterSize=roster.size();
 	}
 	/*
-	 * rosterRemove w/ int argumentremoves a student at a given roster position/index in roster; 
+	 * rosterRemove w/ int parameter removes a student at a given roster position/index in roster; 
 	 * rosterPos is a parameter;
 	 * overloaded method
 	*/
@@ -141,7 +141,7 @@ public class Course {
 		rosterSize=roster.size();
 	}
 	/*
-	 * this rosterRemove w/ 2 arguments assists searchDelete method in Schedule class; it removes
+	 * this rosterRemove w/ 2 parameters (student and int) assists searchDelete method in Schedule class; it removes
 	 * students who were somehow placed in a class; the second parameter has no meaning and
 	 * is only used to differentiate this rosterRemove w/ a student argument from the other one--it
 	 * allowed me to put a print statement to help debug;
@@ -163,7 +163,7 @@ public class Course {
 		studentDemand = d;
 	}
 	/*
-	 * getDemand is a getter that fetches the student demand for a course
+	 * getDemand is a getter that fetches the student demand for a course; int return
 	*/
 	public int getDemand(){
 		return studentDemand; 
@@ -175,14 +175,14 @@ public class Course {
 		priorityRating=pr;
 	}
 	/*
-	 * getStudent is a getter which fetches the student at a certain roster position; rosterPos is the parameter
+	 * getStudent is a getter which fetches the student at a certain roster position; rosterPos is the parameter; Student return
 	*/		
 	public Student getStudent(int rosterPos){
 		return roster.get(rosterPos);
 	}
 	/*
 	 * rosterFind ascertains whether a student is in the course's roster; it returns a boolean and takes in a student
-	 * argument
+	 * parameter
 	*/
 	public boolean rosterFind(Student s){
 		//search for student object;if found, remove
@@ -197,7 +197,7 @@ public class Course {
 	}
 	
 	/*
-	 * getRoster is a getter which fetches the roster (in the form of an ArrayList) of a course
+	 * getRoster is a getter which fetches the roster (in the form of an ArrayList); ArrayList<Student> return 
 	*/
 	public ArrayList<Student> getRoster(){
 		return roster;
@@ -221,7 +221,8 @@ public class Course {
 		}	
 	}						
 	/*
-	 * toString turns the info about a course (teacher, name, id, popularity rating, student demand, priority rating) into String form
+	 * toString turns the info about a course (teacher, name, id, popularity rating, student demand, priority rating) into String form;
+	 * String return
 	*/	
 	public String toString(){
 		

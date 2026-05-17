@@ -2,14 +2,14 @@
  * Schedule.java
  * @author Jason Zhou
  * @since (date) 02/09/2026
- * outlines schedule class which handles main functions of the program
+ * This class outlines schedule class which handles main functions of the program
 */
 
 //import libraries
 import java.util.*; //Scanner + ArrayLists
 import java.io.*; //File
 /*
- * handles main functions (loads data, organizes, optimization)
+ * Schedule class handles main functions (loads data, organizes, optimization)
 */ 
 public class Schedule{
 	//variables
@@ -37,7 +37,8 @@ public class Schedule{
 	
 	//constructor
 	/*
-	 * Schedule constructor initializes the conditions for a specific schedule using parameters.
+	 * Schedule constructor initializes the conditions for a specific schedule using parameters;
+	 * parameters include number of times, courses per student, max students, number of classrooms, and max sections;
 	 * It initializes file name variables. It sets conflicts at 0 and conflicts per student at 0.0.
 	*/
 	public Schedule(int nT, int nCPS, int nC, int mS, int mSx){ //parameter names are abreviations of what they represent
@@ -159,6 +160,7 @@ public class Schedule{
 	}
 	/*
 	 * studentHandling manages much of the student side of organizing a schedule; it will update a student's schedule (or attempt to), remove students from courses if capacity is exceeded, and oversee removing duplicate students in different sections.
+	 * index (i) of course, time block, and classroom are the parameters
 	*/
 	public void studentHandling(int i, int timeBlock, int classroom){
 			Course c = courseList.get(i);
@@ -177,7 +179,7 @@ public class Schedule{
 			removeDuplicateStudents(c, c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}
 	/*
-	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity);
+	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity); student return type;
 	 * it uses same algorithm as finding min value
 	*/	
 	public Student studentRemove(Course c){
@@ -250,7 +252,8 @@ public class Schedule{
 	}
 	/*
 	 * checkTeacherAvailability ensures that the teacher is not already teaching in a certain time block;
-	 * it searches the columns of the 2d senior seminar array as a row represents a time block and columns represent classrooms
+	 * it searches the columns of the 2d senior seminar array as a row represents a time block and columns represent classrooms;
+	 * boolean return type--true means that the teacher is available and false means that the teacher is not available
 	*/
 	public boolean checkTeacherAvailability(int r, String teacher){
 		int timeBlock = r+1;
@@ -343,7 +346,8 @@ public class Schedule{
 		}	
 	}
 	/*
-	 * removeDuplicateStudents removes the students placed in a course from the other section
+	 * removeDuplicateStudents removes the students placed in a course from the other section; it has course placed, id of course, position/index
+	 * of course in the courseList, and time block as parameters
 	*/
 	public void removeDuplicateStudents(Course placed, int idCourse, int pos, int timeBlock){ //pos represents position in courseList ArrayList where student was placed
 		for(int k=0; k<placed.getRoster().size(); k++){	
@@ -440,7 +444,7 @@ public class Schedule{
 		
 	}
 	/*
-	 * wortCCheck supplements sortCourses to check if the courseList is sorted by priority
+	 * wortCCheck supplements sortCourses to check if the courseList is sorted by priority; returns true for sorted and false for not sorted
 	*/
 	public boolean sortCCheck(){
 		boolean sorted = true;
@@ -558,7 +562,7 @@ public class Schedule{
 		}
 	}
 	/*
-	 * getStudent fetches the student given the student's name;
+	 * getStudent fetches the student given the student's name; name is the parameter;
 	 * overloaded
 	*/
 	public Student getStudent(String name){
@@ -571,7 +575,7 @@ public class Schedule{
 		return null;
 	}
 	/*
-	 * getStudent fetches the student given the student's id;
+	 * getStudent fetches the student given the student's id; id is the parameter;
 	 * overloaded
 	*/
 	public Student getStudent(int id){
@@ -596,7 +600,7 @@ public class Schedule{
 		return null;	
 	}
 	/*
-	 * printRunLogistics prints timeblock and classroom for a given section
+	 * printRunLogistics prints timeblock and classroom for a given section; section is the parameter
 	*/
 	public void printRunLogistics(Course section){
 		int timeBlock=-1;

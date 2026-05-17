@@ -2,13 +2,13 @@
  * Student.java
  * @author Jason Zhou
  * @since (date) 02/09/2026
- * outlines student behaviors and attributes
+ * This class outlines student behaviors and attributes
 */
 
 import java.util.*; //ArrayLists
 
 /*
- * outlines student behaviors and attributes
+ * Student class outlines student behaviors and attributes
 */
 public class Student {
 	//class variables
@@ -24,7 +24,7 @@ public class Student {
 	
 	/*
 	 * student constructor initializes instance variables/attributes for student objects; it creates courseRequest ArrayList and
-	 * sets the size for the studentSchedule array
+	 * sets the size for the studentSchedule array; it has parameters id, name, email, and time filled out
 	*/
 	public Student(int id, String n, String e, Time t) {
 		//System.out.println("constructor called");
@@ -38,37 +38,37 @@ public class Student {
 	}
 	//methods
 	/*
-	 * setCoursesPerStudent is a class method setter which defines the number of courses a student takes
+	 * setCoursesPerStudent is a class method setter which defines the number of courses a student takes; the number is provided by an int parameter
 	*/
 	public static void setCoursesPerStudent(int n){
 		coursesPerS=n;
 	}
 	/*
-	 * getID is a getter which fetches the student id attribute
+	 * getID is a getter which fetches the student id attribute; int return
 	*/	
 	public int getID(){
 		return idNum;
 	}
 	/*
-	 * getName is a getter which fetches the student name attribute
+	 * getName is a getter which fetches the student name attribute; string return
 	*/
 	public String getName(){
 		return name;
 	}
 	/*
-	 * getEmail is a getter which fetches the student email attribute
+	 * getEmail is a getter which fetches the student email attribute; string return
 	*/
 	public String getEmail(){
 		return email;
 	}
 	/*
-	 * getFormTime is a getter which fetches the time in which the form was submitted
+	 * getFormTime is a getter which fetches the time in which the form was submitted; Time return
 	*/
 	public Time getFormTime(){
 		return formTime;
 	}
 	/*
-	 * getCourse is a method which fetches the course associated with a ranking; it has ranking as a parameter
+	 * getCourse is a method which fetches the course associated with a ranking; it has ranking as a parameter; course return
 	*/
 	public Course getCourse(int ranking){
 		return courseRequest.get(ranking-1); //ArrayList starts at index 0
@@ -76,13 +76,13 @@ public class Student {
 	/*
 	 * addCourseReq is a method which adds a course to the courseRequest ArrayList; it has course as a parameter
 	*/	
-	public void addCourseReq(Course c){ //add requested course to courseRequest ArrayList
+	public void addCourseReq(Course c){ 
 		Course addCourse = c;
 		courseRequest.add(addCourse);
 	}
 	/*
 	 * checkConflict checks if there is a conflict at a certain time in the student's schedule; 
-	 * it has time as a parameter;
+	 * it has time (not the object) as a parameter;
 	 * it returns true if there is conflict and returns false if there is not conflict
 	*/
 	public boolean checkConflict(int t){ 
@@ -95,7 +95,8 @@ public class Student {
 	}
 	/*
 	 * updateSchedule will update the student schedule with a course if there is an available slot
-	 * in the student's schedule; it has time and course as parameters
+	 * in the student's schedule; it has time and course as parameters; boolean return type--return
+	 * true if successfully updated and false if not able to update
 	*/
 	public boolean updateSchedule(int t, Course c){
 		for(int i=0; i<coursesPerS;i++){
@@ -122,7 +123,7 @@ public class Student {
 	 * calculateConflictInd will count the number of conflicts a student has;
 	 * if a student has made requests, it will check matches between courseRequest ArrayList
 	 * and studentSchedule array; if there is no match for a given course in courseRequest,
-	 * conflictCounter--which stores number of conflicts--will be incremented
+	 * conflictCounter--which stores number of conflicts--will be incremented; int return
 	*/
 	public int calculateConflictInd(){
 		int conflictCounter = 0;
@@ -145,13 +146,14 @@ public class Student {
 		return conflictCounter;	
 	}
 	/*
-	 * getSchedule returns the student's schedule in the form of an array of courses
+	 * getSchedule returns the student's schedule in the form of an array of courses; return is array of courses
 	*/
 	public Course[] getSchedule(){
 		return studentSchedule;
 	}
 	/*
-	 * madeRequest checks if a student has made a course request or not; it will return a boolean value
+	 * madeRequest checks if a student has made a course request or not; it will return a boolean value--true means made
+	 * request and false means not made request
 	*/
 	public boolean madeRequest(){
 		for(int i=0;i<courseRequest.size();i++){
@@ -174,7 +176,7 @@ public class Student {
 		return -1;	
 	}
 	/*
-	 * toString turns the info for a given student (name, id, email, form time, course requests, student schedule) into String form
+	 * toString turns the info for a given student (name, id, email, form time, course requests, student schedule) into String form; String return type
 	*/
 	public String toString(){
 		sToString = "";
