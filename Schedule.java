@@ -530,6 +530,7 @@ public class Schedule{
 	public void printOverview(){
 		System.out.print("\n");
 		calculateOverallConflicts();
+		countGaps();
 		calculateConflictPerStudent();
 		System.out.println("Number of Conflicts: " + conflicts);
 		System.out.println("Conflicts Per Student: " + conflictPerS);
@@ -554,7 +555,7 @@ public class Schedule{
 	}
 	/*
 	 * reduceGaps method finds students with gaps and reduces those gaps by either swapping when the student takes a certain course (preferred method)
-	 * or switching the student's course with another student's course (last ditch)
+	 * or switching the student's course with another student's course (last ditch); it takes Student, Course[], and int as parameters
 	*/
 	public void reduceGaps(Student stud, Course[] schedule, int timeIndex){
 		int classroom=-1;
@@ -624,6 +625,20 @@ public class Schedule{
 				}
 			}	
 		}					
+	}
+	/*
+	 * countGaps counts total number of gaps in the schedules
+	*/
+	public void countGaps(){
+		numGaps=0;
+		for(int i=0;i<studentList.size();i++){
+			Course[] schedule = studentList.get(i).getSchedule();
+			for(int j=0;j<schedule.length;j++){
+				if(schedule[j]==null){
+					numGaps++;
+				}
+			}
+		}
 	}	
 	/*
 	 * printAllRosters prints the rosters for all the courses that run
