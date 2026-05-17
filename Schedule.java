@@ -84,6 +84,10 @@ public class Schedule{
 					studentList.add(new Student(studentId, nameStudent, emailStudent, new Time(100,100,100,100,100,100)));
 				} else {	//if there is a time recorded, create student object w/ time object provided by form info
 					String[] timeStampDE = timeStampD.split("/"); //time stamp date elements (month, day, year)
+					/*
+					 * not magic numbers; precondition for the program is that data in the text file is presented
+					 * in such way
+					*/
 					int month = Integer.parseInt(timeStampDE[0]);
 					int day = Integer.parseInt(timeStampDE[1]);
 					int year = Integer.parseInt(timeStampDE[2]);
@@ -151,7 +155,6 @@ public class Schedule{
 				cPlacement = findOptimalPlace(courseList.get(i));
 				timeBlock = cPlacement[0]+1; //time in 2d array
 				classroom = cPlacement[1]+1; //classroom in 2d array
-				
 			}	
 			seniorS[timeBlock-1][classroom-1]=courseList.get(i);
 			studentHandling(i, timeBlock, classroom);

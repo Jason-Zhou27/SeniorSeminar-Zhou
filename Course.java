@@ -150,7 +150,7 @@ public class Course {
 	public void rosterRemove(Student s, int useless){
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
-				//System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
+				//System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName + "course id: " + courseID + " seciton id: " + sectionID);
 				roster.remove(i);
 			}	
 		}
