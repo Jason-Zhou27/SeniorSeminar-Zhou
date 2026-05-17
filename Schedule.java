@@ -297,6 +297,7 @@ public class Schedule{
 						}	
 					}
 					if(filled==false){
+						reduceGaps(s, schedule, timeBlock-1);
 						numGaps=numGaps+1;
 					}
 				}	
@@ -552,6 +553,24 @@ public class Schedule{
 		}
 		System.out.println("There are " + trackerTotal + " spots free total, and there are supposed to be " + (numClassrooms*maxStudents-studentList.size())*numTimes);
 	}
+	/*
+	 * reduceGaps method finds students with gaps and reduces those gaps by swapping when the student takes a certain course
+	*/
+	public void reduceGaps(Student stud, Course[] schedule, int timeIndex){
+		int classroom;
+		Course sectionNew = null;
+		Course sectionOld = null;
+		boolean filled = false;
+		for(int c=0;c<numClassrooms;c++){ //c for column
+			if(seniorS[timeIndex][c].getRosterSize()<maxStudents && filled==false){
+				if(stud.updateSchedule(timeIndex, seniorS[timeBlock-1][c])==false){ //precondition: there is space but the student can't take course b/c taking another section
+					seniorS[timeIndex][c].rosterRemove(s);
+					classroom=c;
+					sectionNew = seniorS[timeIndex][c];
+				}
+			}	
+		}		
+	}	
 	/*
 	 * printAllRosters prints the rosters for all the courses that run
 	*/
