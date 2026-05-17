@@ -201,24 +201,39 @@ public class Schedule{
 	/*
 	 * studentRemove uses students' ranks of a course to decide who is x-best candidate to be removed; student return type; 
 	 * Course and int parameter;
-	 * it uses bubble sort algorithm;
+	 * it uses a bubble sort algorithm;
 	 * overloaded
 	*/	
 	public Student studentRemove(Course c, int x){
 		ArrayList<Student> r = c.getRoster();
-		ArrayList<Student> removeList = new ArrayList<Student>();
+		ArrayList<Student> removeList = new ArrayList<Student>(); //have to create new ArrayList b/c I don't want to modify og
 		for(int i=0;i<r.size();i++){
 			removeList.add(r.get(i));
 		}	
 		do {	
 			for(int i=0;i<removeList.size()-1;i++){
-				if(removeList.get(i).getRanking()<removeList.get(i).getRanking()){
+				if(removeList.get(i).getRanking(c)<removeList.get(i+1).getRanking(c)){
 					Student temp = removeList.get(i+1); 
 					removeList.remove(i+1);
 					removeList.add(i,temp);
 				}
 			}
-		} while(sortStudentRemove()==false);	
+		} while(sortStudentRemoveCheck(removeList, c)==false);
+		return removeList.get(x);	
+	}
+	/*
+	 * sortStudentRemoveCheck supplements studentRemove (w/ 2 parameters) to check if the removeList is sorted by ranking; 
+	 * takes in arraylist parameter and a course parameter;
+	 * returns boolean true for sorted and false for not sorted
+	*/
+	public boolean sortStudentRemoveCheck(ArrayList<Student> removeList, Course c){
+		boolean sorted = true;
+		for(int i=0;i<removeList.size()-1;i++){
+			if(removeList.get(i).getRanking(c)<removeList.get(i+1).getRanking(c)){
+				sorted=false;
+			}	
+		}
+		return sorted;
 	}	
 	/*
 	 * searchDelete removes students from any courses they do not take; this method is a substitute to finding the
@@ -623,7 +638,7 @@ public class Schedule{
 			int x=0; //incrementor that decides the x-best candidate for swapping
 			while(swapped==false){
 				for(int c=0; c<numClassrooms && swapped==false; c++){ //keep going until someone is swapped
-					Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c],x); //get a swap candidate by finding someone with the least priority for the course
+					Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c],x); //get a swap candidate by finding someone with the x-most priority for the course
 					boolean swapCandidateAble = true;
 					Course[] swapCandidateSchedule = swapCandidate.getSchedule();
 					//circulate through the swap candidate's schedule, and if the swap candidate cannot take on the course left empty, abandon swap  candidate
