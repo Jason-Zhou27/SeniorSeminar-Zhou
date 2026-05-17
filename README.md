@@ -19,19 +19,19 @@ The attached CSV/Spreadsheet file is the result of sending out a google form and
 - Generate a schedule for the sessions and speakers, 
 - Create lists for each student so they know what sessions to attend, rooms and times.
 
-##General Strategy:
+## General Strategy:
 load students + courses --> create objects --> find priority for course placement (using weighted & unweighted) --> sort courses by priority so they 
 can be placed in order of priority --> load the courses with their rosters --> duplicate courses and rosters to form sections--> place sections
 in optimal spot in 2d array (spot that will produce least conflicts)-> during placement, remove students who can't take the section at that time, 
 remove excess students (to meet capacity limit), remove the students that were in the placed section from other sections of the same course 
-(previously still on roster)-->**search for students on sections they do not belong on and delete them from those sections** --> fill in gaps in schedules
+(previously still on roster)-->*search for students on sections they do not belong on and delete them from those sections* --> fill in gaps in schedules
 
-note: step in ** ** is necessary because despite 3+ months of searching for an error and constant debugging, I cannot locate the error that causes students
+note: step in astrics is necessary because despite 3+ months of searching for an error and constant debugging, I cannot locate the error that causes students
 not to be removed properly from certain sections--a frustrating aspect of this project but nevertheless required a creative workaround
 
-##Journal Notes:
+## Journal Entries:
 
-02.18.2026 (02.19.2026 Class Work Day Make-up)
+### 02.18.2026 (02.19.2026 Class Work Day Make-up)
 
 I added multiple new methods in Schedule; among which inlcude findPop, findDemand, and assignPriority--all methods to track how popular a course is, 
 how much student demand there is (unweighted), and the priority that should be given to the course when sorting the course array. 
@@ -41,7 +41,7 @@ Furthermore, I have begun to include important numbers from the program into arg
 to be more comprehensive in detail.
 
 
-02.21.2026
+### 02.21.2026
 
 I worked on placing the courses into the 2d array of times and classrooms. I tried to reduce conflicts as much as possible by coding the findOptimal 
 method which tracks which position (in the 2d array) would pose least amount of conflicts to the students within the course's roster. I spent considerable time 
@@ -60,7 +60,7 @@ despite my work session being quite long, I spent considerable time thinking abo
 of error.
 
 
-2.22.2026
+### 2.22.2026
 
 Today, I worked through the intricacies of the project; I created multiple sections of coureses that have excessive demand, maxed out courses
 at a certain capacity, created methods to ensure that no student is in two sections of the same course, and filled in gaps in course requests and schedules. 
@@ -83,7 +83,7 @@ duplicated copy--maybe it is not wise to place the duplicated course adjacent to
 that I will not make visual progress in terms of lines of code, but I will make progress in thought. I will do a lot of mapping of ideas and strategy to ensure that
 my strategy moving forward is effective.
 
-2.23.2026
+### 2.23.2026
 
 Today, I realized that I violated one of the rules of the project (no session is repeated more than twice) in duplicateCourses() method, so I changed the conditional
 to account for the fact. Other than that, I did some significant debugging. There is a disrepancy between the number of free spots that should exist at the end (30)
@@ -91,11 +91,11 @@ and the actual number of free spots that exist (2). I want to find the source of
 updated properly (which does not seem to be the case). I want to print out the rosters right now to see if I can find the bug that way. I think that by fixing this error,
 I can greatly reduce the number of gaps.
 
-2.24.2026
+### 2.24.2026
 
 I updated the documentation/comments for readFileStudent and readFileCourse methods in Schedule class.
 
-2.27.2026
+### 2.27.2026
 
 I developed a new approach for optimization; instead of following the current order of placing courses w/
 same courses placed adjacently & higher demand courses put in first, I aim to place the coureses in every order
@@ -103,14 +103,14 @@ possible--then picking the most optimal one for the user. I am still working to 
 in the disrepancy of gaps; so far, I have gotten the printRoster() method to work, and I plan to use that
 to find the source of the error.
 
-3.12.2026
+### 3.12.2026
 
 Today, I changed the printRoster method to print IDs, so I can import each roster into a spreadsheet. I looked through the spreadsheet, and some people
 are taking >5 classes, which signals that an issue truly exists. The problem is that this issue can occur in multiple places--so right now, I am looking through the whole program
 and continuing to try to debug the error. I expect the origin of this issue is in removeDuplicateStudents.
 Please see the spreadsheet to see my work: https://docs.google.com/spreadsheets/d/16BMeEpPLZVsgxSx0Q-8vri2covNVRRhxb3X6e6Uh3dM/edit?usp=sharing
 
-3.13.2026
+### 3.13.2026
 
 Today, I documented the reference schedule that Mr. Twyford put on the board. I created a 2d array of senior seminar ids which is initialized to this reference schedule. However,
 because of the infrastructure of my program , it is exceptionally difficult to integrate the "place course then place students" algorithm into my program; nevertheless, I have pretty much
@@ -118,7 +118,7 @@ achieved the objective of this activity earlier: I have determined that nearly a
 making some progress in debugging. I think to fix this issue, I must devote a long stretch of time to debugging--simply debugging in small bits is ineffective and inefficient. 
 Over Spring Break, I hope to finish the project.
 
-3.27.2026
+### 3.27.2026
 
 As I work to debug the issue, I will make some notes here to help myself:
 ok, so for me to debug, I want to limit as many sources of error as possible; thus, right now, I will take out fillBlankRequests (it's kind of redundant
@@ -163,7 +163,7 @@ I will need to look more at the removal of students when there are excess)
 
 created debugging tools (prints)
 
-3.28.2026 
+### 3.28.2026 
 
 I think the best way to resolve this issue is to look at case by case basis. I will analyze student 6 to see where the issue originates from.
 So I tried to debug by analyzing student 6...but I realized that I can just see if this issue exists by resolving it with a searchDelete() method.
@@ -175,7 +175,7 @@ neverthless, I've done some effective eliminating of the issue.
 
 I did quite a bit of housekeeping today; I eliminated old debugging tools that were not needed/old lines. 
 
-3.29.2026
+### 3.29.2026
 
 Today, I made sure that students got choices based on their ranks. I initially had used only ranks to set the common good (what courses to choose). However,
 running this change allowed me to see a new issue: the last course could sometimes not be placed because the teacher was not available. Therefore, I adjusted
@@ -186,12 +186,12 @@ with print statements to see where students are not getting properly deleted fro
 conflicts by more than 10 if I fix this issue.
 
 
-4.1.2026
+### 4.1.2026
 
 I tried debugging the issue of students not being deleted from rosters by talking to Mr. Twyford. I cleaned up some of the code to be more concise. I did not make significant
 progress.
 
-5.16.2026
+### 5.16.2026
 
 This journal entry will encompass 5.15.2026-5.17.2026 because I started working late of night 5.15 and early morning 5.17 (like midnight). Here's the deal:
 while I was looking at my program and seeing how I can refine it, I looked at individual cases; in these individual cases, some had taken more than one section
@@ -217,7 +217,7 @@ I have inserted documentation where necessary.
 Also, to be clear, I am working off my mother's laptop, so the commits are coming from "Lin" even though I, Jason Zhou, and writing the code and comments.
 I apologize for commits that have more than 40 lines of comments; the multiline comments have a beginning and end line which overexpress actual substance.
 
-5.17.2026
+### 5.17.2026
 
 I had a eureka moment at like 2 am in the morning. I previously thought that turning numGaps to zero would be not possible, but I realized that there are methods to
 counter that occurence. Let's first talk about how a student gets into a case in which the student has a gap in the schedule: right now, it's when the student
