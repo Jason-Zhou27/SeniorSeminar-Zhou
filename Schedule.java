@@ -593,7 +593,29 @@ public class Schedule{
 		}
 	}
 	/*
-	 * menu method uses scanner to enable the user to navigate the program
+	 * findSection prints out info for given section
+	*/
+	public void findSection(){
+		Scanner s = new Scanner(System.in);
+		boolean cont = true;
+		int id;
+		int x=0; //incrementor
+		String response = "";
+		while(cont==true){
+			if(x!=0){
+				id = Integer.parseInt(response);
+				System.out.println(getSection(id).toString());
+			}
+			System.out.print("Enter section id: ");
+			response = s.nextLine();
+			if(response.equals("q")){
+				cont=false;
+			}
+			x++;	
+		}
+	}
+	/*
+	 * menu method uses Scanner to enable the user to navigate the program
 	*/
 	public void menu(){
 		Scanner menu = new Scanner(System.in);
@@ -601,12 +623,18 @@ public class Schedule{
 		int x=0; //incrementor
 		String response = "";
 		while(cont==true){
+			System.out.println("MENU: \n 1 - search student \n 2 - search section\n");
 			if(x!=0){
-				id = Integer.parseInt(response);
-				System.out.println(getStudent(id).toString());
+				int choice = Integer.parseInt(response);
+				if(choice==1){
+					findStudent();
+				}
+				if(choice==2){
+					findSection();
+				}		
 			}
 			System.out.print("Enter student id: ");
-			response = s.nextLine();
+			response = menu.nextLine();
 			if(response.equals("q")){
 				cont=false;
 			}

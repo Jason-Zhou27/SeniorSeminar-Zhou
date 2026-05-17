@@ -16,7 +16,7 @@ public class Main {
 		s1.printOverview();
 		//s1.printFree();
 		//s1.printAllRosters();
-		s1.findStudent();
+		s1.menu();
 		
 	}
 }

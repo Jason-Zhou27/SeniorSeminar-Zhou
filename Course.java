@@ -227,9 +227,10 @@ public class Course {
 		String cToString = "\n";
 		cToString = cToString + "teacher: " + courseTeacher + "\n";
 		cToString = cToString + "name: " + courseName + "\n";
-		cToString = cToString + "id: " + courseID + "\n";
-		cToString = cToString + "popularity rating: " + popRating + "\n";
-		cToString = cToString + "student demand: " + studentDemand + "\n";
+		cToString = cToString + "section id: " + sectionID + "\n";
+		cToString = cToString + "course id: " + courseID + "\n";
+		//cToString = cToString + "popularity rating: " + popRating + "\n";
+		//cToString = cToString + "student demand: " + studentDemand + "\n";
 		cToString = cToString + "priority rating: " + priorityRating + "\n";
 		return cToString;
 	}				
