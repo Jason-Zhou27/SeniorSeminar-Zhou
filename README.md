@@ -203,3 +203,5 @@ at places I think may need some clarification. As putting forth some reflection 
 this problem. I recall that for a couple days straight, I wrote extensive amounts of code--which was simple as everything flowed together really well in my head.
 However, when I go back and work on the problem a few months later, grappling with my earlier logic is quite tough. As a result (and also because of Mr. Twyford's guidelines),
 I have inserted documentation where necessary. 
+
+Also, to be clear, I am working off my mother's laptop, so the commits are coming from "Lin" even though I, Jason Zhou, and writing the code and comments
