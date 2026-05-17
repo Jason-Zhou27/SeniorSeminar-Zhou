@@ -18,7 +18,8 @@ public class Schedule{
 	private String fileNameStudent; //Name of txt file with Student info
 	private String fileNameCourse; //Name of txt file with Student info
 	private ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList to store student objects
-	private ArrayList<Course> courseList = new ArrayList<Course>(); //ArrayList to store course objects
+	private ArrayList<Course> courseList = new ArrayList<Course>(); //ArrayList to store section objects
+	private ArrayList<Course> courseListOriginal = new ArrayList<Course>(); //ArrayList to store course objects (no duplicates)
 	private Course[][] seniorS;//2d array of courses with rows being times and columns being classrooms
 	
 	//important conditions
@@ -121,10 +122,13 @@ public class Schedule{
 				//course teacher name
 				String nameTeacher = elementsCourse[2];
 				courseList.add(new Course(nameTeacher, nameCourse, idCourse)); //create course object with info from created variables
-				}	
-			} catch (FileNotFoundException e){ //catch File error
-				System.out.println("File Not Found!");
-			}			
+			}
+			for(int i=0;i<courseList.size();i++){
+				courseListOriginal.add(courseList.get(i));
+			}	
+		} catch (FileNotFoundException e){ //catch File error
+			System.out.println("File Not Found!");
+		}			
 	}
 	/*
 	 * placeCourses places courses in the 2d senior seminar array; it places courses based on the optimal spot--determiend in findOptimalPlace method
@@ -661,6 +665,7 @@ public class Schedule{
 			if(x!=0){
 				id = Integer.parseInt(response);
 				System.out.println(getSection(id).toString());
+				printRunLogistics(getSection(id));
 				getSection(id).printRoster();
 			}
 			System.out.print("Enter section id: ");
@@ -671,6 +676,25 @@ public class Schedule{
 			x++;	
 		}
 	}
+	/*
+	 * coursesAndSections prints out courses and their corresponding sections
+	*/
+	public void coursesAndSections(){
+		Scanner s = new Scanner(System.in);
+		for(int i=0;i<courseListOriginal.size();i++){
+			System.out.println("\ncourse name" + courseListOriginal.get(i).getName() + "\ncourse id: " + courseListOriginal.get(i).getID() + "\nsection ids: ");
+			for(int j=0;j<maxSpots;j++){
+				if(courseList.get(j).getID()==courseListOriginal.get(i).getID()){
+					System.out.println("\t" + courseList.get(j).getSectionID());
+				}	
+			}
+		}
+		System.out.print("q - exit\nType q: ");
+		String response = s.nextLine();
+		if(response.equals("q")){
+			
+		}	
+	}	
 	/*
 	 * menu method uses Scanner to enable the user to navigate the program
 	*/
@@ -690,13 +714,13 @@ public class Schedule{
 					findSection();
 				}		
 				if(choice==3){
-					choicesAndSections();
+					coursesAndSections();
 				}	
 			}
 			System.out.println("\n\n\n\n\n\n\n | SENIOR SEMINAR |");
 			printSeniorSeminar();
 			printOverview();
-			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n3 - courses & their sections\n q - quit at any time\n\n");
+			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n q - quit at any time\n\n");
 			System.out.print("Enter selection: ");
 			response = menu.nextLine();
 			if(response.equals("q")){
