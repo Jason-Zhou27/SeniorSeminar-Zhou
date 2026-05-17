@@ -127,7 +127,7 @@ for students to be placed in more courses than they should...
 issue with fillGaps? no
 I've noticed that those with >5 courses are not placed into the same courses --> thus, I don't think the error comes from duplicating courses,
 copying rosters, or removing duplicate students...so for right now, I will eliminate those from scrutiny
-Edit 5/17 - my comments here are false; I'm pretty sure I was incorrectly looking at my spreadsheet (it got reordered so rows don't have correlation with id)
+
 I've so far deduced that fillGaps is not the issue by looking at the code--but a puzzling issue comes up. How can a student get courses he/she
 never even picked?--that has to do somehow with fillGaps, right? b/c no other method deals with inserting courses that a student has not requested
 But wait--what if fillGaps is acting correctly and putting these students in new courses because the student's schedule wasn't properly updated to begin with.
