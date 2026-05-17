@@ -179,8 +179,9 @@ public class Schedule{
 			removeDuplicateStudents(c, c.getID(), i, timeBlock); //removes student from the same courses (just diff sections)
 	}
 	/*
-	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity); student return type;
-	 * it uses same algorithm as finding min value
+	 * studentRemove uses students' ranks of a course to decide who is removed (over capacity); student return type; Course parameter;
+	 * it uses same algorithm as finding min value;
+	 * overloaded
 	*/	
 	public Student studentRemove(Course c){
 		ArrayList<Student> r = c.getRoster();
@@ -194,7 +195,30 @@ public class Schedule{
 				toRemove = r.get(i);	
 			}	
 		}
-		return toRemove;	
+		return toRemove;
+			
+	}
+	/*
+	 * studentRemove uses students' ranks of a course to decide who is x-best candidate to be removed; student return type; 
+	 * Course and int parameter;
+	 * it uses bubble sort algorithm;
+	 * overloaded
+	*/	
+	public Student studentRemove(Course c, int x){
+		ArrayList<Student> r = c.getRoster();
+		ArrayList<Student> removeList = new ArrayList<Student>();
+		for(int i=0;i<r.size();i++){
+			removeList.add(r.get(i));
+		}	
+		do {	
+			for(int i=0;i<removeList.size()-1;i++){
+				if(removeList.get(i).getRanking()<removeList.get(i).getRanking()){
+					Student temp = removeList.get(i+1); 
+					removeList.remove(i+1);
+					removeList.add(i,temp);
+				}
+			}
+		} while(sortStudentRemove()==false);	
 	}	
 	/*
 	 * searchDelete removes students from any courses they do not take; this method is a substitute to finding the
@@ -596,38 +620,43 @@ public class Schedule{
 		}
 		if(filled==false){ //last ditch effort; swap with someone else
 			boolean swapped = false;
-			for(int c=0; c<numClassrooms && swapped==false; c++){ //keep going until someone is swapped
-				Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c]); //get a swap candidate by finding someone with the least priority for the course
-				boolean swapCandidateAble = true;
-				Course[] swapCandidateSchedule = swapCandidate.getSchedule();
-				//circulate through the swap candidate's schedule, and if the swap candidate cannot take on the course left empty, abandon swap  candidate
-				for(int i=0;i<swapCandidateSchedule.length;i++){
-					if(swapCandidateSchedule[i].getID()==sectionOld.getID()){
-						swapCandidateAble=false;
-					}
-				}
-				if(swapCandidateAble==true){
-					//now check if the student can take on the swap candidate's course at that new vacant time 
-					boolean studAble = true;
-					//circulate through the conflicted individual's schedule, and if the student cannot take on the swap candidate's empty course, abandon swap
-					for(int i=0;i<schedule.length;i++){
-						if(schedule[i]!=null && schedule[i].getID()==seniorS[timeIndexVacantNew][c].getID()){
-							studAble=false;
+			int x=0; //incrementor that decides the x-best candidate for swapping
+			while(swapped==false){
+				for(int c=0; c<numClassrooms && swapped==false; c++){ //keep going until someone is swapped
+					Student swapCandidate = studentRemove(seniorS[timeIndexVacantNew][c],x); //get a swap candidate by finding someone with the least priority for the course
+					boolean swapCandidateAble = true;
+					Course[] swapCandidateSchedule = swapCandidate.getSchedule();
+					//circulate through the swap candidate's schedule, and if the swap candidate cannot take on the course left empty, abandon swap  candidate
+					for(int i=0;i<swapCandidateSchedule.length;i++){
+						if(swapCandidateSchedule[i].getID()==sectionOld.getID()){
+							swapCandidateAble=false;
 						}
 					}
-					if(studAble==true){
-						//if student can swap and swap candidate can swap, adjust their rosters/schedules accordingly to make the swap
-						seniorS[timeIndexVacantNew][c].rosterRemove(swapCandidate);
-						seniorS[timeIndexVacantNew][c].updateRoster(stud);
-						sectionOld.rosterRemove(stud);
-						sectionOld.updateRoster(swapCandidate);
-						
-						swapCandidate.updateScheduleDelete(timeIndexVacantNew);
-						stud.updateScheduleDelete(timeIndexVacantNew);
-						stud.updateSchedule(timeIndexVacantNew, seniorS[timeIndexVacantNew][c]);
-						swapCandidate.updateSchedule(timeIndexVacantNew, sectionOld);
-					}		
+					if(swapCandidateAble==true){
+						//now check if the student can take on the swap candidate's course at that new vacant time 
+						boolean studAble = true;
+						//circulate through the conflicted individual's schedule, and if the student cannot take on the swap candidate's empty course, abandon swap
+						for(int i=0;i<schedule.length;i++){
+							if(schedule[i]!=null && schedule[i].getID()==seniorS[timeIndexVacantNew][c].getID()){
+								studAble=false;
+							}
+						}
+						if(studAble==true){
+							//if student can swap and swap candidate can swap, adjust their rosters/schedules accordingly to make the swap
+							seniorS[timeIndexVacantNew][c].rosterRemove(swapCandidate);
+							seniorS[timeIndexVacantNew][c].updateRoster(stud);
+							sectionOld.rosterRemove(stud);
+							sectionOld.updateRoster(swapCandidate);
+							
+							swapCandidate.updateScheduleDelete(timeIndexVacantNew);
+							stud.updateScheduleDelete(timeIndexVacantNew);
+							stud.updateSchedule(timeIndexVacantNew, seniorS[timeIndexVacantNew][c]);
+							swapCandidate.updateSchedule(timeIndexVacantNew, sectionOld);
+							swapped=true;
+						}		
+					}
 				}
+				x++;
 			}	
 		}					
 	}
