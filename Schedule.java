@@ -510,31 +510,78 @@ public class Schedule{
 	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms
 	*/
 	public void printSeniorSeminar(){
-		
+		int maxDigits; //used for spacing
+		int largestID; //used for spacing
+		largestID=courseListOriginal.size();
+		maxDigits=0;
+		while(largestID>0){
+			largestID/=10;
+			maxDigits++;
+		}		
 		int maxRow=numTimes;
 		int maxCol=numClassrooms;
 		System.out.print("\n");
 		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
+		System.out.print("    ");
+		for(int c=0; c<maxCol;c++){	
+			int idFindDigits = c+1;
+			int digits = 0;
+			while(idFindDigits>0){
+				idFindDigits/=10;
+				digits++;
+			}
+			for(int i=0; i<maxDigits-digits-1;i++){ //-1 b/c c is a character
+				System.out.print(" ");
+			}
+			System.out.print(" c" + (c+1) + " ");
+		}	
+		System.out.print("\n");
 		for(int r=0;r<maxRow;r++){
+			System.out.print("t" + (r+1) + ": ");
 			for(int c=0;c<maxCol;c++){
 				if(seniorS[r][c]!=null){
+					int idFindDigits = seniorS[r][c].getID();
+					int digits = 0;
+					while(idFindDigits>0){
+						idFindDigits/=10;
+						digits++;
+					}
+					for(int i=0; i<maxDigits-digits;i++){
+						System.out.print(" ");
+					}	
 					System.out.print(" " + seniorS[r][c].getID() + " ");
 				}
 				else {
+					for(int i=0; i<maxDigits-2;i++){ //2 comes from -1 having 2 characters
+						System.out.print(" ");
+					}
 					System.out.print(" " + -1 + " ");
 				}		
 			}
 			System.out.println();	
 		}
+		
+		largestID=courseList.size();
+		maxDigits=0;
+		while(largestID>0){
+			largestID/=10;
+			maxDigits++;
+		}
 		System.out.print("\n");
 		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
+		System.out.print("     ");
+		for(int c=0; c<maxCol;c++){
+			System.out.print("c" + (c+1) + "  ");	
+		}
+		System.out.print("\n");
 		for(int r=0;r<maxRow;r++){
+			System.out.print("t" + (r+1) + ": ");
 			for(int c=0;c<maxCol;c++){
-				if(seniorS[r][c]!=null){
+				if(seniorS[r][c]!=null){	
 					System.out.print(" " + seniorS[r][c].getSectionID() + " ");
 				}
 				else {
-					System.out.print(" " + -1 + " ");
+					System.out.print("  " + -1 + " ");
 				}		
 			}
 			System.out.println();	
