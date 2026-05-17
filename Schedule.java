@@ -866,9 +866,38 @@ public class Schedule{
 	}
 	/*
 	 * printAdditionalStats aims to help user understanding of the true effectiveness of the program;
-	 * it quanitifies additional values, so the user can get a holistic view of effectiveness
+	 * it quanitifies additional values, so the user can get a holistic view of effectiveness;
+	 * it finds the # who got each request (and also makes it a percentage of who actually made requests)
 	*/
-	public void additional
+	public void printAdditionalStats(){
+		Scanner s = new Scanner(System.in);
+		int accumulator;
+		int totalMadeRequests=0; //number of people who made requests
+		for(int i=0; i<studentList.size();i++){
+			if(studentList.get(i).madeRequest()==true){
+				totalMadeRequests++;
+			}
+		}
+		for(int i=1;i<=numTimes;i++){
+			accumulator = 0;
+			for(int j=0;j<studentList.size();j++){
+				Course request = studentList.get(j).getCourse(i);
+				Course[] schedule = studentList.get(j).getSchedule();
+				for(int k=0;k<schedule.length;k++){
+					if((schedule[k]!=null && request!=null) && schedule[k].getID()==request.getID()){
+						accumulator++;
+					}	
+				}	
+			}
+			int percentage = (int)((double)accumulator/totalMadeRequests*100);
+			System.out.println("# of people who got choice " + i + ": " + accumulator + " (" + percentage + "%)");	
+		}
+		System.out.print("q - exit\nType q: ");
+		String response = s.nextLine();
+		if(response.equals("q")){
+			
+		}
+	}	
 	/*
 	 * menu method uses Scanner to enable the user to navigate the program
 	*/
@@ -889,12 +918,15 @@ public class Schedule{
 				}		
 				if(choice==3){
 					coursesAndSections();
-				}	
+				}
+				if(choice==4){
+					printAdditionalStats();
+				}			
 			}
 			System.out.println("\n\n\n\n\n\n\n\n\n | SENIOR SEMINAR |");
 			printSeniorSeminar();
 			printOverview();
-			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n q - quit at any time\n\n");
+			System.out.println("\n\nMENU: \n 1 - search student \n 2 - search section\n 3 - courses & their sections\n 4 - additional stats\n q - quit at any time\n\n");
 			System.out.print("Enter selection: ");
 			response = menu.nextLine();
 			if(response.equals("q")){
