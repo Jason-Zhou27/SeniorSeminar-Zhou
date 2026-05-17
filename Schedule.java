@@ -507,7 +507,8 @@ public class Schedule{
 		}	
 	}
 	/*
-	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms
+	 * printSeniorSeminar prints the 2d array of courses for rows being time blocks and columns being classrooms; it uses number of chars/digits
+	 * to space out the numbers and headers of the 2d array
 	*/
 	public void printSeniorSeminar(){
 		int maxDigitsID; //used for spacing --> used specifically for course id/section id; tracks max number of digits/chars
@@ -515,18 +516,20 @@ public class Schedule{
 		int largestID; //used for spacing; largest courseID or section ID
 		int largestC; //used for spacing; largest classroom number
 		int maxChars; //used for spacing; the greater of maxDigitsID and maxCharsClassroom; min value is 2 (b/c -1 has 2 characters)
-		largestID=courseListOriginal.size();
+		largestID=courseListOriginal.size(); //largest courseID
 		maxDigitsID=0;
-		while(largestID>0){
+		while(largestID>0){ //finds max number of digits in courseID
 			largestID/=10;
 			maxDigitsID++;
 		}
 		maxCharsClassroom=1;
 		largestC=numClassrooms;
-		while(largestC>0){
+		while(largestC>0){ //finds max number of characters in the c + number header
 			largestC/=10;
 			maxCharsClassroom++;
 		}
+		//establishes maxChars as the largest of numbe rof digits in courseID and number of characters in the c + number header
+		//min is 2
 		if(maxDigitsID>maxCharsClassroom){
 			maxChars = maxDigitsID;
 		}				
@@ -542,13 +545,13 @@ public class Schedule{
 		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
 		System.out.print("    ");
 		for(int c=0; c<maxCol;c++){	
-			int idFindDigits = c+1;
+			int classroomFindDigits = c+1;
 			int digits = 0;
-			while(idFindDigits>0){
-				idFindDigits/=10;
+			while(classroomFindDigits>0){ //find number of digits in classroom
+				classroomFindDigits/=10;
 				digits++;
 			}
-			for(int i=0; i<maxChars-digits-1;i++){ //-1 b/c c is a character
+			for(int i=0; i<maxChars-digits-1;i++){ //prints compensation spaces to prefix the classroom header;-1 b/c c is a character
 				System.out.print(" ");
 			}
 			System.out.print(" c" + (c+1) + " ");
@@ -560,17 +563,17 @@ public class Schedule{
 				if(seniorS[r][c]!=null){
 					int idFindDigits = seniorS[r][c].getID();
 					int digits = 0;
-					while(idFindDigits>0){
+					while(idFindDigits>0){ //find number of digits in courseID
 						idFindDigits/=10;
 						digits++;
 					}
-					for(int i=0; i<maxChars-digits;i++){
+					for(int i=0; i<maxChars-digits;i++){ //prints compensation spaces to prefix the courseID
 						System.out.print(" ");
 					}	
 					System.out.print(" " + seniorS[r][c].getID() + " ");
 				}
 				else {
-					for(int i=0; i<maxChars-2;i++){ //2 comes from -1 having 2 characters
+					for(int i=0; i<maxChars-2;i++){ //prints compensation spaces for no course case; 2 comes from -1 having 2 characters
 						System.out.print(" ");
 					}
 					System.out.print(" " + "-1" + " ");
@@ -579,13 +582,15 @@ public class Schedule{
 			System.out.println();	
 		}
 		
-		largestID=courseList.size();
+		largestID=courseList.size(); //largest section id now
 		maxDigitsID=0;
-		while(largestID>0){
+		while(largestID>0){ //finds max number of digits in section id
 			largestID/=10;
 			maxDigitsID++;
 		}
-		if(maxDigitsID>maxCharsClassroom){
+		//makes maxChars the greater of max number of digits in section id and max chars in the classroom header
+		//min of 2
+		if(maxDigitsID>maxCharsClassroom){ 
 			maxChars = maxDigitsID;
 		}				
 		else {
@@ -598,13 +603,13 @@ public class Schedule{
 		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
 		System.out.print("    ");
 		for(int c=0; c<maxCol;c++){	
-			int idFindDigits = c+1;
+			int classroomFindDigits = c+1;
 			int digits = 0;
-			while(idFindDigits>0){
-				idFindDigits/=10;
+			while(classroomFindDigits>0){ //find number of digits in classroom
+				classroomFindDigits/=10;
 				digits++;
 			}
-			for(int i=0; i<maxChars-digits-1;i++){ //-1 b/c c is a character
+			for(int i=0; i<maxChars-digits-1;i++){ //prints compensation spaces to prefix classroom header; -1 b/c c is a character
 				System.out.print(" ");
 			}
 			System.out.print(" c" + (c+1) + " ");
@@ -616,17 +621,17 @@ public class Schedule{
 				if(seniorS[r][c]!=null){	
 					int idFindDigits = seniorS[r][c].getSectionID();
 					int digits = 0;
-					while(idFindDigits>0){
+					while(idFindDigits>0){ //find number of digits in sectinoID
 						idFindDigits/=10;
 						digits++;
 					}
-					for(int i=0; i<maxChars-digits;i++){
+					for(int i=0; i<maxChars-digits;i++){ //prints compensation spaces to prefix sectionID
 						System.out.print(" ");
 					}
 					System.out.print(" " + seniorS[r][c].getSectionID() + " ");
 				}
 				else {
-					for(int i=0; i<maxChars-2;i++){ //2 comes from -1 having 2 characters
+					for(int i=0; i<maxChars-2;i++){ //prints compensation spaces for no course case; 2 comes from -1 having 2 characters
 						System.out.print(" ");
 					}
 					System.out.print(" " + "-1" + " ");
