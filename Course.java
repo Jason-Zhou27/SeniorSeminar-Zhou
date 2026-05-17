@@ -206,6 +206,7 @@ public class Course {
 	 * printRoster prints out the roster of a course with student names
 	*/
 	public void printRoster(){
+		System.out.println("Roster:");
 		for(int i=0;i<roster.size();i++){
 			System.out.println("\nStudent #" + (i+1) + " " + roster.get(i).getName());	
 		}	

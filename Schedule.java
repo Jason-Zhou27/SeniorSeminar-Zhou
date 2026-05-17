@@ -596,6 +596,27 @@ public class Schedule{
 		return null;	
 	}
 	/*
+	 * printRunLogistics prints timeblock and classroom for a given section
+	*/
+	public void printRunLogistics(Course section){
+		int timeBlock=-1;
+		int classroom=-1;
+		for(int t = 0; t<numTimes;t++){
+			for(int c=0; c<numClassrooms;c++){
+				if(seniorS[t][c]==section){	
+					timeBlock = t+1;
+					classroom = c+1;
+				}
+			}	
+		}	
+		if(timeBlock!=-1 && classroom!=-1){
+			System.out.print("\ntime block: " + timeBlock + "\nclassroom: " + classroom + "\n");
+		}
+		else {
+			System.out.print("section is not running\n");
+		}		
+	}	
+	/*
 	 * findStudent prints out info for given student
 	*/
 	public void findStudent(){
@@ -668,7 +689,7 @@ public class Schedule{
 				printRunLogistics(getSection(id));
 				getSection(id).printRoster();
 			}
-			System.out.print("Enter section id: ");
+			System.out.print("Enter section id (1-" + (courseList.size()) + "):");
 			response = s.nextLine();
 			if(response.equals("q")){
 				cont=false;
@@ -694,7 +715,7 @@ public class Schedule{
 		if(response.equals("q")){
 			
 		}	
-	}	
+	}
 	/*
 	 * menu method uses Scanner to enable the user to navigate the program
 	*/

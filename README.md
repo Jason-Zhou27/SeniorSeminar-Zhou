@@ -180,3 +180,26 @@ conflicts by more than 10 if I fix this issue.
 
 I tried debugging the issue of students not being deleted from rosters by talking to Mr. Twyford. I cleaned up some of the code to be more concise. I did not make significant
 progress.
+
+5.16.2026
+
+This journal entry will encompass 5.15.2026-5.17.2026 because I started working late of night 5.15 and early morning 5.17 (like midnight). Here's the deal:
+while I was looking at my program and seeing how I can refine it, I looked at individual cases; in these individual cases, some had taken more than one section
+of the same course--which is not allowed. After lots of debugging, I realized that the issue stemmed from the fact that I forgot to check for a student taking the
+same schedule when I filled in the gaps in the schedule. When I fixed the issue, I noticed another quite alarming problem: gaps is nonzero. This idea is one that
+I expected from the beginning: there will be scenario in which a person cannot take a course at a certain time because all of those courses are at capacity
+or the student had already taken the course at another time. Nevertheless, my algorithm is still quite effective as this number of gaps is very close to zero 
+(4). By my current thinking, ensuring a zero gap number would take upheaving my whole algorithm (as my algorithm is based on optimizing placement of courses
+with a methodological approach)--and to keep true to this learning experience and my original thought in coming to an algorithm, I will keep it as it is.
+I also worked extensively on a menu, developing one I hope to be more simplistic than that I developed for my Conference program, yet it is something new
+and I am not sure how a user will like the interaction. To make it manageble, I have kept functions minimal and guided. Users can now search for students
+(id and names), sections, and the sections associated with certain courses. With the previous idea being a good segway, it is important to note that I have
+begun to distinguish between sections and courses quite late in the program. I have introduced section ids (calculated from the class variable tracking number
+of courses) which differ from course ids. courseList--though kind of deceivingly--refers to really the sections while courseListOriginal (a recent creation)
+refers to the courses.
+
+Another important contribution is my documentation. I have put multiline comments for every class, method, and constructor and put some sporadic single line comments
+at places I think may need some clarification. As putting forth some reflection here in this journey, I really regret getting in that "zone mode" when I first approached
+this problem. I recall that for a couple days straight, I wrote extensive amounts of code--which was simple as everything flowed together really well in my head.
+However, when I go back and work on the problem a few months later, grappling with my earlier logic is quite tough. As a result (and also because of Mr. Twyford's guidelines),
+I have inserted documentation where necessary. 
