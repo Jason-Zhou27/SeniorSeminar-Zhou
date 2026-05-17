@@ -466,10 +466,23 @@ public class Schedule{
 		
 		int maxRow=numTimes;
 		int maxCol=numClassrooms;
+		System.out.println("2d array of running course ids; rows = time blocks and columns = classrooms");
 		for(int r=0;r<maxRow;r++){
 			for(int c=0;c<maxCol;c++){
 				if(seniorS[r][c]!=null){
 					System.out.print(" " + seniorS[r][c].getID() + " ");
+				}
+				else {
+					System.out.print(" " + -1 + " ");
+				}		
+			}
+			System.out.println();	
+		}
+		System.out.println("2d array of running section ids; rows = time blocks and columns = classrooms");
+		for(int r=0;r<maxRow;r++){
+			for(int c=0;c<maxCol;c++){
+				if(seniorS[r][c]!=null){
+					System.out.print(" " + seniorS[r][c].getSectionID() + " ");
 				}
 				else {
 					System.out.print(" " + -1 + " ");
@@ -563,16 +576,42 @@ public class Schedule{
 	public void findStudent(){
 		Scanner s = new Scanner(System.in);
 		boolean cont = true;
+		int id;
+		int x=0; //incrementor
+		String response = "";
 		while(cont==true){
-			System.out.print("Enter id: ");
-			String response = s.nextLine();
+			if(x!=0){
+				id = Integer.parseInt(response);
+				System.out.println(getStudent(id).toString());
+			}
+			System.out.print("Enter student id: ");
+			response = s.nextLine();
 			if(response.equals("q")){
-				cont = false;
-			}	
-			int id = Integer.parseInt(response);
-			System.out.println(getStudent(id).toString());
+				cont=false;
+			}
+			x++;	
+		}
+	}
+	/*
+	 * menu method uses scanner to enable the user to navigate the program
+	*/
+	public void menu(){
+		Scanner menu = new Scanner(System.in);
+		boolean cont = true;
+		int x=0; //incrementor
+		String response = "";
+		while(cont==true){
+			if(x!=0){
+				id = Integer.parseInt(response);
+				System.out.println(getStudent(id).toString());
+			}
+			System.out.print("Enter student id: ");
+			response = s.nextLine();
+			if(response.equals("q")){
+				cont=false;
+			}
+			x++;	
 		}
 		
-		
-	}
+	}	
 }	

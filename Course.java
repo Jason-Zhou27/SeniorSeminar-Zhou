@@ -10,7 +10,8 @@ import java.util.*; //ArrayLists
  *outlines scourse behaviors and attributes 
 */
 public class Course {
-
+	//class variables
+	private static int numSections=0; //not necessarily running
 	//instance variables
 	private String courseTeacher;
 	private String courseName;
@@ -20,17 +21,20 @@ public class Course {
 	private int priorityRating;
 	private int rosterSize;
 	private ArrayList<Student> roster = new ArrayList<Student>();
+	private int sectionID;
 	/*
 	 * course constructor initializes attributes/instance variables and sets popularity rating, student demand, and roster size
 	 * to 0
 	*/
 	public Course(String t, String n, int id){
+		numSections++;
 		courseTeacher = t;
 		courseName = n;
 		courseID = id;
 		popRating = 0;
 		studentDemand = 0;
 		rosterSize=0;
+		sectionID=numSections;
 	}
 	//methods
 	/*
@@ -38,6 +42,12 @@ public class Course {
 	*/
 	public int getID(){
 		return courseID;
+	}
+	/*
+	 * getSectionID is a getter which fetches the section id attribute
+	*/
+	public int getSectionID(){
+		return sectionID;
 	}
 	/*
 	 * getName is a getter which fetches the course name attribute
@@ -116,7 +126,7 @@ public class Course {
 			if(roster.get(i)==s){
 				roster.remove(i);
 				found = true;
-				System.out.println("Successful removal of " + s.getID() + "from " + courseName);
+				//System.out.println("Successful removal of " + s.getID() + "from " + courseName);
 			}	
 		}	
 		rosterSize=roster.size();
@@ -140,7 +150,7 @@ public class Course {
 	public void rosterRemove(Student s, int useless){
 		for(int i=0;i<roster.size();i++){
 			if(roster.get(i)==s){
-				System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
+				//System.out.println(s.getID() + " was somehow found in/not deleted from " + courseName);
 				roster.remove(i);
 			}	
 		}
